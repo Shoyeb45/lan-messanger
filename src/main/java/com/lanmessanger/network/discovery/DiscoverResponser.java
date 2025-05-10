@@ -4,7 +4,16 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
+/**
+ * DiscoverResponser handles UDP responses for network discovery
+ * It listens for "Hello" messages and responds with "World"
+ * @author Shoyeb Ansari
+ */
 public class DiscoverResponser implements Runnable {
+    /**
+     * Runs the UDP server that listens for discovery messages
+     * Responds to "Hello" messages with "World"
+     */
     public void run() {
         try {
             
@@ -33,6 +42,10 @@ public class DiscoverResponser implements Runnable {
         }
     }
 
+    /**
+     * Main method to start the discovery responder in a new thread
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         Thread ds = new Thread(new DiscoverResponser());
         ds.start();
