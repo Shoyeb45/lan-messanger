@@ -138,3 +138,16 @@ A **peer-to-peer Java-based chat application** for devices on the same LAN using
 | `public` | Static files like images or sound (optional)   |
 
 <p  align="center"><i>Breakdown of roles</i></p>
+
+
+## Command to execute 
+
+1. Command to compile
+```bash
+javac -d bin src/main/java/com/lanmessanger/network/client/Client.java src/main/java/com/lanmessanger/network/server/Server.java
+```
+
+2. Command to run
+```bash
+java -cp bin main.java.com.lanmessanger.network.server.Server 9000
+```
