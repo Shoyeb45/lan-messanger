@@ -101,6 +101,14 @@ public class Server extends Thread {
         }
     }
     
+    public void sendMessage(String message, String ip) {
+        for (ClientHandler handler : clientHandlers) {
+            if (handler.getClientAddress().equals(ip)) {
+                handler.sendMessage(message);
+                break;
+            }
+        }
+    }
     /**
      * Removes a client handler from the list
      * @param handler the handler to remove
@@ -114,5 +122,14 @@ public class Server extends Thread {
      */
     public boolean isRunning() {
         return running;
+    }
+
+    public ArrayList<String> getConnectedClients() {
+        ArrayList<String> connectedClients = new ArrayList<String>();
+
+        for (ClientHandler handler: clientHandlers) {
+            connectedClients.add(handler.getClientAddress());
+        }
+        return connectedClients;
     }
 }

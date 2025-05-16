@@ -95,4 +95,8 @@ public class ClientHandler extends Thread {
             System.err.println("[Server] Error closing connection: " + e.getMessage());
         }
     }
+
+    public String getClientAddress() {
+        return clientAddress;
+    }
 }
