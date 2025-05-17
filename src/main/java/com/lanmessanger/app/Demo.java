@@ -34,7 +34,7 @@ public class Demo {
                 String ip = cu.get(selected - 1);
                 
                 System.out.println("Input message");
-                String message = sc.nextLine();
+                String message = sc.next();
                 server.sendMessage(message, ip);
                 System.out.println("Message sent successfully");
             }

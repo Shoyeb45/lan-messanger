@@ -10,7 +10,7 @@ import main.java.com.lanmessanger.network.server.Server;
  */
 public class MessengerDemo {
     
-    private static final int SERVER_PORT = 9000;
+    private static final int SERVER_PORT = 8080;
     private static Server server;
     private static Client client;
     private static boolean running = true;
