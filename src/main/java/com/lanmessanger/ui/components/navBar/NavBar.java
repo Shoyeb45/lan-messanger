@@ -1,4 +1,4 @@
-package main.java.com.lanmessanger.ui.components;
+package main.java.com.lanmessanger.ui.components.navBar;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 
 import org.kordamp.ikonli.fontawesome.FontAwesome;
 import org.kordamp.ikonli.swing.FontIcon;
+
+import main.java.com.lanmessanger.ui.components.Button;
 
 public class NavBar extends JPanel {
 
@@ -28,6 +30,7 @@ public class NavBar extends JPanel {
     /** flag to know if the nav bar is expanded or not */
     private boolean isExpanded = false;
 
+    
     public NavBar() {
         // initialise all the buttons with icons
         initialiseButtons();   
