@@ -1,23 +1,26 @@
 package main.java.com.lanmessanger.ui.pages;
 
 
-import java.awt.Image;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
 
-import javax.swing.ImageIcon;
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-
-import main.java.com.lanmessanger.ui.components.Button;
+import javax.swing.SwingUtilities;
 
 public class MainPage extends JPanel {
+    private NavigationPage navigationPage;
+
     public MainPage() {
         // creating app in 3 parts
-        ImageIcon icon = new ImageIcon("./public/images/navbar/1.png");
+        this.setBackground(Color.green);
+        this.setLayout(new BorderLayout());
+        // this.setBounds(0, 0, getWidth(), 100);
+        this.setBorder(BorderFactory.createLineBorder(Color.black));
+        navigationPage = new NavigationPage();
 
-        // Image image = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-
-        this.add(new Button("Menu", icon));
+        this.add(navigationPage, BorderLayout.WEST);
     }
-
-    private void setUpLayout() {
-    }
+   
 }

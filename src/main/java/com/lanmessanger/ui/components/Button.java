@@ -1,23 +1,35 @@
 package main.java.com.lanmessanger.ui.components;
 
 import java.awt.Color;
-import java.awt.Insets;
-
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.swing.JButton;
 
 public class Button extends JButton {
 
-    public Button(String title, ImageIcon icon) {
-        super(title, icon);
+    private boolean isActive = false;
 
-        this.setFocusable(false);
-        this.setBackground(Color.white);
-        // this.setBorder(null);
-        
-        this.setMargin(new Insets(20, 20, 20, 20));
+    public Button(Icon icon) {
+        super(icon);
+
+        setFocusable(false);
+        setBackground(Color.white);
+        // setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // top, left, bottom, right
+
+        if (isActive) {
+            System.out.println("I am chat");
+            this.setBackground(Color.GRAY);
+        }
+        // // Optional: margin inside the button
+        // setMargin(new Insets(10, 20, 10, 20));
     }
 
+
+    public void setIsActive(boolean isActive) {
+        System.out.println("I came here");
+        this.isActive = isActive;
+        this.repaint();
+    }
+ 
     // private void setUpTheLabel() {
         
     //     this.add(label);

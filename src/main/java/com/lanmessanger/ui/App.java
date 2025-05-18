@@ -29,6 +29,8 @@ public class App extends JFrame {
         // When app window is minized, then it will have the given size 
         this.setSize(Toolkit.getDefaultToolkit().getScreenSize().width / 3, Toolkit.getDefaultToolkit().getScreenSize().height);
 
+
+        // this.setLayout(null);
     }
 
     /**
@@ -42,8 +44,9 @@ public class App extends JFrame {
 
     public void init() {
         mainPage = new MainPage();
+        mainPage.setBounds(0, 0, 100, 100);
         getContentPane().add(mainPage);
-        
+
         setVisible(true);
     }
 }
