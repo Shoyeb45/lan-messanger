@@ -4,20 +4,22 @@ package main.java.com.lanmessanger.ui;
 
 import java.awt.Image;
 import java.awt.Toolkit;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-
 import main.java.com.lanmessanger.ui.pages.MainPage;
 
 public class App extends JFrame {
 
+    /** 
+     * main page of the application
+     */
     private MainPage mainPage;
+
     public App() {
         setFavico();
         this.setTitle("LAN Messanger - A peer to peer to chatting platform");
 
-        // To allow the resizing of the windo
+        // To allow the resizing of the window
         this.setResizable(true);
 
         // The close button will close the application
@@ -45,8 +47,7 @@ public class App extends JFrame {
     public void init() {
         mainPage = new MainPage();
         mainPage.setBounds(0, 0, 100, 100);
-        getContentPane().add(mainPage);
-
+        getContentPane().add(mainPage); 
         setVisible(true);
     }
 }

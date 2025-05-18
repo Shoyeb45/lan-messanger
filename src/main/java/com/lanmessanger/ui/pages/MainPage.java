@@ -2,31 +2,59 @@ package main.java.com.lanmessanger.ui.pages;
 
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-public class MainPage extends JPanel {
-    private NavigationPage navigationPage;
-    private JPanel mainContentPage;
+import main.java.com.lanmessanger.ui.router.RouterManager;
 
+public class MainPage extends JPanel {
+
+    private NavigationPage navigationPage;
+    private RouterManager routerManager;
+    private JPanel contentPanel;
+    
     public MainPage() {
-        // creating app in 3 parts
-        // mainContentPage = new AddFriendPage();
+        setLayout(new BorderLayout());
+
+        // create navigation page
+        navigationPage = new NavigationPage();
+
+        // Create content panel with CardLayout for routing
+        contentPanel = new JPanel(new CardLayout());
+
+        // set up the router manager
+        routerManager = RouterManager.getInstance();
+        routerManager.setContentPanel(contentPanel);
+
+        addRoutes();
+
+        // set default route
+        routerManager.navigateTo("start");
+
 
         this.setBackground(Color.green);
-        this.setLayout(new BorderLayout());
+        
         // this.setBounds(0, 0, getWidth(), 100);
-        this.setBorder(BorderFactory.createLineBorder(Color.black));
-        navigationPage = new NavigationPage(mainContentPage);
+        // this.setBorder(BorderFactory.createLineBorder(Color.black));
 
-        this.add(navigationPage, BorderLayout.WEST);   
+
+        // Add components to main page
+        add(navigationPage, BorderLayout.WEST);
+        add(contentPanel, BorderLayout.CENTER);
     }
    
-    public void setMainContentPage() {
-        if (mainContentPage != null) {
-            System.out.println("Am I here");
-            this.add(mainContentPage);
-        }
+   
+    
+
+    private void addRoutes() {
+        // Add all routes here
+        routerManager.addRoute("start", new StartPage());
+        routerManager.addRoute("chats", new ChatPage());
+        routerManager.addRoute("addFriend", new AddFriendPage());
+        routerManager.addRoute("scanner", new ScannerPage());
+        routerManager.addRoute("friends", new FriendsPage());
+
     }
 }

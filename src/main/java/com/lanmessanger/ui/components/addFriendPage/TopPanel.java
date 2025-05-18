@@ -10,7 +10,5 @@ public class TopPanel extends JPanel {
         textLabel = new JLabel("Add friend to start chatting");
         textLabel.setBounds(0, 0, 100, 100);
         this.add(textLabel);
-
-    
     }
 }

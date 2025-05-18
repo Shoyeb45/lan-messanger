@@ -1,19 +1,21 @@
 package main.java.com.lanmessanger.ui.components.navBar;
 
+// Imports
 import java.awt.Color;
 import java.awt.Dimension;
-
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
 import org.kordamp.ikonli.fontawesome.FontAwesome;
 import org.kordamp.ikonli.swing.FontIcon;
-
 import main.java.com.lanmessanger.ui.components.Button;
+import main.java.com.lanmessanger.ui.router.RouterManager;
 
+/**
+ * Navbar component which have menu button and other buttons for navigation
+ */
 public class NavBar extends JPanel {
 
     // all buttons
@@ -75,6 +77,10 @@ public class NavBar extends JPanel {
         
         // add on click functionality
         menuButton.addActionListener(e -> toggleNav());   // add logic of expanding the navbar
+        chatButton.addActionListener(e -> openChatsPage());
+        scanButton.addActionListener(e -> openScannerPage());
+        addFriendButton.addActionListener(e -> openAddFriendPage());
+        friendsButton.addActionListener(e -> openFriendsPage());
 
         // set tooltip text
         menuButton.setToolTipText("Open Navigation");
@@ -117,8 +123,22 @@ public class NavBar extends JPanel {
     }
 
 
+    private void openChatsPage() {
+        RouterManager.getInstance().navigateTo("chats");
+    }
 
+    private void openScannerPage() {
+        RouterManager.getInstance().navigateTo("scanner");
+    }
 
+    private void openAddFriendPage() {
+        RouterManager.getInstance().navigateTo("addFriend");
+    }
+
+    private void openFriendsPage() {
+        RouterManager.getInstance().navigateTo("friends");
+    }
+    
     private void toggleNav() {
         isExpanded = !isExpanded;
 
