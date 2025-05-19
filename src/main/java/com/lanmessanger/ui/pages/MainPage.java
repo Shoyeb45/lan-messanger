@@ -31,7 +31,7 @@ public class MainPage extends JPanel {
         addRoutes();
 
         // set default route
-        routerManager.navigateTo("start");
+        routerManager.navigateTo("addFriend");
 
 
         this.setBackground(Color.green);

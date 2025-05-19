@@ -1,5 +1,7 @@
 package main.java.com.lanmessanger.ui.pages;
 
+import java.awt.BorderLayout;
+
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
@@ -14,15 +16,15 @@ public class AddFriendPage extends JPanel {
     private BottomPanel bottomPanel;
 
     public AddFriendPage() {
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLayout(new BorderLayout());
         topPanel = new TopPanel();
         centerPanel = new CenterPanel();
         bottomPanel = new BottomPanel();
-        topPanel.setBounds(0, 0, getWidth(), getHeight());
+        topPanel.setBounds(0, 0, 40, getHeight());
         
-        add(topPanel);
+        add(topPanel, BorderLayout.NORTH);
         add(centerPanel);
-        add(bottomPanel);
+        add(bottomPanel, BorderLayout.SOUTH);
     }
 }
 

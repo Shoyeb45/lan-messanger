@@ -2,10 +2,13 @@ package main.java.com.lanmessanger.ui;
 
 
 
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+
+import main.java.com.lanmessanger.app.AppConfig;
 import main.java.com.lanmessanger.ui.pages.MainPage;
 
 public class App extends JFrame {
@@ -32,6 +35,10 @@ public class App extends JFrame {
         this.setSize(Toolkit.getDefaultToolkit().getScreenSize().width / 3, Toolkit.getDefaultToolkit().getScreenSize().height);
 
 
+        // To prevent the resizing below this Dimension
+        this.setMinimumSize(new Dimension(AppConfig.SMALL_WIDTH + 110, 800));
+
+ 
         // this.setLayout(null);
     }
 
