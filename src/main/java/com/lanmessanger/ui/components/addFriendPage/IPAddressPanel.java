@@ -10,7 +10,10 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -71,18 +74,48 @@ class IPAddressPanel extends RoundedPanel {
      */
     private String getWifiIPAddress() {
         try {
-            // Iterate through all network interfaces
-            Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+            // Common wireless interface names across different operating systems
+            Set<String> wifiInterfaceIdentifiers = new HashSet<>(Arrays.asList(
+                // Windows naming patterns
+                "wi-fi", "wireless", "wlan", 
+                // Linux naming patterns
+                "wlp", "wlo", "wlx", "wls", "ath", "wifi",
+                // macOS naming patterns
+                "en", "airport",
+                // Generic patterns
+                "wireless"
+            ));
             
+            // First approach: Try to find interfaces that are up, not loopback, not virtual
+            // and match common wireless naming patterns
+            Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
             while (networkInterfaces.hasMoreElements()) {
                 NetworkInterface networkInterface = networkInterfaces.nextElement();
-                String interfaceName = networkInterface.getDisplayName();
                 
-                // Check if this is the Wi-Fi interface
-                // Look for typical Wi-Fi adapter names - may need adjustment based on your system
-                if (interfaceName.contains("Wi-Fi") || interfaceName.contains("Wireless") || 
-                    interfaceName.contains("WLAN") || interfaceName.contains("wlan")) {
-                    
+                // Skip interfaces that are down, loopback, virtual, or not supporting multicast
+                if (!networkInterface.isUp() || networkInterface.isLoopback() || 
+                    networkInterface.isVirtual() || !networkInterface.supportsMulticast()) {
+                    continue;
+                }
+                
+                String interfaceName = networkInterface.getName().toLowerCase();
+                String displayName = networkInterface.getDisplayName().toLowerCase();
+                
+                // Check if this interface matches any known Wi-Fi pattern
+                boolean isWifi = false;
+                for (String pattern : wifiInterfaceIdentifiers) {
+                    if (interfaceName.contains(pattern) || displayName.contains(pattern)) {
+                        isWifi = true;
+                        break;
+                    }
+                }
+                
+                // For Linux, sometimes the interface is simply named "wlan0" or similar
+                if (!isWifi && (interfaceName.matches("wlan\\d+") || displayName.matches("wlan\\d+"))) {
+                    isWifi = true;
+                }
+                
+                if (isWifi) {
                     // Get all IP addresses assigned to this interface
                     Enumeration<InetAddress> inetAddresses = networkInterface.getInetAddresses();
                     
@@ -98,9 +131,47 @@ class IPAddressPanel extends RoundedPanel {
                 }
             }
             
-            // If no Wi-Fi adapter IPv4 address found, fall back to original method
+            // Second approach: If the above approach fails, try to find a wireless IP
+            // by checking only active, non-loopback interfaces
+            networkInterfaces = NetworkInterface.getNetworkInterfaces();
+            while (networkInterfaces.hasMoreElements()) {
+                NetworkInterface networkInterface = networkInterfaces.nextElement();
+                
+                // Skip interfaces that are down, loopback, or don't have IP addresses
+                if (!networkInterface.isUp() || networkInterface.isLoopback()) {
+                    continue;
+                }
+                
+                // Skip virtual interfaces
+                if (networkInterface.isVirtual() || networkInterface.isPointToPoint()) {
+                    continue;
+                }
+                
+                // Get all IP addresses assigned to this interface
+                Enumeration<InetAddress> inetAddresses = networkInterface.getInetAddresses();
+                while (inetAddresses.hasMoreElements()) {
+                    InetAddress address = inetAddresses.nextElement();
+                    
+                    // Check if it's IPv4, not a loopback, not a link local address
+                    if (address instanceof Inet4Address && !address.isLoopbackAddress() 
+                        && !address.isLinkLocalAddress() && !address.isMulticastAddress()) {
+                        // Found a good candidate
+                        String ipAddress = address.getHostAddress();
+                        // Avoid returning local network or docker/VM addresses when possible
+                        if (!(ipAddress.startsWith("192.168.") || ipAddress.startsWith("172.") || ipAddress.startsWith("10."))) {
+                            return ipAddress;
+                        } else {
+                            // Store this as a backup in case we don't find a better address
+                            ipAddress = address.getHostAddress();
+                            return ipAddress;
+                        }
+                    }
+                }
+            }
+            
+            // Fall back to the original method if all else fails
             InetAddress localHost = InetAddress.getLocalHost();
-            return localHost.getHostAddress() + " (Note: Wi-Fi adapter not found)";
+            return localHost.getHostAddress();
             
         } catch (Exception e) {
             return "Unable to determine Wi-Fi IP: " + e.getMessage();
