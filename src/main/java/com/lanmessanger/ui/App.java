@@ -35,7 +35,8 @@ public class App extends JFrame {
         this.setSize(Toolkit.getDefaultToolkit().getScreenSize().width / 3, Toolkit.getDefaultToolkit().getScreenSize().height);
 
 
-        // To prevent the resizing below this Dimension
+        // To prevent the resizing below this Dimension3
+        
         this.setMinimumSize(new Dimension(AppConfig.SMALL_WIDTH + 110, 800));
 
  
