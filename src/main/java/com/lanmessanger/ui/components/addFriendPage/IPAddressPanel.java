@@ -5,8 +5,13 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Enumeration;
+
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
@@ -66,12 +71,35 @@ class IPAddressPanel extends RoundedPanel {
      */
     private String getSystemIPAddress() {
         try {
-            InetAddress localHost = InetAddress.getLocalHost();
-            return localHost.getHostAddress();
-        } catch (UnknownHostException e) {
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+            while (interfaces.hasMoreElements()) {
+                NetworkInterface iface = interfaces.nextElement();
+
+                // Skip interfaces that are down or loopback
+                if (!iface.isUp() || iface.isLoopback()) continue;
+
+                // Check for Wi-Fi adapter by name or display name
+                String displayName = iface.getDisplayName().toLowerCase();
+                String name = iface.getName().toLowerCase();
+                if (!(displayName.contains("wi-fi") || displayName.contains("wireless") || name.contains("wlan")))
+                    continue;
+
+                Enumeration<InetAddress> addresses = iface.getInetAddresses();
+                while (addresses.hasMoreElements()) {
+                    InetAddress addr = addresses.nextElement();
+                    // Return only IPv4 address
+                    if (addr instanceof Inet4Address && !addr.isLoopbackAddress()) {
+                        return addr.getHostAddress();
+                    }
+                }
+            }
+        } catch (SocketException e) {
             return "Unable to determine IP";
         }
+
+        return "Wi-Fi adapter not found or no IPv4 address";
     }
+
     
     /**
      * Copies the IP address to clipboard
