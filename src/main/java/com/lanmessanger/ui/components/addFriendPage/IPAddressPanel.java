@@ -30,7 +30,7 @@ class IPAddressPanel extends RoundedPanel {
     private String ipAddress;
     
     public IPAddressPanel() {
-        super(10, ColorPalette.INPUT_BACKGROUND);
+        super(10, ColorPalette.BACKGROUND);
         setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         setLayout(new FlowLayout(FlowLayout.CENTER, 15, 5));
         

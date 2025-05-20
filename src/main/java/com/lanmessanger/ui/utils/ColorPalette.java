@@ -9,7 +9,7 @@ public class ColorPalette {
     /** Secondary brand  color */
     public static final Color SECONDARY = new Color(66, 165, 245);     
     /** Light background */
-    public static final Color BACKGROUND = new Color(245, 245, 250);
+    public static final Color BACKGROUND = new Color(241, 239, 231);
     /** White panels */
     public static final Color PANEL_BACKGROUND = new Color(255, 255, 255); 
     /** Primary text */
