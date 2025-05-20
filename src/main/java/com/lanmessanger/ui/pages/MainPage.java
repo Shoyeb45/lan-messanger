@@ -4,7 +4,6 @@ package main.java.com.lanmessanger.ui.pages;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import main.java.com.lanmessanger.ui.router.RouterManager;
