@@ -8,12 +8,17 @@ import javax.swing.border.EmptyBorder;
 import main.java.com.lanmessanger.ui.utils.ColorPalette;
 
 public class ModernButton extends JButton {
+    /** Boolean indicating hover or not */
     private boolean isHover = false;
+    /** Default Color */
     private Color normalColor = ColorPalette.PRIMARY;
     private Color hoverColor = ColorPalette.SECONDARY;
     
-    public ModernButton(String text) {
+    public ModernButton(String text, Color normalColor, Color hoverColor) {
         super(text);
+        this.normalColor = normalColor;
+        this.hoverColor = hoverColor;
+        
         setForeground(Color.WHITE);
         setFont(new Font("Segoe UI", Font.BOLD, 14));
         setBorderPainted(false);
@@ -23,6 +28,7 @@ public class ModernButton extends JButton {
         setCursor(new Cursor(Cursor.HAND_CURSOR));
         setBorder(new EmptyBorder(10, 20, 10, 20));
         
+        // listen for mouse events
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
