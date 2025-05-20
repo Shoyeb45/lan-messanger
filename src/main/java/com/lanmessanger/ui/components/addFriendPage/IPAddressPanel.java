@@ -1,62 +1,55 @@
 package main.java.com.lanmessanger.ui.components.addFriendPage;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import org.kordamp.ikonli.fontawesome.FontAwesome;
 import org.kordamp.ikonli.swing.FontIcon;
 import main.java.com.lanmessanger.ui.components.Button;
+import main.java.com.lanmessanger.ui.components.RoundedPanel;
+import main.java.com.lanmessanger.ui.utils.ColorPalette;
 
-/** 
- * Component which will have the ip of the user
- */
-class IPAddressPanel extends JPanel {
+
+/** Panel for add friend page which displays the IP address of the user and provides copy button */
+class IPAddressPanel extends RoundedPanel {
+    /** Label which will hold the IP address */
     private JLabel ipAddressLabel;
+    /** title label for this component */
+    private JLabel titleLabel;
+    /** Button component which will have copy functionality */
     private Button copyButton;
+    /** IP address of the user */
     private String ipAddress;
-
-    /**
-     * Constructor for the IPAddressPanel
-     */
+    
     public IPAddressPanel() {
-        // Get the IP address
+        super(10, ColorPalette.INPUT_BACKGROUND);
+        setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        setLayout(new FlowLayout(FlowLayout.CENTER, 15, 5));
+        
+        // Get the IP address from the system
         ipAddress = getSystemIPAddress();
         
-        // Set the layout
-        setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        // Create the title label
+        titleLabel = new JLabel("Your IP Address:");
+        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        titleLabel.setForeground(ColorPalette.SECONDARY_TEXT);
         
-        // Create the IP address display
-        JLabel titleLabel = new JLabel("Your IP Address:");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        
+        // Create the IP address label
         ipAddressLabel = new JLabel(ipAddress);
-        ipAddressLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        ipAddressLabel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(Color.LIGHT_GRAY),
-                BorderFactory.createEmptyBorder(5, 8, 5, 8)
-        ));
+        ipAddressLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        ipAddressLabel.setForeground(ColorPalette.PRIMARY);
         
-        // Create the copy button
-        copyButton = new Button(FontIcon.of(FontAwesome.COPY, 14));
+        // Create a copy button with icon
+        copyButton = new Button(FontIcon.of(FontAwesome.COPY, 15));
         copyButton.setToolTipText("Copy IP Address");
-        copyButton.setFocusPainted(false);
-        copyButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        copyButton.setBorderPainted(false);
-        copyButton.setContentAreaFilled(false);
         
         // Add action listener to the copy button
         copyButton.addActionListener(e -> copyIPAddressToClipboard());
@@ -65,11 +58,8 @@ class IPAddressPanel extends JPanel {
         add(titleLabel);
         add(ipAddressLabel);
         add(copyButton);
-        
-        // Set preferred size for the panel
-        setPreferredSize(new Dimension(350, 40));
     }
-
+    
     /**
      * Gets the system's IP address
      * @return String representation of the IP address
@@ -82,35 +72,29 @@ class IPAddressPanel extends JPanel {
             return "Unable to determine IP";
         }
     }
-
+    
     /**
      * Copies the IP address to clipboard
      */
     private void copyIPAddressToClipboard() {
         StringSelection stringSelection = new StringSelection(ipAddress);
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        
         clipboard.setContents(stringSelection, null);
         
         // Provide visual feedback
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                ipAddressLabel.setForeground(new Color(0, 128, 0));
-                
-                // Reset color after a delay
-                Timer timer = new Timer(1000, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        ipAddressLabel.setForeground(Color.BLACK);
-                    }
-                });
-                timer.setRepeats(false);
-                timer.start();
-            }
+        SwingUtilities.invokeLater(() -> {
+            // Change text color for visual feedback
+            ipAddressLabel.setForeground(ColorPalette.ACCENT);
+            
+            // Reset color after a delay
+            Timer timer = new Timer(1000, evt -> {
+                ipAddressLabel.setForeground(ColorPalette.PRIMARY);
+            });
+            timer.setRepeats(false);
+            timer.start();
         });
     }
-
+    
     /**
      * Updates the IP address displayed in the panel
      * @param newIpAddress The new IP address to display
@@ -124,7 +108,7 @@ class IPAddressPanel extends JPanel {
      * Returns the current IP address
      * @return The current IP address
      */
-    public String getIPAddress() {
+    public String getIpAddress() {
         return this.ipAddress;
     }
 }
