@@ -33,7 +33,7 @@ public class InputField extends JPanel {
         textField.setPreferredSize(new Dimension(300, height)); // Fixed width
         textField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         textField.setForeground(ColorPalette.TEXT);
-        textField.setBackground(Color.WHITE);
+        textField.setBackground(ColorPalette.PANEL_BACKGROUND);
         textField.setBorder(new EmptyBorder(5, 10, 5, 10));
 
         // Add components
