@@ -40,7 +40,7 @@ class IPAddressPanel extends RoundedPanel {
         setLayout(new FlowLayout(FlowLayout.CENTER, 15, 5));
         
         // Get the IP address from the system
-        ipAddress = getSystemIPAddress();
+        ipAddress = getWifiIPAddress();
         
         // Create the title label
         titleLabel = new JLabel("Your IP Address:");
@@ -69,35 +69,42 @@ class IPAddressPanel extends RoundedPanel {
      * Gets the system's IP address
      * @return String representation of the IP address
      */
-    private String getSystemIPAddress() {
+    private String getWifiIPAddress() {
         try {
-            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-            while (interfaces.hasMoreElements()) {
-                NetworkInterface iface = interfaces.nextElement();
-
-                // Skip interfaces that are down or loopback
-                if (!iface.isUp() || iface.isLoopback()) continue;
-
-                // Check for Wi-Fi adapter by name or display name
-                String displayName = iface.getDisplayName().toLowerCase();
-                String name = iface.getName().toLowerCase();
-                if (!(displayName.contains("wi-fi") || displayName.contains("wireless") || name.contains("wlan")))
-                    continue;
-
-                Enumeration<InetAddress> addresses = iface.getInetAddresses();
-                while (addresses.hasMoreElements()) {
-                    InetAddress addr = addresses.nextElement();
-                    // Return only IPv4 address
-                    if (addr instanceof Inet4Address && !addr.isLoopbackAddress()) {
-                        return addr.getHostAddress();
+            // Iterate through all network interfaces
+            Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+            
+            while (networkInterfaces.hasMoreElements()) {
+                NetworkInterface networkInterface = networkInterfaces.nextElement();
+                String interfaceName = networkInterface.getDisplayName();
+                
+                // Check if this is the Wi-Fi interface
+                // Look for typical Wi-Fi adapter names - may need adjustment based on your system
+                if (interfaceName.contains("Wi-Fi") || interfaceName.contains("Wireless") || 
+                    interfaceName.contains("WLAN") || interfaceName.contains("wlan")) {
+                    
+                    // Get all IP addresses assigned to this interface
+                    Enumeration<InetAddress> inetAddresses = networkInterface.getInetAddresses();
+                    
+                    // Look for an IPv4 address
+                    while (inetAddresses.hasMoreElements()) {
+                        InetAddress address = inetAddresses.nextElement();
+                        
+                        // Check if it's IPv4 and not a loopback address
+                        if (!address.isLoopbackAddress() && address instanceof Inet4Address) {
+                            return address.getHostAddress();
+                        }
                     }
                 }
             }
-        } catch (SocketException e) {
-            return "Unable to determine IP";
+            
+            // If no Wi-Fi adapter IPv4 address found, fall back to original method
+            InetAddress localHost = InetAddress.getLocalHost();
+            return localHost.getHostAddress() + " (Note: Wi-Fi adapter not found)";
+            
+        } catch (Exception e) {
+            return "Unable to determine Wi-Fi IP: " + e.getMessage();
         }
-
-        return "Wi-Fi adapter not found or no IPv4 address";
     }
 
     
