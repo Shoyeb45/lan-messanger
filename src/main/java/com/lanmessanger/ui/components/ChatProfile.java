@@ -16,12 +16,23 @@ import org.kordamp.ikonli.fontawesome.FontAwesome;
 import org.kordamp.ikonli.swing.FontIcon;
 import main.java.com.lanmessanger.ui.utils.ColorPalette;
 
+/**
+ * A card like representation of the user
+ */
 public class ChatProfile extends JPanel {
+    /** Circular icon  */
     private CircularIcon icon;
+    /** The right panel of the ChatProfile */
     private JPanel contentPanel;
+    /** Flag for if it is hovered or not */
     private boolean isHovered = false;
+    /** Flag for if it is selected or not */
     private boolean isSelected = false;
-    
+
+    /**
+     * 
+     * @param contentPanel Right panel of the chat profile
+     */
     public ChatProfile(JPanel contentPanel) {
         this.icon = new CircularIcon(FontIcon.of(FontAwesome.USER, 30));
         this.contentPanel = contentPanel;
@@ -31,6 +42,9 @@ public class ChatProfile extends JPanel {
         setupInteractions();
     }
     
+    /** 
+     * Method to initialise all the components of the Chat Profile
+     */
     private void initializeComponents() {
         // Main panel setup
         this.setBackground(ColorPalette.PANEL_BACKGROUND);
@@ -43,6 +57,7 @@ public class ChatProfile extends JPanel {
         contentPanel.setOpaque(false);
     }
     
+    /** Method to set up the layout of the Chat Profile */
     private void setupLayout() {
         this.setLayout(new BorderLayout(15, 0));
         this.setBorder(BorderFactory.createEmptyBorder(12, 16, 12, 16));
@@ -51,6 +66,9 @@ public class ChatProfile extends JPanel {
         this.add(contentPanel, BorderLayout.CENTER);
     }
     
+    /**
+     * Method for setting up the user interactions, like hover, click...
+     */
     private void setupInteractions() {
         // Add hover effects
         this.addMouseListener(new MouseAdapter() {
@@ -110,11 +128,18 @@ public class ChatProfile extends JPanel {
         super.paintComponent(g);
     }
     
+    /** 
+     * To set up the selected user
+     */
     public void setSelected(boolean selected) {
         this.isSelected = selected;
         repaint();
     }
     
+    /**
+     * Get if the user is selected or not
+     * @return
+     */
     public boolean isSelected() {
         return isSelected;
     }
