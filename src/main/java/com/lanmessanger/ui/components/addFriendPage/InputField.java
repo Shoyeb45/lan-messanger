@@ -1,7 +1,6 @@
 package main.java.com.lanmessanger.ui.components.addFriendPage;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 

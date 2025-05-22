@@ -13,14 +13,14 @@ import javax.swing.SwingConstants;
 import main.java.com.lanmessanger.app.AppConfig;
 import main.java.com.lanmessanger.ui.utils.ColorPalette;
 
-public class TopPanel extends JPanel {
+public class HeadingPanel extends JPanel {
     /** lable to hold the text */
     private JLabel textLabel;
     
-    public TopPanel() {
+    public HeadingPanel(String text) {
         setBackground(ColorPalette.BACKGROUND);
         setLayout(new FlowLayout());
-        textLabel = new JLabel("Add friend to start chatting", SwingConstants.CENTER);
+        textLabel = new JLabel(text, SwingConstants.CENTER);
         textLabel.setFont(new Font("Segoe UI", Font.BOLD, 38));
         textLabel.setForeground(ColorPalette.PRIMARY);
         

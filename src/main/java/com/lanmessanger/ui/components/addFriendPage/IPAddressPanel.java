@@ -8,13 +8,10 @@ import java.awt.datatransfer.StringSelection;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
