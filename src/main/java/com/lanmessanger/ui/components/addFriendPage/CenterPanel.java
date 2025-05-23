@@ -132,7 +132,7 @@ class LeftPanel extends RoundedPanel {
     /** Method to load the image of the logo */
     private void loadImage() {
         ImageIcon image = new ImageIcon("public/images/app/logo.png");
-        image = new ImageIcon(image.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH));
+        image = new ImageIcon(image.getImage().getScaledInstance(280, 280, Image.SCALE_SMOOTH));
         logoLabel.setIcon(image);
     }
 }

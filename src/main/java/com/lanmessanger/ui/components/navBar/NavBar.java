@@ -12,6 +12,7 @@ import org.kordamp.ikonli.fontawesome.FontAwesome;
 import org.kordamp.ikonli.swing.FontIcon;
 import main.java.com.lanmessanger.ui.components.Button;
 import main.java.com.lanmessanger.ui.router.RouterManager;
+import main.java.com.lanmessanger.ui.utils.ColorPalette;
 
 /**
  * Navbar component which have menu button and other buttons for navigation
@@ -64,15 +65,16 @@ public class NavBar extends JPanel {
      */
     private void initialiseButtons() {
         // set icons
-        FontIcon icon = FontIcon.of(FontAwesome.LIST, 24);  
+        FontIcon icon = FontIcon.of(FontAwesome.LIST, 24, ColorPalette.PRIMARY);  
+
         menuButton = new Button(icon);  
-        icon = FontIcon.of(FontAwesome.COMMENTS, 24);  
+        icon = FontIcon.of(FontAwesome.COMMENTS, 24, ColorPalette.PRIMARY);  
         chatButton = new Button(icon);
-        icon = FontIcon.of(FontAwesome.USER_PLUS, 24);
+        icon = FontIcon.of(FontAwesome.USER_PLUS, 24, ColorPalette.PRIMARY);
         addFriendButton = new Button(icon);
-        icon = FontIcon.of(FontAwesome.USERS, 24);
+        icon = FontIcon.of(FontAwesome.USERS, 24, ColorPalette.PRIMARY);
         friendsButton = new Button(icon);
-        icon = FontIcon.of(FontAwesome.WIFI, 24);
+        icon = FontIcon.of(FontAwesome.WIFI, 24, ColorPalette.PRIMARY);
         scanButton = new Button(icon);
         
         // add on click functionality
@@ -124,9 +126,10 @@ public class NavBar extends JPanel {
 
 
     private void openChatsPage() {
+        
         RouterManager.getInstance().navigateTo("chats");
     }
-
+    
     private void openScannerPage() {
         RouterManager.getInstance().navigateTo("scanner");
     }
