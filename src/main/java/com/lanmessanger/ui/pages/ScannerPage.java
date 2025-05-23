@@ -12,9 +12,19 @@ import main.java.com.lanmessanger.ui.components.scannerPage.FoundDevices;
 import main.java.com.lanmessanger.ui.components.scannerPage.ScanButton;
 import main.java.com.lanmessanger.ui.utils.ColorPalette;
 
+/** 
+ * Scanner Page where user can scan the nearby devices which are connected to same network 
+ * @see HeadingPanel
+ * @see ScanButton
+ * @see FoundDevices
+ * @author Shoyeb Ansari
+*/
 public class ScannerPage extends JPanel {
+    /** Heading panel, which display the heading of the page */
     private HeadingPanel headingPanel;
+    /** Scan button for start scanning */
     private ScanButton scanButton;
+    /** A component which will display all found devices */
     private FoundDevices foundDevices;
     
     public ScannerPage() {
@@ -49,11 +59,15 @@ public class ScannerPage extends JPanel {
         buttonPanel.add(scanButton);
         topPanel.add(buttonPanel);
         
+        // add scanning functionality
+        scanButton.addActionListener(e -> scanNearbyUsers());
         this.add(topPanel, BorderLayout.NORTH);
         this.add(foundDevices, BorderLayout.CENTER);
     }
     
-    public ScanButton getScanButton() {
-        return scanButton;
+    private void scanNearbyUsers() {
+        System.out.println("Did I came here?");
+        String[] s = {"192.232.123.12", "141.89.12.00", "10.109.178.12"};
+        foundDevices.setFoundDevices(s);
     }
 }

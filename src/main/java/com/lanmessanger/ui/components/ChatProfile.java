@@ -19,7 +19,7 @@ import main.java.com.lanmessanger.ui.utils.ColorPalette;
 /**
  * A card like representation of the user
  */
-public class ChatProfile extends JPanel {
+public class ChatProfile extends RoundedPanel {
     /** Circular icon  */
     private CircularIcon icon;
     /** The right panel of the ChatProfile */
@@ -33,7 +33,8 @@ public class ChatProfile extends JPanel {
      * 
      * @param contentPanel Right panel of the chat profile
      */
-    public ChatProfile(JPanel contentPanel) {
+    public ChatProfile(int radius, JPanel contentPanel) {
+        super(radius, ColorPalette.BACKGROUND);
         this.icon = new CircularIcon(FontIcon.of(FontAwesome.USER, 30));
         this.contentPanel = contentPanel;
         
