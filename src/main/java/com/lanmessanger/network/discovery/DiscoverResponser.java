@@ -10,44 +10,96 @@ import java.net.DatagramSocket;
  * @author Shoyeb Ansari
  */
 public class DiscoverResponser extends Thread {
+    private volatile boolean running = true;
+    private DatagramSocket socket;
+    
     /**
      * Runs the UDP server that listens for discovery messages
      * Responds to "Hello" messages with "World"
      */
     public void run() {
         try {
-            
             // UDP Socket to receive the data and send the response back
-            DatagramSocket socket = new DatagramSocket(8888);
-            System.out.println("[Info] UDP Responding Server started");
-            byte[] buffer = new byte[5];  // To receive Hello
+            socket = new DatagramSocket(8888);
+            System.out.println("[Info] UDP Responding Server started on port 8888");
             
-            DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+            while (running) {
+                try {
+                    byte[] buffer = new byte[1024];  // Increased buffer size
+                    DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
 
-            socket.receive(packet);
-            String received = new String(buffer, 0, buffer.length);
+                    socket.receive(packet);
+                    
+                    String received = new String(packet.getData(), 0, packet.getLength()).trim();
+                    String senderIP = packet.getAddress().getHostAddress();
+                    
+                    System.out.println("[Info] Received '" + received + "' from " + senderIP + ":" + packet.getPort());
 
-            if (received.compareTo("Hello") == 0) {
-                byte[] responseBuffer = "World".getBytes();
-                
-                DatagramPacket responsePacket = new DatagramPacket(responseBuffer, responseBuffer.length, packet.getAddress(), packet.getPort());
-                System.out.println("[Info] UDP Responding Server sent the response");
-                socket.send(responsePacket);
+                    if ("Hello".equals(received)) {
+                        byte[] responseBuffer = "World".getBytes();
+                        
+                        DatagramPacket responsePacket = new DatagramPacket(
+                            responseBuffer, 
+                            responseBuffer.length, 
+                            packet.getAddress(), 
+                            packet.getPort()
+                        );
+                        
+                        socket.send(responsePacket);
+                        System.out.println("[Info] Sent 'World' response to " + senderIP + ":" + packet.getPort());
+                    } else {
+                        System.out.println("[Warning] Received unexpected message: '" + received + "'");
+                    }
+                    
+                } catch (IOException e) {
+                    if (running) {
+                        System.err.println("[Error] Error in UDP communication\nMessage: " + e.getMessage());
+                    }
+                }
             }
-            socket.close();
-            System.out.println("[Info] UDP Responding Server closed");
-
+            
         } catch (IOException e) {
+            System.err.println("[Error] Failed to start UDP server\nMessage: " + e.getMessage());
             e.printStackTrace();
+        } finally {
+            if (socket != null && !socket.isClosed()) {
+                socket.close();
+                System.out.println("[Info] UDP Responding Server closed");
+            }
+        }
+    }
+    
+    /**
+     * Stop the UDP server gracefully
+     */
+    public void stopServer() {
+        running = false;
+        if (socket != null && !socket.isClosed()) {
+            socket.close();
         }
     }
 
-    /**
-     * Main method to start the discovery responder in a new thread
-     * @param args command line arguments (not used)
-     */
-    public static void main(String[] args) {
-        Thread ds = new Thread(new DiscoverResponser());
-        ds.start();
-    }
+    
+    // /**
+    //  * Main method to start the discovery responder in a new thread
+    //  * @param args command line arguments (not used)
+    //  */
+    // public static void main(String[] args) {
+    //     DiscoverResponser responder = new DiscoverResponser();
+    //     Thread serverThread = new Thread(responder);
+    //     serverThread.start();
+        
+    //     // Add shutdown hook for graceful cleanup
+    //     Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+    //         System.out.println("[Info] Shutting down UDP server...");
+    //         responder.stopServer();
+    //     }));
+        
+    //     // Keep main thread alive
+    //     try {
+    //         serverThread.join();
+    //     } catch (InterruptedException e) {
+    //         System.err.println("Main thread interrupted");
+    //     }
+    // }
 }
