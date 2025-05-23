@@ -84,6 +84,7 @@ public class SubnetScanner {
         return commonSubnets;
     }
     
+    @SuppressWarnings("deprecation")
     private List<String> getRoutingTableSubnets() {
         // This method tries to analyze the system's routing table
         List<String> subnets = new ArrayList<>();
@@ -153,15 +154,6 @@ public class SubnetScanner {
         
         if (!anyReachable) {
             // System.out.println("Subnet " + subnet + " appears unreachable");
-        }
-    }
-    
-    public static void main(String[] args) {
-        SubnetScanner scanner = new SubnetScanner();
-        List<String> subnets = scanner.getAllPossibleSubnets();
-        
-        for (String subnet : subnets) {
-            System.out.println(subnet);
         }
     }
 }

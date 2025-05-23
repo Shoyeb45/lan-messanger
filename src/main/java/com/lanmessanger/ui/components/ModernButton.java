@@ -66,6 +66,7 @@ public class ModernButton extends JButton {
         g2.drawString(getText(), (getWidth() - textWidth) / 2, 
                     (getHeight() - textHeight) / 2 + fm.getAscent());
         
+        
         g2.dispose();
     }
 }

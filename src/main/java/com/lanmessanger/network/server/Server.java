@@ -3,8 +3,8 @@ package main.java.com.lanmessanger.network.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import main.java.com.lanmessanger.network.clientHandler.ClientHandler;
 
@@ -23,7 +23,7 @@ public class Server extends Thread {
     private boolean running = false;
     
     /** List of connected clients */
-    private List<ClientHandler> clientHandlers = new ArrayList<>();
+    private Map<String, ClientHandler> clientHandlers = new HashMap<>();
     
     /**
      * Constructor to initialize the server
@@ -53,7 +53,7 @@ public class Server extends Thread {
                     
                     // Create a new handler thread for this client
                     ClientHandler handler = new ClientHandler(clientSocket);
-                    clientHandlers.add(handler);
+                    clientHandlers.put(handler.getClientAddress(), handler);
                     handler.start();
                     
                 } catch (IOException e) {
@@ -75,9 +75,10 @@ public class Server extends Thread {
         running = false;
         
         // Close all client connections
-        for (ClientHandler handler : clientHandlers) {
-            handler.close();
+        for (String ip : clientHandlers.keySet()) {
+            clientHandlers.get(ip).close();
         }
+        
         clientHandlers.clear();
         
         // Close the server socket
@@ -91,30 +92,17 @@ public class Server extends Thread {
         }
     }
     
-    /**
-     * Sends a message to all connected clients
-     * @param message the message to broadcast
-     */
-    public void broadcastMessage(String message) {
-        for (ClientHandler handler : clientHandlers) {
-            handler.sendMessage(message);
-        }
-    }
+
     
     public void sendMessage(String message, String ip) {
-        for (ClientHandler handler : clientHandlers) {
-            if (handler.getClientAddress().equals(ip)) {
-                handler.sendMessage(message);
-                break;
-            }
-        }
+        clientHandlers.get(ip).sendMessage(message);
     }
     /**
      * Removes a client handler from the list
      * @param handler the handler to remove
      */
-    public void removeClient(ClientHandler handler) {
-        clientHandlers.remove(handler);
+    public void removeClient(String ip) {
+        clientHandlers.remove(ip);
     }
     
     /**
@@ -124,12 +112,7 @@ public class Server extends Thread {
         return running;
     }
 
-    public ArrayList<String> getConnectedClients() {
-        ArrayList<String> connectedClients = new ArrayList<String>();
-
-        for (ClientHandler handler: clientHandlers) {
-            connectedClients.add(handler.getClientAddress());
-        }
-        return connectedClients;
+    public String[] getConnectedClients() {
+        return (String[])clientHandlers.keySet().toArray();
     }
 }

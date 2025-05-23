@@ -20,16 +20,23 @@ import org.kordamp.ikonli.fontawesome.FontAwesome;
 import org.kordamp.ikonli.swing.FontIcon;
 import main.java.com.lanmessanger.ui.utils.ColorPalette;
 
+/** Scan Button for the scanner page */
 public class ScanButton extends JButton {
     
+    /** Flag to indicate if the user is scanning or not */
     private boolean isScanning = false;
+    /** Flag to indicate the hover on the button */
     private boolean isHovered = false;
+    /** Scan Icon */
     private FontIcon scanIcon;
+    /** Loading Icon */
     private FontIcon loadingIcon;
+
     private Timer animationTimer;
     private int rotationAngle = 0;
     private List<ActionListener> scanListeners = new ArrayList<>();
     
+
     public ScanButton() {
         initializeIcons();
         initializeButton();
@@ -37,6 +44,7 @@ public class ScanButton extends JButton {
         setupInteractions();
     }
     
+    /** Method to initialise icons */
     private void initializeIcons() {
         scanIcon = FontIcon.of(FontAwesome.SEARCH, 16);
         scanIcon.setIconColor(Color.WHITE);
@@ -45,6 +53,7 @@ public class ScanButton extends JButton {
         loadingIcon.setIconColor(Color.WHITE);
     }
     
+    /** Method to initialise the button */
     private void initializeButton() {
         this.setText("Scan for Devices");
         this.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -72,6 +81,7 @@ public class ScanButton extends JButton {
         });
     }
     
+    /** Method to change the value of the event indicating flags */
     private void setupInteractions() {
         this.addMouseListener(new MouseAdapter() {
             @Override
@@ -97,6 +107,9 @@ public class ScanButton extends JButton {
         });
     }
     
+    /**
+     * Overridden method to draw the component by customizing it
+     */
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g.create();
@@ -158,16 +171,19 @@ public class ScanButton extends JButton {
         g2d.setColor(Color.WHITE);
         g2d.setFont(getFont());
         
-        String text = isScanning ? "Scanning..." : "Scan for Devices";
-        int textWidth = g2d.getFontMetrics().stringWidth(text);
-        int textX = (getWidth() - textWidth) / 2 + (isScanning ? 0 : 10);
-        int textY = (getHeight() + g2d.getFontMetrics().getAscent()) / 2 - 2;
+        // String text = isScanning ? "Scanning..." : "";
+        // int textWidth = g2d.getFontMetrics().stringWidth(text);
+        // int textX = (getWidth() - textWidth) / 2 + (isScanning ? 0 : 10);
+        // int textY = (getHeight() + g2d.getFontMetrics().getAscent()) / 2 - 2;
         
-        g2d.drawString(text, textX, textY);
+        // g2d.drawString(text, textX, textY);
         
         g2d.dispose();
     }
     
+    /**
+     * Method to start the scanning process
+     */
     public void startScanning() {
         if (!isScanning) {
             isScanning = true;
@@ -175,7 +191,7 @@ public class ScanButton extends JButton {
             animationTimer.start();
             
             // Notify listeners that scanning started
-            fireScanStarted();
+            // fireScanStarted();
             
             // Auto-stop scanning after 3 seconds (simulate scan duration)
             Timer stopTimer = new Timer(3000, e -> stopScanning());
@@ -192,12 +208,16 @@ public class ScanButton extends JButton {
             animationTimer.stop();
             
             // Notify listeners that scanning stopped
-            fireScanCompleted();
+            // fireScanCompleted();
             
             repaint();
         }
     }
     
+    /**
+     * Get the flag of the scanning process
+     * @return if the button is scanning or not
+     */
     public boolean isScanning() {
         return isScanning;
     }
@@ -211,17 +231,17 @@ public class ScanButton extends JButton {
         scanListeners.remove(listener);
     }
     
-    private void fireScanStarted() {
-        ActionEvent event = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "SCAN_STARTED");
-        for (ActionListener listener : scanListeners) {
-            listener.actionPerformed(event);
-        }
-    }
+    // private void fireScanStarted() {
+    //     ActionEvent event = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "SCAN_STARTED");
+    //     for (ActionListener listener : scanListeners) {
+    //         listener.actionPerformed(event);
+    //     }
+    // }
     
-    private void fireScanCompleted() {
-        ActionEvent event = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "SCAN_COMPLETED");
-        for (ActionListener listener : scanListeners) {
-            listener.actionPerformed(event);
-        }
-    }
+    // private void fireScanCompleted() {
+    //     ActionEvent event = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "SCAN_COMPLETED");
+    //     for (ActionListener listener : scanListeners) {
+    //         listener.actionPerformed(event);
+    //     }
+    // }
 }

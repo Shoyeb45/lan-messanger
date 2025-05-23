@@ -12,12 +12,12 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import main.java.com.lanmessanger.ui.components.addFriendPage.BottomPanel;
 import main.java.com.lanmessanger.ui.components.addFriendPage.CenterPanel;
-import main.java.com.lanmessanger.ui.components.addFriendPage.TopPanel;
+import main.java.com.lanmessanger.ui.components.addFriendPage.HeadingPanel;
 import main.java.com.lanmessanger.ui.utils.ColorPalette;
 
 public class AddFriendPage extends JPanel {
 
-    private TopPanel topPanel;
+    private HeadingPanel topPanel;
     private CenterPanel centerPanel;
     private BottomPanel bottomPanel;
     private JScrollPane scrollPane;
@@ -34,7 +34,7 @@ public class AddFriendPage extends JPanel {
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         
         // Initialize components with proper constraints
-        topPanel = new TopPanel();
+        topPanel = new HeadingPanel("Add friend to start chatting");
         topPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
         
         centerPanel = new CenterPanel();

@@ -16,8 +16,6 @@ import java.util.concurrent.*;
  * @author Shoyeb Ansari
  */
 public class NetworkScanner {
-
-    
     public boolean scanIp(String ip) {
         try {
             DatagramSocket socket = new DatagramSocket();
@@ -41,7 +39,9 @@ public class NetworkScanner {
             String message = new String(response.getData(), 0, response.getLength());
 
             socket.close();
+            String hostname = socket.getInetAddress().getHostName();
             if (message.equals("World")) {
+                System.out.println(hostname);
                 return true;
             }
             return false;
@@ -92,9 +92,29 @@ public class NetworkScanner {
 
         subnets.addAll(new SubnetScanner().getAllPossibleSubnets());
         
+
         for (var x : subnets) {
             nw.scanForUsers(x);
         }
+    }
 
+    /**
+     * Method to get all the nearby devices
+     * @return arraylist of all the nearby devices
+     */
+    public ArrayList<String> getAllActiveDevices() throws InterruptedException {
+        ArrayList<String> nearbyDevice = new ArrayList<>();
+        NetworkScanner networkScanner = new NetworkScanner();
+        Set<String> subnets = new HashSet<String>();
+        subnets.add("10.108.174.");
+
+        subnets.addAll(new SubnetScanner().getAllPossibleSubnets());
+        
+
+        for (var subnet : subnets) {
+            nearbyDevice.addAll(networkScanner.scanForUsers(subnet));
+        }
+
+        return nearbyDevice;
     }
 }

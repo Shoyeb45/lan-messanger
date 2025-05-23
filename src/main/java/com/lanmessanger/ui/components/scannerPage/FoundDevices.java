@@ -16,21 +16,31 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
+import org.kordamp.ikonli.fontawesome.FontAwesome;
+import org.kordamp.ikonli.swing.FontIcon;
+
 import main.java.com.lanmessanger.ui.components.ChatProfile;
+import main.java.com.lanmessanger.ui.components.ModernButton;
 import main.java.com.lanmessanger.ui.utils.ColorPalette;
+import main.java.com.lanmessanger.ui.utils.Dialog;
 
 public class FoundDevices extends JPanel {
 
+    /** Container where all the nearby users will be displayed */
     private JPanel devicesContainer;
+    /** Scroll pane to show the scroll bar */
     private JScrollPane scrollPane;
+    /** Label which contain the heading text <h3>"Found devices"</h3> */
     private JLabel statusLabel;
 
+    /** Initialise the {@code FoundDevices} class using empty constructor */
     public FoundDevices() {
         initializeComponents();
         setupLayout();
         addSampleDevices();
     }
     
+    /** Method to initialise different components inside this component */
     private void initializeComponents() {
         // Main container setup
         this.setBackground(ColorPalette.BACKGROUND);
@@ -56,7 +66,11 @@ public class FoundDevices extends JPanel {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
     }
-    
+
+
+    /**
+     * Method to set up the layout of this component by adding label and scroll pane
+     */
     private void setupLayout() {
         add(statusLabel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
@@ -64,14 +78,20 @@ public class FoundDevices extends JPanel {
     
     private void addSampleDevices() {
         // Add some sample devices for demonstration
-        addDevice("John's MacBook", "192.168.1.105", true);
-        addDevice("Sarah's iPhone", "192.168.1.112", false);
-        addDevice("Office PC", "192.168.1.089", true);
-        addDevice("Gaming Laptop", "192.168.1.156", false);
+        addDevice("John's MacBook", "192.168.1.105");
+        addDevice("Sarah's iPhone", "192.168.1.112");
+        addDevice("Office PC", "192.168.1.089");
+        addDevice("Gaming Laptop", "192.168.1.156");
     }
     
-    public void addDevice(String deviceName, String ipAddress, boolean isOnline) {
-        JPanel deviceInfo = createDeviceInfoPanel(deviceName, ipAddress, isOnline);
+
+    /**
+     * Method to add found user in the container
+     * @param deviceName  The name of the device
+     * @param ipAddress   IP address of the device
+     */
+    public void addDevice(String deviceName, String ipAddress) {
+        JPanel deviceInfo = createDeviceInfoPanel(deviceName, ipAddress);
         ChatProfile deviceProfile = new ChatProfile(deviceInfo);
         
         // Add spacing between devices
@@ -84,7 +104,13 @@ public class FoundDevices extends JPanel {
         devicesContainer.repaint();
     }
     
-    private JPanel createDeviceInfoPanel(String deviceName, String ipAddress, boolean isOnline) {
+    /**
+     * Method to create the device info panel
+     * @param deviceName  Name of the device
+     * @param ipAddress   IP Address of the device
+     * @return
+     */
+    private JPanel createDeviceInfoPanel(String deviceName, String ipAddress) {
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setBackground(ColorPalette.PANEL_BACKGROUND);
         
@@ -108,30 +134,29 @@ public class FoundDevices extends JPanel {
         gbc.insets = new Insets(0, 0, 0, 0);
         panel.add(ipLabel, gbc);
         
-        // Online status indicator
-        JPanel statusPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
-        statusPanel.setBackground(ColorPalette.PANEL_BACKGROUND);
-        
-        JLabel statusDot = new JLabel("●");
-        statusDot.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        statusDot.setForeground(isOnline ? ColorPalette.ACCENT : ColorPalette.ERROR);
-        
-        JLabel statusText = new JLabel(isOnline ? "Online" : "Offline");
-        statusText.setFont(new Font("Segoe UI", Font.PLAIN, 11));
-        statusText.setForeground(isOnline ? ColorPalette.ACCENT : ColorPalette.ERROR);
-        
-        statusPanel.add(statusDot);
-        statusPanel.add(Box.createHorizontalStrut(5));
-        statusPanel.add(statusText);
-        
+        // Add button
+        ModernButton addButton = new ModernButton("Add", ColorPalette.PRIMARY, ColorPalette.SECONDARY);
+        // Add functionality to add the user into our local database
+        addButton.addActionListener(e -> addUser(ipAddress));
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.gridheight = 2;
         gbc.anchor = GridBagConstraints.EAST;
         gbc.weightx = 1.0;
         gbc.insets = new Insets(0, 20, 0, 0);
-        panel.add(statusPanel, gbc);
+        panel.add(addButton, gbc);
         
         return panel;
+    }
+
+    /**
+     * Method to add the user into our database
+     * @param ip IP Address of the user
+     */
+    private void addUser(String ip) {
+        String response = Dialog.showInputDialog(null, "Enter the name of the friend", "Add friend", Dialog.QUESTION_MESSAGE);
+        if (response.isBlank()) {
+            Dialog.showMessageDialog(null, "Please enter name of your friend", "Invalid Name", Dialog.ERROR_MESSAGE);
+        }
     }
 }

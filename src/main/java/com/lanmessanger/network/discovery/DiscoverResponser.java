@@ -9,7 +9,7 @@ import java.net.DatagramSocket;
  * It listens for "Hello" messages and responds with "World"
  * @author Shoyeb Ansari
  */
-public class DiscoverResponser implements Runnable {
+public class DiscoverResponser extends Thread {
     /**
      * Runs the UDP server that listens for discovery messages
      * Responds to "Hello" messages with "World"
