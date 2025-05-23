@@ -34,14 +34,12 @@ public class NetworkScanner {
 
             byte[] buffer = new byte[5];
             DatagramPacket response = new DatagramPacket(buffer, buffer.length);
-
+            
             socket.receive(response); // Will timeout if no response
             String message = new String(response.getData(), 0, response.getLength());
 
             socket.close();
-            String hostname = socket.getInetAddress().getHostName();
             if (message.equals("World")) {
-                System.out.println(hostname);
                 return true;
             }
             return false;
@@ -88,11 +86,11 @@ public class NetworkScanner {
     public static void main(String[] args) throws InterruptedException, SocketException {
         NetworkScanner nw = new NetworkScanner();
         Set<String> subnets = new HashSet<String>();
-        subnets.add("10.108.174.");
+        subnets.add("10.108.169.");
 
         subnets.addAll(new SubnetScanner().getAllPossibleSubnets());
         
-
+        // nw.scanIp("10.108.")
         for (var x : subnets) {
             nw.scanForUsers(x);
         }
@@ -107,6 +105,7 @@ public class NetworkScanner {
         NetworkScanner networkScanner = new NetworkScanner();
         Set<String> subnets = new HashSet<String>();
         subnets.add("10.108.174.");
+        subnets.add("10.108.169.");
 
         subnets.addAll(new SubnetScanner().getAllPossibleSubnets());
         
