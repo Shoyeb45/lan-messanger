@@ -34,7 +34,7 @@ public class InputField extends JPanel {
         textField.setForeground(ColorPalette.TEXT);
         textField.setBackground(ColorPalette.PANEL_BACKGROUND);
         textField.setBorder(new EmptyBorder(5, 10, 5, 10));
-
+        
         // Add components
         add(label, BorderLayout.NORTH);
         add(textField, BorderLayout.CENTER);

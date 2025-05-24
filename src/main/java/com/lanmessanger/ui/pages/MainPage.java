@@ -30,7 +30,7 @@ public class MainPage extends JPanel {
         addRoutes();
 
         // set default route
-        routerManager.navigateTo("scanner");
+        routerManager.navigateTo("chats");
 
 
         this.setBackground(Color.green);
