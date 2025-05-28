@@ -1,9 +1,15 @@
 package main.java.com.lanmessanger.ui.components.chatPage;
 
-import java.awt.BorderLayout;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 import org.kordamp.ikonli.fontawesome.FontAwesome;
 import org.kordamp.ikonli.swing.FontIcon;
@@ -11,40 +17,67 @@ import org.kordamp.ikonli.swing.FontIcon;
 import main.java.com.lanmessanger.ui.components.ModernButton;
 import main.java.com.lanmessanger.ui.utils.ColorPalette;
 
-/*
- * Component to show the chat between users
+/**
+ * Modern component to show the chat between users
  */
 public class ChatScreen extends JPanel {
-    // ArrayList<> chatHistroy;
-    private String userName;
+    private String selectedUser = "Select a chat";
+    private ChatHistory chatHistory;
     private SendMessageBox sendMessageBox;
+    private ChatHeader chatHeader;
+    private List<Message> messages;
 
     public ChatScreen() {
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        sendMessageBox = new SendMessageBox();
-        add(sendMessageBox);
+        this.messages = new ArrayList<>();
+        initializeComponents();
+        setupLayout();
+        addSampleMessages(); // For demonstration
     }
-}
 
+    private void initializeComponents() {
+        setBackground(ColorPalette.BACKGROUND);
+        
+        chatHeader = new ChatHeader(selectedUser);
+        chatHistory = new ChatHistory(messages);
+        sendMessageBox = new SendMessageBox(this);
+    }
 
-class ChatHistory extends JPanel {
-
-}
-
-class SendMessageBox extends JPanel {
-    private SendMessageTextField messageField;
-    private ModernButton sendButton;
-
-    public SendMessageBox() {
-        messageField = new SendMessageTextField("Type your message here...");
-        sendButton = new ModernButton("", ColorPalette.PRIMARY, ColorPalette.SECONDARY);  
-        FontIcon icon = FontIcon.of(FontAwesome.SEND, 15);
-        icon.setIconColor(ColorPalette.PANEL_BACKGROUND);
-        sendButton.setIcon(icon);
-
+    private void setupLayout() {
         setLayout(new BorderLayout());
+        add(chatHeader, BorderLayout.NORTH);
+        add(chatHistory, BorderLayout.CENTER);
+        add(sendMessageBox, BorderLayout.SOUTH);
+    }
 
-        add(messageField, BorderLayout.WEST);
-        add(sendButton, BorderLayout.EAST);
+    private void addSampleMessages() {
+        // Add some sample messages for demonstration
+        addMessage("Hello there!", true);
+        addMessage("Hi! How are you doing?", false);
+        addMessage("I'm doing great, thanks for asking!", true);
+        addMessage("That's wonderful to hear! What have you been up to lately?", false);
+        for (int i = 0; i < 3; i++)
+        addMessage("Just working on some projects. How about you?", true);
+        for (int i = 0; i < 3; i++)
+        addMessage(" How about you?", false);
+    }
+
+    private void sendMessage(String messageText) {
+        if (!messageText.trim().isEmpty()) {
+            addMessage(messageText, true);
+        }
+    }
+
+    public void addMessage(String text, boolean isFromCurrentUser) {
+        Message message = new Message(text, isFromCurrentUser, LocalTime.now());
+        messages.add(message);
+        chatHistory.addMessage(message);
+    }
+
+    public void setSelectedUser(String userName) {
+        this.selectedUser = userName;
+        chatHeader.setUserName(userName);
+        // Clear messages when switching users
+        messages.clear();
+        chatHistory.clearMessages();
     }
 }
