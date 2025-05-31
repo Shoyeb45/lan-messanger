@@ -1,20 +1,11 @@
 package main.java.com.lanmessanger.ui.components.chatPage;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-
-import org.kordamp.ikonli.fontawesome.FontAwesome;
-import org.kordamp.ikonli.swing.FontIcon;
-
-import main.java.com.lanmessanger.ui.components.ModernButton;
 import main.java.com.lanmessanger.ui.utils.ColorPalette;
 
 /**

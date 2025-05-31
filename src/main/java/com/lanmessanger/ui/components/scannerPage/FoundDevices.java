@@ -122,7 +122,7 @@ public class FoundDevices extends JPanel {
      */
     public void addDevice(String deviceName, String ipAddress) {
         JPanel deviceInfo = createDeviceInfoPanel(deviceName, ipAddress);
-        ChatProfile deviceProfile = new ChatProfile(12, deviceInfo);
+        ChatProfile deviceProfile = new ChatProfile(12, deviceInfo, ColorPalette.BACKGROUND);
         deviceProfile.setBackground(ColorPalette.BACKGROUND);
         // Add spacing between devices
         if (devicesContainer.getComponentCount() > 0) {

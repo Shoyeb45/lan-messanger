@@ -33,8 +33,8 @@ public class ChatProfile extends RoundedPanel {
      * 
      * @param contentPanel Right panel of the chat profile
      */
-    public ChatProfile(int radius, JPanel contentPanel) {
-        super(radius, ColorPalette.BACKGROUND);
+    public ChatProfile(int radius, JPanel contentPanel, Color color) {
+        super(radius, color);
         this.icon = new CircularIcon(FontIcon.of(FontAwesome.USER, 30));
         this.contentPanel = contentPanel;
         

@@ -14,7 +14,7 @@ public class ChatPage extends JPanel {
     public ChatPage() {
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         chatList = new ChatList();
-        chatList.setMaximumSize(new Dimension(500, Integer.MAX_VALUE));
+        // chatList.setMaximumSize(new Dimension(500, Integer.MAX_VALUE));
         chatScreen = new ChatScreen();
 
         add(chatList);

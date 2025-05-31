@@ -57,7 +57,7 @@ public class ChatList extends JPanel {
 
     private void addProfile(String userName, String lastMessage, String messageTime) {
         JPanel deviceInfoPanel = createDeviceInfoPanel(userName, lastMessage, messageTime);
-        ChatProfile chatProfile = new ChatProfile(10, deviceInfoPanel);
+        ChatProfile chatProfile = new ChatProfile(10, deviceInfoPanel, ColorPalette.BACKGROUND);
         chatProfile.setBackground(ColorPalette.BACKGROUND);
 
         // Add spacing between devices
