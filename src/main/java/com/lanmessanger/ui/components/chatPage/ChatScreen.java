@@ -1,11 +1,14 @@
 package main.java.com.lanmessanger.ui.components.chatPage;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.*;
+
+import main.java.com.lanmessanger.ui.pages.ChatPage;
 import main.java.com.lanmessanger.ui.utils.ColorPalette;
 
 /**
@@ -17,6 +20,8 @@ public class ChatScreen extends JPanel {
     private SendMessageBox sendMessageBox;
     private ChatHeader chatHeader;
     private List<Message> messages;
+    /** Reference to parent */
+    private ChatPage parentChatPage;
 
     public ChatScreen() {
         this.messages = new ArrayList<>();
@@ -29,6 +34,8 @@ public class ChatScreen extends JPanel {
         setBackground(ColorPalette.BACKGROUND);
         
         chatHeader = new ChatHeader(selectedUser);
+        chatHeader.getBackButton().addActionListener(e -> goToChatListPage()); 
+
         chatHistory = new ChatHistory(messages);
         sendMessageBox = new SendMessageBox(this);
     }
@@ -70,5 +77,18 @@ public class ChatScreen extends JPanel {
         // Clear messages when switching users
         messages.clear();
         chatHistory.clearMessages();
+    }
+
+    public void setMobileMode(boolean isMobile) {
+        chatHeader.setMobileMode(isMobile);
+    }
+
+    // Method to set parent reference
+    public void setParentChatPage(ChatPage parent) {
+        this.parentChatPage = parent;
+    }
+
+    private void goToChatListPage() {
+        parentChatPage.showChatList();  
     }
 }

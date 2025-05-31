@@ -6,18 +6,29 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import org.kordamp.ikonli.fontawesome.FontAwesome;
+import org.kordamp.ikonli.swing.FontIcon;
 
 import main.java.com.lanmessanger.ui.components.ChatProfile;
+import main.java.com.lanmessanger.ui.components.ModernButton;
+import main.java.com.lanmessanger.ui.pages.ChatPage;
 import main.java.com.lanmessanger.ui.utils.ColorPalette;
 
 /**
  * Header component showing the selected user
  */
 public class ChatHeader extends JPanel {
+    /** Button to go back to chat list in mobile view */
+    private ModernButton backButton;
     /**Label for username */
     private JLabel userNameLabel;
     /** Wrapper chat Profile component */
@@ -27,12 +38,14 @@ public class ChatHeader extends JPanel {
     /** Label for status of the user, online or offline */
     private JLabel statusLabel;
 
+    private boolean isMobileMode = false;
+
     /**
      * Initialise ChatHeader class for selected user
      * @param userName : Name of the user
      */
     public ChatHeader(String userName) {
-        setLayout(new BorderLayout());
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         initializeComponents(userName);
     }
 
@@ -45,9 +58,18 @@ public class ChatHeader extends JPanel {
         userInformation = createDeviceInfoPanel(userName, false);
         chatProfile = new ChatProfile(10, userInformation, ColorPalette.PANEL_BACKGROUND);
         userInformation.setBackground(Color.white);
+
+        // back button
+        backButton = new ModernButton("", Color.WHITE, Color.WHITE);
+        backButton.setIcon(FontIcon.of(FontAwesome.ARROW_LEFT, 20));
+        backButton.setBorder(new EmptyBorder(2, 10, 0, 0));
+        backButton.setVisible(false); // initially don't show it
+
+        add(backButton);
         add(chatProfile);
         setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, ColorPalette.SECONDARY_TEXT.brighter()));
 
+        setBackground(Color.WHITE);
     }
 
     /**
@@ -111,5 +133,24 @@ public class ChatHeader extends JPanel {
         panel.add(lastMessageTime, gbc);
 
         return panel;
+    }
+
+    
+    
+    public void addBackFunctinality(ActionListener backFunctionality) {
+        backButton.addActionListener(backFunctionality);
+    }
+
+    
+    // Method to be called by ChatPage when mode changes
+    public void setMobileMode(boolean isMobile) {
+        this.isMobileMode = isMobile;
+        backButton.setVisible(isMobile);
+        revalidate();
+        repaint();
+    }
+
+    public JButton getBackButton() {
+        return backButton;
     }
 }

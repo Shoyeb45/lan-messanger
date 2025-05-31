@@ -9,7 +9,9 @@ import main.java.com.lanmessanger.ui.components.navBar.NavBar;
 /** Navigation Page on the left side of the application */
 public class NavigationPage extends JLayeredPane {
   
-
+    /** 
+     * Nav Bar component for navigation page
+     */
     private NavBar navBar;
 
 

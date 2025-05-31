@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import main.java.com.lanmessanger.ui.router.RouterManager;
 
+
 public class MainPage extends JPanel {
 
     private NavigationPage navigationPage;

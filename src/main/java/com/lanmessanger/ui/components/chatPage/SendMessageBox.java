@@ -74,8 +74,10 @@ class SendMessageBox extends JPanel {
     private void sendMessage() {
         String messageText = messageField.getText();
         if (!messageText.trim().isEmpty()) {
-            // sendAction.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, messageText));
+
+            System.out.println(messageText);
             messageField.setText(""); // Clear the field
         }
     }
 }
+

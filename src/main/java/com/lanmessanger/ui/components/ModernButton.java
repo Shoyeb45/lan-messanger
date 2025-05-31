@@ -58,14 +58,34 @@ public class ModernButton extends JButton {
         
         g2.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 12, 12);
         
-        // Draw text
-        g2.setColor(Color.WHITE);
+        // Get icon and text
+        Icon icon = getIcon();
+        String text = getText();
         FontMetrics fm = g2.getFontMetrics();
-        int textWidth = fm.stringWidth(getText());
-        int textHeight = fm.getHeight();
-        g2.drawString(getText(), (getWidth() - textWidth) / 2, 
-                    (getHeight() - textHeight) / 2 + fm.getAscent());
         
+        // Calculate positions for icon and text
+        int iconWidth = (icon != null) ? icon.getIconWidth() : 0;
+        int iconHeight = (icon != null) ? icon.getIconHeight() : 0;
+        int textWidth = (text != null) ? fm.stringWidth(text) : 0;
+        int gap = (icon != null && text != null && !text.isEmpty()) ? getIconTextGap() : 0;
+        
+        int totalWidth = iconWidth + gap + textWidth;
+        int startX = (getWidth() - totalWidth) / 2;
+        
+        // Draw icon
+        if (icon != null) {
+            int iconX = startX;
+            int iconY = (getHeight() - iconHeight) / 2;
+            icon.paintIcon(this, g2, iconX, iconY);
+        }
+        
+        // Draw text
+        if (text != null && !text.isEmpty()) {
+            g2.setColor(Color.WHITE);
+            int textX = startX + iconWidth + gap;
+            int textY = (getHeight() - fm.getHeight()) / 2 + fm.getAscent();
+            g2.drawString(text, textX, textY);
+        }
         
         g2.dispose();
     }
