@@ -8,14 +8,19 @@ import javax.swing.JPanel;
 
 import main.java.com.lanmessanger.ui.router.RouterManager;
 
-
+/**
+ * Main page of the application, this contains the navbar at left and the card layout at right(Different rendering will happend here)
+ */
 public class MainPage extends JPanel {
 
+    /** navigation page of the application */
     private NavigationPage navigationPage;
+    /** Route Mananger, which initialises the route and can be used to switch between different pages */
     private RouterManager routerManager;
+    /** This will hold the main content of the page */
     private JPanel contentPanel;
     
-    public MainPage() {
+    public MainPage() throws InterruptedException {
         setLayout(new BorderLayout());
 
         // create navigation page
@@ -48,13 +53,15 @@ public class MainPage extends JPanel {
    
     
 
-    private void addRoutes() {
+    /** 
+     * Method to add the routes
+     * @see RouterManager
+     */
+    private void addRoutes() throws InterruptedException {
         // Add all routes here
         routerManager.addRoute("start", new StartPage());
         routerManager.addRoute("chats", new ChatPage());
         routerManager.addRoute("addFriend", new AddFriendPage());
         routerManager.addRoute("scanner", new ScannerPage());
-        routerManager.addRoute("friends", new FriendsPage());
-
     }
 }

@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import main.java.com.lanmessanger.app.AppConfig;
 import main.java.com.lanmessanger.ui.pages.MainPage;
 
+/** Main UI Application frame */
 public class App extends JFrame {
 
     /** 
@@ -34,13 +35,8 @@ public class App extends JFrame {
         // When app window is minized, then it will have the given size 
         this.setSize(Toolkit.getDefaultToolkit().getScreenSize().width / 3, Toolkit.getDefaultToolkit().getScreenSize().height);
 
-
         // To prevent the resizing below this Dimension3
-        
         this.setMinimumSize(new Dimension(AppConfig.SMALL_WIDTH + 110, 800));
-
- 
-        // this.setLayout(null);
     }
 
     /**
@@ -52,7 +48,8 @@ public class App extends JFrame {
         this.setIconImage(new ImageIcon(image).getImage());
     }
 
-    public void init() {
+    /** Method which will intialise the UI of the application */
+    public void init() throws InterruptedException {
         mainPage = new MainPage();
         mainPage.setBounds(0, 0, 100, 100);
         getContentPane().add(mainPage); 

@@ -16,6 +16,7 @@ import main.java.com.lanmessanger.ui.utils.ColorPalette;
 
 /**
  * Navbar component which have menu button and other buttons for navigation
+ * @author Shoyeb Anasri
  */
 public class NavBar extends JPanel {
 
@@ -28,8 +29,6 @@ public class NavBar extends JPanel {
     private Button addFriendButton;
     /** Button for scaning nearby friends */
     private Button scanButton;
-    /** Button for showing all the friends */
-    private Button friendsButton;
     /** flag to know if the nav bar is expanded or not */
     private boolean isExpanded = false;
 
@@ -55,7 +54,6 @@ public class NavBar extends JPanel {
         add(Box.createRigidArea(new Dimension(0, 20)));  // add gap between menu and rest of the buttons
         add(chatButton);
         add(addFriendButton);
-        add(friendsButton);
         add(scanButton);
         add(Box.createVerticalGlue());
     }
@@ -72,8 +70,7 @@ public class NavBar extends JPanel {
         chatButton = new Button(icon);
         icon = FontIcon.of(FontAwesome.USER_PLUS, 24, ColorPalette.PRIMARY);
         addFriendButton = new Button(icon);
-        icon = FontIcon.of(FontAwesome.USERS, 24, ColorPalette.PRIMARY);
-        friendsButton = new Button(icon);
+      
         icon = FontIcon.of(FontAwesome.WIFI, 24, ColorPalette.PRIMARY);
         scanButton = new Button(icon);
         
@@ -82,24 +79,21 @@ public class NavBar extends JPanel {
         chatButton.addActionListener(e -> openChatsPage());
         scanButton.addActionListener(e -> openScannerPage());
         addFriendButton.addActionListener(e -> openAddFriendPage());
-        friendsButton.addActionListener(e -> openFriendsPage());
 
         // set tooltip text
         menuButton.setToolTipText("Open Navigation");
         addFriendButton.setToolTipText("Add new friend");
         chatButton.setToolTipText("Chats");        
-        friendsButton.setToolTipText("All friends");
         scanButton.setToolTipText("Scan nearby friends");
 
         // give padding to the buttons
         menuButton.setBorder(BorderFactory.createEmptyBorder(10, 5, 8, 12));
         chatButton.setBorder(BorderFactory.createEmptyBorder(10, 5, 8, 15));
         addFriendButton.setBorder(BorderFactory.createEmptyBorder(10, 5, 8, 11));
-        friendsButton.setBorder(BorderFactory.createEmptyBorder(10, 5, 8, 12));
         scanButton.setBorder(BorderFactory.createEmptyBorder(10, 5, 8, 11));
 
 
-        Button[] buttons = {menuButton, chatButton, addFriendButton, friendsButton};
+        Button[] buttons = {menuButton, chatButton, addFriendButton};
 
         for (Button button: buttons) {
             button.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
@@ -112,7 +106,6 @@ public class NavBar extends JPanel {
     public void setTitleToButtons() {
         chatButton.setText("Chats");
         addFriendButton.setText("Add new friend");
-        friendsButton.setText("Friends");
         scanButton.setText("Scan nearby friends");
     }
     
@@ -120,28 +113,27 @@ public class NavBar extends JPanel {
     public void removeTitleToButtons() {
         chatButton.setText("");
         addFriendButton.setText("");
-        friendsButton.setText("");
         scanButton.setText("");
     }
 
-
+    /** Method to open the chat page */
     private void openChatsPage() {
-        
         RouterManager.getInstance().navigateTo("chats");
     }
     
+    /** Method to open the scanner page */
     private void openScannerPage() {
         RouterManager.getInstance().navigateTo("scanner");
     }
-
+    
+    /** Method to open the add friend page */
     private void openAddFriendPage() {
         RouterManager.getInstance().navigateTo("addFriend");
     }
 
-    private void openFriendsPage() {
-        RouterManager.getInstance().navigateTo("friends");
-    }
-    
+    /**
+     * Method to toggle the navbar, expand or collapse the navbar
+     */
     private void toggleNav() {
         isExpanded = !isExpanded;
 
