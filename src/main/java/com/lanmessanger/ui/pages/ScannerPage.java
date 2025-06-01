@@ -6,6 +6,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import main.java.com.lanmessanger.ui.components.addFriendPage.HeadingPanel;
 import main.java.com.lanmessanger.ui.components.scannerPage.FoundDevices;
@@ -27,7 +28,7 @@ public class ScannerPage extends JPanel {
     /** A component which will display all found devices */
     private FoundDevices foundDevices;
     
-    public ScannerPage() {
+    public ScannerPage() throws InterruptedException {
         headingPanel = new HeadingPanel("Scan for nearby friends");
         scanButton = new ScanButton();
         foundDevices = new FoundDevices();
@@ -60,14 +61,32 @@ public class ScannerPage extends JPanel {
         topPanel.add(buttonPanel);
         
         // add scanning functionality
-        scanButton.addActionListener(e -> scanNearbyUsers());
+        scanButton.addActionListener(e -> {
+            try {
+                scanNearbyUsers();
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
+        });
         this.add(topPanel, BorderLayout.NORTH);
         this.add(foundDevices, BorderLayout.CENTER);
     }
     
-    private void scanNearbyUsers() {
+    private void scanNearbyUsers() throws InterruptedException {
+        foundDevices.setLoadingPanel();
         System.out.println("Did I came here?");
-        String[] s = {"192.232.123.12", "141.89.12.00", "10.109.178.12"};
+
+        Timer stopTimer = new Timer(5000, e -> stopScanning());
+        stopTimer.setRepeats(false);
+        stopTimer.start();
+        
+    }
+    private void stopScanning() {
+        System.out.println("Scanning stopped");
+        String[] s = new String[12];
+        for (int i = 0; i < 12; i++) {
+            s[i] = "123.213";
+        }
         foundDevices.setFoundDevices(s);
     }
 }

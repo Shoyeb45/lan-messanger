@@ -13,7 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import main.java.com.lanmessanger.ui.components.ChatProfile;
+import main.java.com.lanmessanger.ui.components.LoadingComponent;
 import main.java.com.lanmessanger.ui.components.ModernButton;
+import main.java.com.lanmessanger.ui.components.ModernScrollBarUI;
 import main.java.com.lanmessanger.ui.utils.ColorPalette;
 import main.java.com.lanmessanger.ui.utils.Dialog;
 
@@ -28,11 +30,16 @@ public class FoundDevices extends JPanel {
     /** Panel which shows  */
     private NoDevicePanel noDeviceFoundPanel;
 
+    /** Loader component to show the loading animation */
+    private JPanel loader;
+
+    private LoadingComponent loadingComponent;
     /** List of the found devices, state of this component */
     String[] foundDevices;
 
-    /** Initialise the {@code FoundDevices} class using empty constructor */
-    public FoundDevices() {
+    /** Initialise the {@code FoundDevices} class using empty constructor 
+     * @ */
+    public FoundDevices()  {
         initializeComponents();
         setupLayout();
         addFoundDevices();
@@ -64,7 +71,17 @@ public class FoundDevices extends JPanel {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 
+        // Style the scrollbar
+        scrollPane.getVerticalScrollBar().setBackground(ColorPalette.BACKGROUND);
+        scrollPane.getVerticalScrollBar().setUI(new ModernScrollBarUI());
         // no device found panel
+
+        // loader
+        loader = new JPanel();
+        loader.setLayout(new BorderLayout());
+        loadingComponent = new LoadingComponent();
+        loadingComponent.setLoadingText("Scanning nearby devices....");
+        loader.add(loadingComponent, BorderLayout.CENTER);
         noDeviceFoundPanel = new NoDevicePanel();
     }
 
@@ -79,6 +96,7 @@ public class FoundDevices extends JPanel {
     
     /**
      * Add found devices to main container
+     * @ 
      */
     private void addFoundDevices() {
         if (foundDevices == null) {
@@ -96,6 +114,7 @@ public class FoundDevices extends JPanel {
     /**
      * Method for updating the found devices state.
      * @param foundDevices new array of found devices
+     * @ 
      */
     public void setFoundDevices(String[] foundDevices) {
         // Clear all previous rendering
@@ -119,8 +138,10 @@ public class FoundDevices extends JPanel {
      * Method to add found user in the container
      * @param deviceName  The name of the device
      * @param ipAddress   IP address of the device
+     * @ 
      */
-    public void addDevice(String deviceName, String ipAddress) {
+    public void addDevice(String deviceName, String ipAddress)  {
+        
         JPanel deviceInfo = createDeviceInfoPanel(deviceName, ipAddress);
         ChatProfile deviceProfile = new ChatProfile(12, deviceInfo, ColorPalette.BACKGROUND);
         deviceProfile.setBackground(ColorPalette.BACKGROUND);
@@ -184,10 +205,17 @@ public class FoundDevices extends JPanel {
      * @param ip IP Address of the user
      */
     private void addUser(String ip) {
-        String response = Dialog.showInputDialog(null, "Enter the name of the friend", "Add friend", Dialog.QUESTION_MESSAGE);
+        String response = Dialog.showInputDialog(this, "Enter the name of the friend", "Add friend", Dialog.QUESTION_MESSAGE);
         if (response != null && response.isBlank()) {
-            Dialog.showMessageDialog(null, "Please enter name of your friend", "Invalid Name", Dialog.ERROR_MESSAGE);
+            Dialog.showMessageDialog(this, "Please enter name of your friend", "Invalid Name", Dialog.ERROR_MESSAGE);
         }
+    }
+
+    public void setLoadingPanel() {
+        devicesContainer.removeAll();
+        devicesContainer.add(loader);
+        devicesContainer.revalidate();
+        loadingComponent.startLoading();
     }
 }
 
@@ -202,3 +230,4 @@ class NoDevicePanel extends JPanel {
         add(label);
     }
 }
+
