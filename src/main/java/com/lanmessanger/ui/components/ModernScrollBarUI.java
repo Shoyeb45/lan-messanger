@@ -1,5 +1,6 @@
 package main.java.com.lanmessanger.ui.components;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -17,8 +18,8 @@ import main.java.com.lanmessanger.ui.utils.ColorPalette;
 public class ModernScrollBarUI extends javax.swing.plaf.basic.BasicScrollBarUI {
     @Override
     protected void configureScrollBarColors() {
-        this.thumbColor = ColorPalette.SECONDARY_TEXT;
-        this.trackColor = ColorPalette.BACKGROUND;
+        this.thumbColor = new Color(173, 213, 245);
+        this.trackColor = ColorPalette.PANEL_BACKGROUND;
     }
 
     @Override

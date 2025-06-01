@@ -10,6 +10,8 @@ import javax.swing.JScrollPane;
 import javax.swing.Scrollable;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
+
+import main.java.com.lanmessanger.ui.components.ModernScrollBarUI;
 import main.java.com.lanmessanger.ui.components.addFriendPage.BottomPanel;
 import main.java.com.lanmessanger.ui.components.addFriendPage.CenterPanel;
 import main.java.com.lanmessanger.ui.components.addFriendPage.HeadingPanel;
@@ -60,6 +62,10 @@ public class AddFriendPage extends JPanel {
         // Ensure scrollbar doesn't cause layout thrashing when appearing/disappearing
         scrollPane.getVerticalScrollBar().setPreferredSize(
             new Dimension(scrollPane.getVerticalScrollBar().getPreferredSize().width, 0));
+        
+            // Style the scrollbar
+        scrollPane.getVerticalScrollBar().setBackground(ColorPalette.BACKGROUND);
+        scrollPane.getVerticalScrollBar().setUI(new ModernScrollBarUI());
         
         // Add scrollable panel to main panel with margins
         JPanel wrapperPanel = new JPanel(new BorderLayout());
