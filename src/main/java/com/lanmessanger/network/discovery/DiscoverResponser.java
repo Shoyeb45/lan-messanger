@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
+import main.java.com.lanmessanger.app.AppConfig;
+
 /**
  * DiscoverResponser handles UDP responses for network discovery
  * It listens for "Hello" messages and responds with "World"
@@ -20,7 +22,7 @@ public class DiscoverResponser extends Thread {
     public void run() {
         try {
             // UDP Socket to receive the data and send the response back
-            socket = new DatagramSocket(8888);
+            socket = new DatagramSocket(AppConfig.UDP_PORT);
             System.out.println("[Info] UDP Responding Server started on port 8888");
             
             while (running) {

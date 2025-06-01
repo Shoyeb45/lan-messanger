@@ -85,15 +85,17 @@ public class NetworkScanner {
      */
     public static void main(String[] args) throws InterruptedException, SocketException {
         NetworkScanner nw = new NetworkScanner();
-        Set<String> subnets = new HashSet<String>();
-        subnets.add("10.108.169.");
+        // Set<String> subnets = new HashSet<String>();
+        // subnets.add("10.108.169.");
 
-        subnets.addAll(new SubnetScanner().getAllPossibleSubnets());
-        
-        // nw.scanIp("10.108.")
-        for (var x : subnets) {
-            nw.scanForUsers(x);
+        // subnets.addAll(new SubnetScanner().getAllPossibleSubnets());
+        if (nw.scanIp("127.0.0.1")) {
+            System.out.println("Connected");
         }
+        // nw.scanIp("10.108.")
+        // for (var x : subnets) {
+        //     nw.scanForUsers(x);
+        // }
     }
 
     /**

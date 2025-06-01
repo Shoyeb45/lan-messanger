@@ -7,6 +7,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import main.java.com.lanmessanger.app.AppConfig;
+import main.java.com.lanmessanger.ui.components.addFriendPage.BottomPanel;
+
 /**
  * Client handles outgoing connections to other users
  */
@@ -15,10 +18,11 @@ public class Client {
     private PrintWriter out;
     private BufferedReader in;
     private String remoteIP;
-    private int remotePort;
+    private int remotePort = AppConfig.SERVER_PORT;
     private boolean isConnected = false;
     private ClientListener listener;
     
+    public Client() {}
     /**
      * Constructor that stores the remote host details but doesn't connect yet
      */
@@ -39,7 +43,7 @@ public class Client {
             isConnected = true;
             
             // Start a listener thread to receive messages
-            startListening();
+            // startListening();
             
             System.out.println("Connected to " + remoteIP + ":" + remotePort);
             return true;
@@ -135,5 +139,13 @@ public class Client {
      */
     public boolean isConnected() {
         return isConnected;
+    }
+    
+    public void setRemoteIp(String remoteIp) {
+        if (!BottomPanel.isValidIPAddress(remoteIp)) {
+            System.out.println("[Error]" + remoteIp + " is not a valid IP address");
+            return;
+        }
+        this.remoteIP = remoteIp;
     }
 }

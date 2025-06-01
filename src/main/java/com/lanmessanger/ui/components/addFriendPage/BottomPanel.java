@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import org.kordamp.ikonli.fontawesome.FontAwesome;
 import org.kordamp.ikonli.swing.FontIcon;
+
+import main.java.com.lanmessanger.network.client.Client;
 import main.java.com.lanmessanger.ui.components.ModernButton;
 import main.java.com.lanmessanger.ui.components.RoundedPanel;
 import main.java.com.lanmessanger.ui.utils.ColorPalette;
@@ -27,6 +29,8 @@ public class BottomPanel extends RoundedPanel {
     private InputField nameField;
     /** Input field for the taking input of the IP address */
     private InputField ipField;
+    /** Client instance to  */
+    private Client clientSocket = new Client();
     
     public BottomPanel() {
         super(15, ColorPalette.BACKGROUND);
@@ -94,8 +98,11 @@ public class BottomPanel extends RoundedPanel {
     private void addFriend(ActionEvent e) {
         String name = nameField.getTextField().getText();
         String ip = ipField.getTextField().getText();
-        System.out.println(name);
-        System.out.println(ip);
+        
+
+        System.out.println("[INFO] Name of friend that needs to be added " + name);
+        System.out.println("[INFO] IP Address of friend that needs to be added " + ip);
+
         if (name == null || name.isBlank()) {
             Dialog.showMessageDialog(null, "Please enter name of your friend", "Empty input fields",Dialog.ERROR_MESSAGE);
             return;
@@ -105,10 +112,15 @@ public class BottomPanel extends RoundedPanel {
             Dialog.showMessageDialog(null, "Please provide valid IP address", "Invalid IP address", Dialog.ERROR_MESSAGE);
             return;
         }
-        System.out.println(nameField.getTextField().getText());
+        
+        clientSocket.setRemoteIp(ip);
+
+        if (!clientSocket.connect()) {
+            Dialog.showMessageDialog(null, "User is not connected to same wifi network.", "Offline friend", Dialog.WARNING_MESSAGE);
+        }
     }
 
-    public boolean isValidIPAddress(String ip) {
+    public static boolean isValidIPAddress(String ip) {
         if (ip == null || ip.isBlank()) {
             return false;
         }
