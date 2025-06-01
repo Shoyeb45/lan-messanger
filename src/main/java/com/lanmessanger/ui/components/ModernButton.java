@@ -53,7 +53,11 @@ public class ModernButton extends JButton {
         if (isHover) {
             g2.setColor(hoverColor);
         } else {
-            g2.setColor(normalColor);
+            if (isEnabled()) {
+                g2.setColor(normalColor);
+            } else {
+                g2.setColor(hoverColor);
+            }
         }
         
         g2.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 12, 12);

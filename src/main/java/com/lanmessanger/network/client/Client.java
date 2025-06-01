@@ -146,6 +146,10 @@ public class Client {
             System.out.println("[Error]" + remoteIp + " is not a valid IP address");
             return;
         }
+        
+        if (isConnected()) {
+            disconnect();
+        }
         this.remoteIP = remoteIp;
     }
 }

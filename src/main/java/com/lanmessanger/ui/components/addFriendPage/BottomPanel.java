@@ -31,7 +31,7 @@ public class BottomPanel extends RoundedPanel {
     private InputField ipField;
     /** Client instance to  */
     private Client clientSocket = new Client();
-    
+
     public BottomPanel() {
         super(15, ColorPalette.BACKGROUND);
         
@@ -44,12 +44,12 @@ public class BottomPanel extends RoundedPanel {
         
         addFriendButton = new ModernButton("Add", ColorPalette.PRIMARY, ColorPalette.SECONDARY);
         addFriendButton.setPreferredSize(new Dimension(120, 40));
-        
+
         // Create and add a plus icon to the Add button
         FontIcon plusIcon = FontIcon.of(FontAwesome.PLUS, 14);
         plusIcon.setIconColor(Color.WHITE);
         addFriendButton.setIcon(plusIcon);
-        
+        checkConnectionButton.addActionListener(e -> connectFriend(false));
         // Configure layout
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -113,11 +113,37 @@ public class BottomPanel extends RoundedPanel {
             return;
         }
         
+        if (!connectFriend(true)) {
+            return;
+        }
+        
+        // add user in friend list
+
+        Dialog.showConfirmDialog(null, "Your friend added successfully", "Add Friend Success", Dialog.CLOSED_OPTION, Dialog.INFORMATION_MESSAGE);
+    }
+
+
+    private boolean connectFriend(boolean isFromAddFriend) {
+        
+
+        String name = nameField.getTextField().getText();
+        String ip = ipField.getTextField().getText();
+
         clientSocket.setRemoteIp(ip);
 
         if (!clientSocket.connect()) {
-            Dialog.showMessageDialog(null, "User is not connected to same wifi network.", "Offline friend", Dialog.WARNING_MESSAGE);
+            Dialog.showMessageDialog(null, "User is not connected to the same wifi network.", "Offline friend", Dialog.WARNING_MESSAGE);
+            return false;
         }
+        clientSocket.disconnect();
+
+        if (isFromAddFriend) {
+            System.out.println("[INFO] Connection Established successfully, now adding the user...");
+            return true;
+        }
+
+        Dialog.showConfirmDialog(null, "User is successfully connected, please add to your friend list.", "User conneted", Dialog.CLOSED_OPTION, Dialog.INFORMATION_MESSAGE);
+        return true;
     }
 
     public static boolean isValidIPAddress(String ip) {
