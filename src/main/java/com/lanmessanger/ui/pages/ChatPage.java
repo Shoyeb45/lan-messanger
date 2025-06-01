@@ -7,11 +7,14 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.SwingUtilities;
 import main.java.com.lanmessanger.app.AppConfig;
 import main.java.com.lanmessanger.ui.components.chatPage.ChatList;
 import main.java.com.lanmessanger.ui.components.chatPage.ChatScreen;
 
-/** Page for Chat section */
+/** 
+ * Page for Chat section
+ */
 public class ChatPage extends JPanel {
     /** Component to hold all the chat list */
     private ChatList chatList;
@@ -19,17 +22,34 @@ public class ChatPage extends JPanel {
     private ChatScreen chatScreen;
     /** Split pane for effectively showing both chat screen and chat list */
     private JSplitPane splitPane;
+    /** Card Layout for dynamic rendering between the chat screen and chat list in mobile mode */
     private CardLayout cardLayout;
     /** Panel for mobile app */
     private JPanel mobileView;
+    /** Main container to switch between desktop and mobile views */
+    private JPanel mainContainer;
+    /** Layout on the page will be seen */  
+    private CardLayout mainLayout;
+    /** Flag to indicate if the current mode is mobile mode or not */
     private boolean isMobileMode = false;
-    
-  
     
     public ChatPage() {
         setLayout(new BorderLayout());
+        // Initialize components first
+        initializeComponents();
         
-        // Initialize components
+        // Setup layouts
+        setupLayouts();
+        
+        // Set initial state
+        setInitialState();
+        
+        // Add resize listener
+        addResizeListener();
+    }
+
+    /** Method to initialise all the components of this page */    
+    private void initializeComponents() {
         chatList = new ChatList();
         chatScreen = new ChatScreen();
         
@@ -37,20 +57,51 @@ public class ChatPage extends JPanel {
         chatList.setParentChatPage(this);
         chatScreen.setParentChatPage(this);
         
-        // Setup desktop view with split pane
+        // Ensure components are visible and have preferred sizes
+        chatList.setPreferredSize(new Dimension(300, 400));
+        chatScreen.setPreferredSize(new Dimension(500, 400));
+    }
+    
+    /** Method to set up the layout of this page */
+    private void setupLayouts() {
+        // Main container with CardLayout to switch between desktop and mobile
+        mainLayout = new CardLayout();
+        mainContainer = new JPanel(mainLayout);
+        
+        // Setup desktop view
         setupDesktopView();
         
-        // Setup mobile view with card layout
+        // Setup mobile view  
         setupMobileView();
         
-        // Add desktop view initially
-        add(splitPane, BorderLayout.CENTER);
+        // Add both views to main container
+        mainContainer.add(splitPane, "DESKTOP");
+        mainContainer.add(mobileView, "MOBILE");
         
-        // Listen for resize events
+        // Add main container to this panel
+        add(mainContainer, BorderLayout.CENTER);
+    }
+    
+    /** Initial state of the page, i.e., desktop mode */
+    private void setInitialState() {
+        // Show desktop view initially
+        mainLayout.show(mainContainer, "DESKTOP");
+        chatScreen.setMobileMode(false);
+        
+        // Force initial layout
+        SwingUtilities.invokeLater(() -> {
+            revalidate();
+            repaint();
+        });
+    }
+    
+    /** Setting up the layout in resizing event */
+    private void addResizeListener() {
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                checkAndUpdateLayout();
+                // Use SwingUtilities.invokeLater to ensure proper event handling
+                SwingUtilities.invokeLater(() -> checkAndUpdateLayout());
             }
         });
     }
@@ -59,15 +110,15 @@ public class ChatPage extends JPanel {
      * Method to setup the desktop view of chat page
      */
     private void setupDesktopView() {
-        // Using JSplitPane to correcty divide the chat list and screen in ratio of 40% to 60%
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         splitPane.setLeftComponent(chatList);
         splitPane.setRightComponent(chatScreen);
-        splitPane.setResizeWeight(0.4); // 40% for chat list
-        splitPane.setDividerSize(1);
+        splitPane.setResizeWeight(0.3); // 30% for chat list
+        splitPane.setDividerSize(2);
         splitPane.setContinuousLayout(true);
+        splitPane.setOneTouchExpandable(false);
         
-        // Set minimum sizes to prevent components from disappearing
+        // Set minimum and preferred sizes
         chatList.setMinimumSize(new Dimension(250, 0));
         chatScreen.setMinimumSize(new Dimension(300, 0));
     }
@@ -79,65 +130,52 @@ public class ChatPage extends JPanel {
         cardLayout = new CardLayout();
         mobileView = new JPanel(cardLayout);
         
-        // Create mobile-friendly versions
-        JPanel chatListPanel = createMobileChatListPanel();
-        JPanel chatScreenPanel = createMobileChatScreenPanel();
+        // Create wrapper panels to avoid component sharing issues
+        JPanel chatListWrapper = new JPanel(new BorderLayout());
+        JPanel chatScreenWrapper = new JPanel(new BorderLayout());
         
-        mobileView.add(chatListPanel, "CHAT_LIST");
-        mobileView.add(chatScreenPanel, "CHAT_SCREEN");
+        mobileView.add(chatListWrapper, "CHAT_LIST");
+        mobileView.add(chatScreenWrapper, "CHAT_SCREEN");
     }
     
     /**
-     * Method to create chat list panel for mobile 
-     * @return Mobile compatible chat list panel
+     * This method will called when the resize event will happen. It will adjust the layout based on the width and height of the window
      */
-    private JPanel createMobileChatListPanel() {
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.add(chatList, BorderLayout.CENTER);
-        return panel;
-    }
-    
-    /**
-     * Method to create message panel for mobile
-     * @return Mobile compatible message panel
-     */
-    private JPanel createMobileChatScreenPanel() {
-        JPanel panel = new JPanel(new BorderLayout());
-        
-        // You'll need to modify your ChatScreen to include a back button
-        // For now, we'll assume ChatScreen handles its own mobile layout
-        panel.add(chatScreen, BorderLayout.CENTER);
-        
-        return panel;
-    }
-    
     private void checkAndUpdateLayout() {
+        if (!isDisplayable()) {
+            return; // Don't process if component isn't ready
+        }
+        
         int currentWidth = getWidth();
-        boolean shouldBeMobile = currentWidth < AppConfig.MEDIUM_WIDTH + 120;
+        boolean shouldBeMobile = currentWidth < (AppConfig.MEDIUM_WIDTH + 120);
         
         if (shouldBeMobile && !isMobileMode) {
-            // Switch to mobile mode
             switchToMobileMode();
         } else if (!shouldBeMobile && isMobileMode) {
-            // Switch to desktop mode
             switchToDesktopMode();
         }
     }
     
+    /** Method to switch to mobile mode */
     private void switchToMobileMode() {
         isMobileMode = true;
-        removeAll();
         
-        // Remove components from split pane and add to mobile view
+        // Remove components from split pane
         splitPane.remove(chatList);
         splitPane.remove(chatScreen);
         
-        // Recreate mobile panels with current components
-        mobileView.removeAll();
-        mobileView.add(createMobileChatListPanel(), "CHAT_LIST");
-        mobileView.add(createMobileChatScreenPanel(), "CHAT_SCREEN");
+        // Get wrapper panels and add components
+        JPanel chatListWrapper = (JPanel) ((JPanel) mobileView.getComponent(0));
+        JPanel chatScreenWrapper = (JPanel) ((JPanel) mobileView.getComponent(1));
         
-        add(mobileView, BorderLayout.CENTER);
+        chatListWrapper.removeAll();
+        chatScreenWrapper.removeAll();
+        
+        chatListWrapper.add(chatList, BorderLayout.CENTER);
+        chatScreenWrapper.add(chatScreen, BorderLayout.CENTER);
+        
+        // Switch to mobile view
+        mainLayout.show(mainContainer, "MOBILE");
         
         // Show chat list by default in mobile mode
         showChatList();
@@ -145,33 +183,47 @@ public class ChatPage extends JPanel {
         // Update components for mobile mode
         chatScreen.setMobileMode(true);
         
-        revalidate();
-        repaint();
+        // Force layout update
+        SwingUtilities.invokeLater(() -> {
+            mobileView.revalidate();
+            mobileView.repaint();
+            mainContainer.revalidate();
+            mainContainer.repaint();
+        });
     }
     
-    /** Method to switch to dektop mode */
+    /** Method to switch to desktop mode */
     private void switchToDesktopMode() {
         isMobileMode = false;
-        removeAll();
         
-        // Remove components from mobile view and add back to split pane
-        mobileView.removeAll();
+        // Remove components from mobile view wrappers
+        JPanel chatListWrapper = (JPanel) ((JPanel) mobileView.getComponent(0));
+        JPanel chatScreenWrapper = (JPanel) ((JPanel) mobileView.getComponent(1));
         
+        chatListWrapper.remove(chatList);
+        chatScreenWrapper.remove(chatScreen);
+        
+        // Add components back to split pane
         splitPane.setLeftComponent(chatList);
         splitPane.setRightComponent(chatScreen);
         
-        add(splitPane, BorderLayout.CENTER);
+        // Switch to desktop view
+        mainLayout.show(mainContainer, "DESKTOP");
         
         // Update components for desktop mode
         chatScreen.setMobileMode(false);
         
-        revalidate();
-        repaint();
+        // Force layout update
+        SwingUtilities.invokeLater(() -> {
+            splitPane.revalidate();
+            splitPane.repaint();
+            mainContainer.revalidate();
+            mainContainer.repaint();
+        });
     }
     
-    // Public methods for navigation (call these from your ChatScreen back button)
     /**
-     * To show chat list
+     * Method to show chat list
      */
     public void showChatList() {
         if (isMobileMode) {
@@ -180,7 +232,7 @@ public class ChatPage extends JPanel {
     }
     
     /**
-     * To show chat screen
+     * Method to show chat screen
      */
     public void showChatScreen() {
         if (isMobileMode) {
@@ -190,13 +242,13 @@ public class ChatPage extends JPanel {
     
     /**
      * return if the current window is mobile mode or not
-     * @return
+     * @return boolean indicating mobile mode status
      */
     public boolean isMobileMode() {
         return isMobileMode;
     }
     
-    /** Method to be called when a chat is selected from ChatList  */
+    /** Method to be called when a chat is selected from ChatList */
     public void onChatSelected(String username) {
         chatScreen.setSelectedUser(username);
         if (isMobileMode) {

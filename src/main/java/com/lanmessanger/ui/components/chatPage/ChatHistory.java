@@ -44,7 +44,6 @@ public class ChatHistory extends JPanel {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-        
         // Style the scrollbar
         scrollPane.getVerticalScrollBar().setBackground(ColorPalette.BACKGROUND);
         scrollPane.getVerticalScrollBar().setUI(new ModernScrollBarUI());

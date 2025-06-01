@@ -1,8 +1,6 @@
 package main.java.com.lanmessanger.ui.components.chatPage;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;

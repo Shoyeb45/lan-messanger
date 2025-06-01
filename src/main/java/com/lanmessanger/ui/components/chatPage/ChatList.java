@@ -18,6 +18,7 @@ import java.awt.event.MouseEvent;
 
 
 import main.java.com.lanmessanger.ui.components.ChatProfile;
+import main.java.com.lanmessanger.ui.components.ModernScrollBarUI;
 import main.java.com.lanmessanger.ui.pages.ChatPage;
 import main.java.com.lanmessanger.ui.utils.ColorPalette;
 
@@ -55,6 +56,10 @@ public class ChatList extends JPanel {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+
+        // Style the scrollbar
+        scrollPane.getVerticalScrollBar().setBackground(ColorPalette.BACKGROUND);
+        scrollPane.getVerticalScrollBar().setUI(new ModernScrollBarUI());
     }
 
    

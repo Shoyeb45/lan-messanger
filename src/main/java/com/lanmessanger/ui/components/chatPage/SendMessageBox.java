@@ -1,12 +1,8 @@
 package main.java.com.lanmessanger.ui.components.chatPage;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -35,7 +31,7 @@ class SendMessageBox extends JPanel {
 
     private void initializeComponents() {
         setBackground(ColorPalette.PANEL_BACKGROUND);
-        setBorder(new EmptyBorder(15, 20, 15, 20));
+        setBorder(new EmptyBorder(10, 15, 10, 15));
 
         // Message input field with modern styling
         messageField = new SendMessageTextField("Type your message here...");
