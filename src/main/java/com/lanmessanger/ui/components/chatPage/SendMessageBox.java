@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.SwingWorker;
 import javax.swing.border.EmptyBorder;
 
 import org.kordamp.ikonli.fontawesome.FontAwesome;
@@ -75,10 +76,42 @@ class SendMessageBox extends JPanel {
             String ip = parentScreen.getIpAddress();
             System.out.println(messageText);
             
+            // Clear the field immediately for better UX
+            messageField.setText("");
+            
+            // Create message and add to history immediately
             Message message = new Message(ip, messageText, true);
-            Main.server.sendMessage(messageText, ip);
             State.messageHistory.addMessage(message);
-            messageField.setText(""); // Clear the field
+            
+            // Disable send button to prevent multiple sends
+            sendButton.setEnabled(false);
+            messageField.setEnabled(false);
+            
+            // Use SwingWorker for background network operation
+            new SwingWorker<Void, Void>() {
+                @Override
+                protected Void doInBackground() throws Exception {
+                    // This runs in background thread
+                    Main.server.sendMessage(messageText, ip);
+                    return null;
+                }
+                
+                @Override
+                protected void done() {
+                    // This runs on EDT when background task completes
+                    try {
+                        get(); // Check if any exception occurred
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        // Handle error - maybe show error message to user
+                    } finally {
+                        // Re-enable UI components
+                        sendButton.setEnabled(true);
+                        messageField.setEnabled(true);
+                        messageField.requestFocus();
+                    }
+                }
+            }.execute();
         }
     }
 }
