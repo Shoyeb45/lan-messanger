@@ -7,11 +7,13 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
-
+import main.java.com.lanmessanger.models.Message;
 import main.java.com.lanmessanger.ui.utils.ColorPalette;
 
 /**
@@ -26,19 +28,26 @@ class MessageBubble extends JPanel {
     }
 
     private void initializeComponents() {
-        setLayout(new BorderLayout());
+        // Use BoxLayout instead of BorderLayout to prevent extra spacing
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setBackground(ColorPalette.BACKGROUND);
-
+        
+        // Set maximum height to prevent excessive vertical space
+        setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
+        
         // Create message content panel
         JPanel messageContent = createMessageContent();
         
-        // Create wrapper for alignment
-        JPanel wrapper = new JPanel(new FlowLayout(
-            message.isFromCurrentUser() ? FlowLayout.RIGHT : FlowLayout.LEFT, 0, 0));
-        wrapper.setBackground(ColorPalette.BACKGROUND);
-        wrapper.add(messageContent);
-
-        add(wrapper, BorderLayout.CENTER);
+        // Add alignment based on sender
+        if (message.isFromCurrentUser()) {
+            // Right align for current user
+            add(Box.createHorizontalGlue());
+            add(messageContent);
+        } else {
+            // Left align for other user
+            add(messageContent);
+            add(Box.createHorizontalGlue());
+        }
     }
 
     private JPanel createMessageContent() {
@@ -57,7 +66,7 @@ class MessageBubble extends JPanel {
         ));
 
         // Message text
-        JTextArea textArea = new JTextArea(message.getText());
+        JTextArea textArea = new JTextArea(message.getContent());
         textArea.setBackground(bubbleColor);
         textArea.setForeground(textColor);
         textArea.setFont(new Font("Segoe UI", Font.PLAIN, 14));
@@ -78,6 +87,9 @@ class MessageBubble extends JPanel {
 
         // Set maximum width to prevent overly wide bubbles
         panel.setMaximumSize(new Dimension(300, Integer.MAX_VALUE));
+        // Set preferred size to help with layout calculations
+        panel.setPreferredSize(new Dimension(Math.min(300, panel.getPreferredSize().width), 
+                                           panel.getPreferredSize().height));
 
         return panel;
     }

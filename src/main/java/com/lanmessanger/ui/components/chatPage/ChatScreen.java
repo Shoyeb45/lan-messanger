@@ -1,19 +1,23 @@
 package main.java.com.lanmessanger.ui.components.chatPage;
 
 import java.awt.*;
+import java.rmi.server.SocketSecurityException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
-
+import main.java.com.lanmessanger.models.Message;
 import main.java.com.lanmessanger.ui.pages.ChatPage;
+import main.java.com.lanmessanger.ui.state.State;
+import main.java.com.lanmessanger.ui.state.StateManager;
 import main.java.com.lanmessanger.ui.utils.ColorPalette;
 
 /**
  * Modern component to show the chat between users
  */
-public class ChatScreen extends JPanel {
+public class ChatScreen extends JPanel implements StateManager {
     private String selectedUser = "Select a chat";
+    private String ipAddress;
     private ChatHistory chatHistory;
     private SendMessageBox sendMessageBox;
     private ChatHeader chatHeader;
@@ -22,10 +26,12 @@ public class ChatScreen extends JPanel {
     private ChatPage parentChatPage;
 
     public ChatScreen() {
+        State.messageHistory.addSubscribedComponent(this);
         this.messages = new ArrayList<>();
         initializeComponents();
         setupLayout();
         addSampleMessages(); // For demonstration
+        renderAllMessages();
     }
 
     private void initializeComponents() {
@@ -34,7 +40,7 @@ public class ChatScreen extends JPanel {
         chatHeader = new ChatHeader(selectedUser);
         chatHeader.getBackButton().addActionListener(e -> goToChatListPage()); 
 
-        chatHistory = new ChatHistory(messages);
+        chatHistory = new ChatHistory();
         sendMessageBox = new SendMessageBox(this);
     }
 
@@ -45,28 +51,54 @@ public class ChatScreen extends JPanel {
         add(sendMessageBox, BorderLayout.SOUTH);
     }
 
+    private void renderAllMessages() {
+        // Clear existing messages first
+        chatHistory.clearMessages();
+        
+        // Render all messages at once to ensure consistent spacing
+        chatHistory.renderAllMessages(messages);
+    }
+
     private void addSampleMessages() {
         // Add some sample messages for demonstration
         addMessage("Hello there!", true);
         addMessage("Hi! How are you doing?", false);
         addMessage("I'm doing great, thanks for asking!", true);
         addMessage("That's wonderful to hear! What have you been up to lately?", false);
-        for (int i = 0; i < 3; i++)
         addMessage("Just working on some projects. How about you?", true);
-        for (int i = 0; i < 3; i++)
+        addMessage("Just working on some projects. How about you?", true);
+        addMessage("Just working on some projects. How about you?", true);
+        addMessage("Just working on some projects. How about you?", true);
         addMessage(" How about you?", false);
     }
+    
 
-    private void sendMessage(String messageText) {
-        if (!messageText.trim().isEmpty()) {
-            addMessage(messageText, true);
-        }
-    }
 
     public void addMessage(String text, boolean isFromCurrentUser) {
-        Message message = new Message(text, isFromCurrentUser, LocalTime.now());
+        Message message = new Message("", text, isFromCurrentUser);
         messages.add(message);
-        chatHistory.addMessage(message);
+        // Only render single message when adding new ones
+        chatHistory.renderMessage(message);
+    }
+
+    public void setMessages(List<Message> messages) {
+         // Clear current messages
+        this.messages.clear();
+        chatHistory.clearMessages();
+        
+        // Set new messages
+        if (messages != null) {
+            this.messages.addAll(messages);
+        }
+        
+        // Render all messages at once for consistent spacing
+        renderAllMessages();
+        
+        // Force UI update
+        SwingUtilities.invokeLater(() -> {
+            revalidate();
+            repaint();
+        });
     }
 
     public void setSelectedUser(String userName) {
@@ -89,4 +121,19 @@ public class ChatScreen extends JPanel {
     private void goToChatListPage() {
         parentChatPage.showChatList();  
     }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
+    @Override
+    public void onStateChange() {
+        SwingUtilities.invokeLater(() -> {
+            Message lastMessage = State.messageHistory.getLastMessage(ipAddress);
+            chatHistory.renderMessage(lastMessage);
+        });
+    } 
 }

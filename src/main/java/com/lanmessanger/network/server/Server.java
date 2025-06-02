@@ -100,6 +100,7 @@ public class Server extends Thread {
     }
 
     public void sendMessage(String message, String ip) {
+        System.out.println("[INFO] Sent message to " + ip + " , Message: " + message);
         clientHandlers.get(ip).sendMessage(message);
     }
     /**

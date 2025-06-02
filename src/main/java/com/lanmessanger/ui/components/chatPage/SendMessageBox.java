@@ -9,9 +9,11 @@ import javax.swing.border.EmptyBorder;
 
 import org.kordamp.ikonli.fontawesome.FontAwesome;
 import org.kordamp.ikonli.swing.FontIcon;
-
+import main.java.com.lanmessanger.models.Message;
+import main.java.com.lanmessanger.app.Main;
 import main.java.com.lanmessanger.ui.components.ModernButton;
 import main.java.com.lanmessanger.ui.components.RoundedBorder;
+import main.java.com.lanmessanger.ui.state.State;
 import main.java.com.lanmessanger.ui.utils.ColorPalette;
 
 /**
@@ -69,9 +71,13 @@ class SendMessageBox extends JPanel {
 
     private void sendMessage() {
         String messageText = messageField.getText();
-        if (!messageText.trim().isEmpty()) {
-
+        if (!messageText.isBlank()) {
+            String ip = parentScreen.getIpAddress();
             System.out.println(messageText);
+            
+            Message message = new Message(ip, messageText, true);
+            Main.server.sendMessage(messageText, ip);
+            State.messageHistory.addMessage(message);
             messageField.setText(""); // Clear the field
         }
     }

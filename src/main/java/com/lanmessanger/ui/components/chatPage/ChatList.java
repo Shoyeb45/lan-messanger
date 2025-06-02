@@ -77,14 +77,12 @@ public class ChatList extends JPanel implements StateManager {
 
    
     private void renderFriends() {
-        // for (int i = 1; i <= 10; i++) {
-        //     addProfile("User " + i, "Last message " + i, "12:34");
-        // }
+      
         // Clear existing components
         devicesContainer.removeAll();
         User[] friends = State.friendsList.getAllFriends();
         for (User friend: friends) {
-            addProfile(friend.getName(), friend.getIp(), "12:43");
+            addProfile(friend.getName(), "Last Message", "12:43", friend.getIp());
         }
 
         // Refresh the UI
@@ -92,7 +90,7 @@ public class ChatList extends JPanel implements StateManager {
         devicesContainer.repaint();
     }
 
-    private void addProfile(String userName, String lastMessage, String messageTime) {
+    private void addProfile(String userName, String lastMessage, String messageTime, String ip) {
         JPanel deviceInfoPanel = createDeviceInfoPanel(userName, lastMessage, messageTime);
         ChatProfile chatProfile = new ChatProfile(10, deviceInfoPanel, ColorPalette.BACKGROUND);
         chatProfile.setBackground(ColorPalette.BACKGROUND);
@@ -101,7 +99,7 @@ public class ChatList extends JPanel implements StateManager {
         deviceInfoPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                onChatItemSelected(userName);
+                onChatItemSelected(userName, ip);
             }
             
             @Override
@@ -173,12 +171,13 @@ public class ChatList extends JPanel implements StateManager {
     }
 
     // Call this method when a chat item is clicked
-    private void onChatItemSelected(String userName) {
+    private void onChatItemSelected(String userName, String ip) {
         // Your existing logic for selecting a chat...
         
+
         // Notify parent to switch to chat screen in mobile mode
         if (parentChatPage != null) {
-            parentChatPage.onChatSelected(userName);
+            parentChatPage.onChatSelected(userName, ip);
         }
     }
 

@@ -2,6 +2,7 @@ package main.java.com.lanmessanger.models;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Message class represents a single message for the user
@@ -9,14 +10,16 @@ import java.time.ZoneId;
  */
 public class Message {
 
-    /** Sender's id */
-    private int senderId;               
+    /** Sender's ip */
+    private String senderIp;               
     /** Message content */
     private String content;
     /** Time when message was sent */
     private LocalDateTime timestamp;    
     /** Flag value to check if the message was read or not */
     private boolean isMessageSeen = false;
+    /** Message from the owner */
+    private boolean isFromCurrentUser = false;
 
     /**
      * Default constructor for Message class
@@ -31,9 +34,10 @@ public class Message {
      * @param senderId sender's id
      * @param content  Message content that was sent
      */
-    public Message(int senderId, String content) {
-        this.senderId = senderId;
+    public Message(String senderIp, String content, boolean isFromCurrentUser) {
+        this.senderIp = senderIp;
         this.content = content;
+        this.isFromCurrentUser = isFromCurrentUser;
         timestamp = LocalDateTime.now();
     }    
     
@@ -49,8 +53,8 @@ public class Message {
      * Gets the ID of the message sender
      * @return the sender's ID as an integer
      */
-    public int getSenderId() {
-        return senderId;
+    public String getSenderIp() {
+        return senderIp;
     }   
 
      /**
@@ -70,11 +74,11 @@ public class Message {
     }
 
     /**
-     * Sets the ID of the message sender
-     * @param senderId the ID of the sender to set
+     * Sets the IP of the message sender
+     * @param senderIp the IP of the sender to set
      */
-    public void setSendersId(int senderId) {
-        this.senderId = senderId;
+    public void setSendersId(String senderIp) {
+        this.senderIp = senderIp;
     }
 
     /**
@@ -93,4 +97,10 @@ public class Message {
         isMessageSeen = true; 
     }
 
+    public boolean isFromCurrentUser() {
+        return isFromCurrentUser;
+    }
+    public String getFormattedTime() {
+        return timestamp.format(DateTimeFormatter.ofPattern("HH:mm"));
+    }
 }

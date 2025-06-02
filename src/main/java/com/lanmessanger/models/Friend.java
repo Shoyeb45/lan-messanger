@@ -26,7 +26,7 @@ public class Friend {
     public void addSubscribedComponent(StateManager stateManager) {
         subscribedComponents.add(stateManager);
     }
-    public void removeListener(StateManager stateManager) {
+    public void removeSubscribedComponent(StateManager stateManager) {
         subscribedComponents.remove(stateManager);
     }
 

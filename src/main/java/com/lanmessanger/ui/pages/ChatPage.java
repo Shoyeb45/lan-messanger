@@ -11,6 +11,7 @@ import javax.swing.SwingUtilities;
 import main.java.com.lanmessanger.app.AppConfig;
 import main.java.com.lanmessanger.ui.components.chatPage.ChatList;
 import main.java.com.lanmessanger.ui.components.chatPage.ChatScreen;
+import main.java.com.lanmessanger.ui.state.State;
 
 /** 
  * Page for Chat section
@@ -249,10 +250,16 @@ public class ChatPage extends JPanel {
     }
     
     /** Method to be called when a chat is selected from ChatList */
-    public void onChatSelected(String username) {
+    public void onChatSelected(String username, String ipAddress) {
+        System.out.println("Kya me yaha aaya...");
         chatScreen.setSelectedUser(username);
+        chatScreen.setIpAddress(ipAddress);
+        chatScreen.setMessages(State.messageHistory.getMessagesWithUser(ipAddress));
+
         if (isMobileMode) {
             showChatScreen();
         }
+        chatScreen.revalidate();
+        chatScreen.repaint();
     }
 }
