@@ -79,4 +79,10 @@ public class User {
     public void setIp(String ip) {
         this.ip = ip;
     }
+
+    @Override
+    public String toString() {
+        String output = "Name: " + this.name + "\n" + "IP Address: " + this.ip;
+        return output;
+    }
 }

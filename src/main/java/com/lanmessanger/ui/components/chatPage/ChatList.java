@@ -13,16 +13,20 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 
 import java.awt.event.MouseEvent;
 
-
+import main.java.com.lanmessanger.app.AppConfig;
+import main.java.com.lanmessanger.models.Friend;
+import main.java.com.lanmessanger.models.User;
 import main.java.com.lanmessanger.ui.components.ChatProfile;
 import main.java.com.lanmessanger.ui.components.ModernScrollBarUI;
 import main.java.com.lanmessanger.ui.pages.ChatPage;
+import main.java.com.lanmessanger.ui.state.StateManager;
 import main.java.com.lanmessanger.ui.utils.ColorPalette;
 
-public class ChatList extends JPanel {
+public class ChatList extends JPanel implements StateManager {
 
     /** Container where all the friends of the user will be displayed */
     private JPanel devicesContainer;
@@ -31,11 +35,20 @@ public class ChatList extends JPanel {
     /** Reference to parent */
     private ChatPage parentChatPage; 
 
+    // private Friend friends;
+
+    @Override
+    public void onStateChange() {
+        SwingUtilities.invokeLater(() -> {
+            renderFriends();
+        });
+    }
 
     public ChatList() {
+        AppConfig.friendList.addSubscribedComponent(this);
         initializeComponents();
         add(scrollPane, BorderLayout.CENTER);
-        addFoundDevices();
+        renderFriends();
     }
 
     private void initializeComponents() {
@@ -63,10 +76,20 @@ public class ChatList extends JPanel {
     }
 
    
-    private void addFoundDevices() {
-        for (int i = 1; i <= 10; i++) {
-            addProfile("User " + i, "Last message " + i, "12:34");
+    private void renderFriends() {
+        // for (int i = 1; i <= 10; i++) {
+        //     addProfile("User " + i, "Last message " + i, "12:34");
+        // }
+        // Clear existing components
+        devicesContainer.removeAll();
+        User[] friends = AppConfig.friendList.getAllFriends();
+        for (User friend: friends) {
+            addProfile(friend.getName(), friend.getIp(), "12:43");
         }
+
+        // Refresh the UI
+        devicesContainer.revalidate();
+        devicesContainer.repaint();
     }
 
     private void addProfile(String userName, String lastMessage, String messageTime) {

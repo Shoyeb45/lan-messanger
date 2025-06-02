@@ -13,6 +13,8 @@ import javax.swing.border.EmptyBorder;
 import org.kordamp.ikonli.fontawesome.FontAwesome;
 import org.kordamp.ikonli.swing.FontIcon;
 
+import main.java.com.lanmessanger.app.AppConfig;
+import main.java.com.lanmessanger.models.User;
 import main.java.com.lanmessanger.network.client.Client;
 import main.java.com.lanmessanger.ui.components.ModernButton;
 import main.java.com.lanmessanger.ui.components.RoundedPanel;
@@ -118,15 +120,13 @@ public class BottomPanel extends RoundedPanel {
         }
         
         // add user in friend list
-
+        User user = new User(name, ip);
+        AppConfig.friendList.addFriend(user);
         Dialog.showConfirmDialog(null, "Your friend added successfully", "Add Friend Success", Dialog.CLOSED_OPTION, Dialog.INFORMATION_MESSAGE);
     }
 
 
     private boolean connectFriend(boolean isFromAddFriend) {
-        
-
-        String name = nameField.getTextField().getText();
         String ip = ipField.getTextField().getText();
 
         clientSocket.setRemoteIp(ip);
@@ -143,6 +143,8 @@ public class BottomPanel extends RoundedPanel {
         }
 
         Dialog.showConfirmDialog(null, "User is successfully connected, please add to your friend list.", "User conneted", Dialog.CLOSED_OPTION, Dialog.INFORMATION_MESSAGE);
+        nameField.getTextField().setText("");
+        ipField.getTextField().setText("");
         return true;
     }
 

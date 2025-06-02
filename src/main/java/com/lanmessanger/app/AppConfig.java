@@ -1,5 +1,7 @@
 package main.java.com.lanmessanger.app;
 
+import main.java.com.lanmessanger.models.Friend;
+
 public class AppConfig {
     /** 
      * Server Port of the user 
@@ -15,5 +17,9 @@ public class AppConfig {
     public static final int MEDIUM_WIDTH = 768;
     public static final int LARGE_WIDTH = 1024;
     public static final int EXTRA_LARGE_WIDTH = 1024;
+
+    // Network data structres:
+
+    public static Friend friendList = new Friend();
 
 }
