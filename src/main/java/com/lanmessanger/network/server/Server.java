@@ -93,7 +93,12 @@ public class Server extends Thread {
     }
     
 
-    
+    public void addClient(Socket clientSocket) {
+        ClientHandler handler = new ClientHandler(clientSocket);
+        clientHandlers.put(handler.getClientAddress(), handler);
+        handler.start();
+    }
+
     public void sendMessage(String message, String ip) {
         clientHandlers.get(ip).sendMessage(message);
     }

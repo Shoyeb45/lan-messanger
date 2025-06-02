@@ -2,12 +2,16 @@ package main.java.com.lanmessanger.ui.pages;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.nio.channels.NetworkChannel;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.SwingWorker;
 import javax.swing.Timer;
 
+import main.java.com.lanmessanger.network.discovery.NetworkScanner;
 import main.java.com.lanmessanger.ui.components.addFriendPage.HeadingPanel;
 import main.java.com.lanmessanger.ui.components.scannerPage.FoundDevices;
 import main.java.com.lanmessanger.ui.components.scannerPage.ScanButton;
@@ -73,20 +77,29 @@ public class ScannerPage extends JPanel {
     }
     
     private void scanNearbyUsers() throws InterruptedException {
+        // Show loading immediately
         foundDevices.setLoadingPanel();
-        System.out.println("Did I came here?");
-
-        Timer stopTimer = new Timer(5000, e -> stopScanning());
-        stopTimer.setRepeats(false);
-        stopTimer.start();
         
+        SwingWorker<String[], Void> worker = new SwingWorker<String[], Void>() {
+            @Override
+            protected String[] doInBackground() throws Exception {
+                NetworkScanner networkScanner = new NetworkScanner();
+                return networkScanner.getAllActiveDevices().toArray(new String[0]);
+            }
+            
+            @Override
+            protected void done() {
+                try {
+                    String[] foundDevicesList = get();
+                    foundDevices.setFoundDevices(foundDevicesList);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    // Handle error - maybe show error message
+                }
+            }
+        };
+        
+        worker.execute();
     }
-    private void stopScanning() {
-        System.out.println("Scanning stopped");
-        String[] s = new String[12];
-        for (int i = 0; i < 12; i++) {
-            s[i] = "123.213";
-        }
-        foundDevices.setFoundDevices(s);
-    }
+
 }

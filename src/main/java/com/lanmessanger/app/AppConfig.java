@@ -18,8 +18,6 @@ public class AppConfig {
     public static final int LARGE_WIDTH = 1024;
     public static final int EXTRA_LARGE_WIDTH = 1024;
 
-    // Network data structres:
-
-    public static Friend friendList = new Friend();
+ 
 
 }

@@ -14,12 +14,14 @@ import org.kordamp.ikonli.fontawesome.FontAwesome;
 import org.kordamp.ikonli.swing.FontIcon;
 
 import main.java.com.lanmessanger.app.AppConfig;
+import main.java.com.lanmessanger.app.Main;
 import main.java.com.lanmessanger.models.User;
 import main.java.com.lanmessanger.network.client.Client;
 import main.java.com.lanmessanger.ui.components.ModernButton;
 import main.java.com.lanmessanger.ui.components.RoundedPanel;
 import main.java.com.lanmessanger.ui.utils.ColorPalette;
 import main.java.com.lanmessanger.ui.utils.Dialog;
+import main.java.com.lanmessanger.ui.state.State;
 
 public class BottomPanel extends RoundedPanel {
 
@@ -118,16 +120,25 @@ public class BottomPanel extends RoundedPanel {
         if (!connectFriend(true)) {
             return;
         }
+
+        // create user
+        User user = new User(name, ip);
         
         // add user in friend list
-        User user = new User(name, ip);
-        AppConfig.friendList.addFriend(user);
+        State.friendsList.addFriend(user);
+
+        nameField.getTextField().setText("");
+        ipField.getTextField().setText("");
         Dialog.showConfirmDialog(null, "Your friend added successfully", "Add Friend Success", Dialog.CLOSED_OPTION, Dialog.INFORMATION_MESSAGE);
     }
 
 
     private boolean connectFriend(boolean isFromAddFriend) {
         String ip = ipField.getTextField().getText();
+        if (!isValidIPAddress(ip)) {
+            Dialog.showMessageDialog(null, "Please provide valid IP address", "Invalid IP address", Dialog.ERROR_MESSAGE);
+            return false;
+        }
 
         clientSocket.setRemoteIp(ip);
 
@@ -135,16 +146,18 @@ public class BottomPanel extends RoundedPanel {
             Dialog.showMessageDialog(null, "User is not connected to the same wifi network.", "Offline friend", Dialog.WARNING_MESSAGE);
             return false;
         }
-        clientSocket.disconnect();
-
+        
         if (isFromAddFriend) {
             System.out.println("[INFO] Connection Established successfully, now adding the user...");
+            // add the client socket to the main server which handles 
+            Main.server.addClient(clientSocket.getClientSocket());
             return true;
         }
-
+        
         Dialog.showConfirmDialog(null, "User is successfully connected, please add to your friend list.", "User conneted", Dialog.CLOSED_OPTION, Dialog.INFORMATION_MESSAGE);
         nameField.getTextField().setText("");
         ipField.getTextField().setText("");
+        clientSocket.disconnect();
         return true;
     }
 

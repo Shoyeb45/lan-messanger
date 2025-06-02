@@ -1,6 +1,7 @@
 package main.java.com.lanmessanger.models;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 /**
  * Message class represents a single message for the user
@@ -14,11 +15,15 @@ public class Message {
     private String content;
     /** Time when message was sent */
     private LocalDateTime timestamp;    
-    
+    /** Flag value to check if the message was read or not */
+    private boolean isMessageSeen = false;
+
     /**
      * Default constructor for Message class
      */
-    public Message() {}
+    public Message() {
+        timestamp = LocalDateTime.now();
+    }
 
     
     /**
@@ -70,6 +75,22 @@ public class Message {
      */
     public void setSendersId(int senderId) {
         this.senderId = senderId;
+    }
+
+    /**
+     * 
+     * @return boolean value indicating if the message is seen or not
+     */
+    public boolean getIsMessageSeen() {
+        return isMessageSeen;
+    }
+
+    
+    /**
+     * Mark this message as seen message
+     */
+    public void markAsMessageSeent() {
+        isMessageSeen = true; 
     }
 
 }

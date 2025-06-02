@@ -140,6 +140,18 @@ public class Client {
     public boolean isConnected() {
         return isConnected;
     }
+
+    /**
+     * 
+     * @return Connected client socket
+     */
+    public Socket getClientSocket() {
+        if (!isConnected) {
+            System.err.print("[Error] No Client socket is connected");
+            return null;
+        }
+        return clientSocket;
+    }
     
     public void setRemoteIp(String remoteIp) {
         if (!BottomPanel.isValidIPAddress(remoteIp)) {

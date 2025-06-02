@@ -12,10 +12,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
+
+import main.java.com.lanmessanger.models.User;
 import main.java.com.lanmessanger.ui.components.ChatProfile;
 import main.java.com.lanmessanger.ui.components.LoadingComponent;
 import main.java.com.lanmessanger.ui.components.ModernButton;
 import main.java.com.lanmessanger.ui.components.ModernScrollBarUI;
+import main.java.com.lanmessanger.ui.state.State;
 import main.java.com.lanmessanger.ui.utils.ColorPalette;
 import main.java.com.lanmessanger.ui.utils.Dialog;
 
@@ -209,6 +212,7 @@ public class FoundDevices extends JPanel {
         if (response != null && response.isBlank()) {
             Dialog.showMessageDialog(this, "Please enter name of your friend", "Invalid Name", Dialog.ERROR_MESSAGE);
         }
+        State.friendsList.addFriend(new User(response, ip));
     }
 
     public void setLoadingPanel() {

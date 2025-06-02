@@ -45,7 +45,7 @@ public class ClientHandler extends Thread {
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             
             // Send welcome message
-            sendMessage("Connected to server successfully.");
+            // sendMessage("Connected to server successfully.");
             
             // Process messages from client
             String inputLine;
@@ -54,7 +54,7 @@ public class ClientHandler extends Thread {
                 System.out.println("[Server] Received from " + clientAddress + ": " + inputLine);
                 
                 // Echo the message back (you could process it differently)
-                sendMessage("Server received: " + inputLine);
+                // sendMessage("Server received: " + inputLine);
                 
                 // Here you would typically process commands or chat messages
                 // For example, checking if it's a friend request, chat message, etc.

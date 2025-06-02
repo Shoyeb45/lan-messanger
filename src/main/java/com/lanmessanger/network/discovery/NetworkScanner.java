@@ -112,10 +112,11 @@ public class NetworkScanner {
         subnets.addAll(new SubnetScanner().getAllPossibleSubnets());
         
 
-        for (var subnet : subnets) {
+        for (String subnet : subnets) {
             nearbyDevice.addAll(networkScanner.scanForUsers(subnet));
         }
 
         return nearbyDevice;
     }
+    
 }

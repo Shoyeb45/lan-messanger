@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
-
+import main.java.com.lanmessanger.ui.state.State;
 import java.awt.event.MouseEvent;
 
 import main.java.com.lanmessanger.app.AppConfig;
@@ -45,7 +45,7 @@ public class ChatList extends JPanel implements StateManager {
     }
 
     public ChatList() {
-        AppConfig.friendList.addSubscribedComponent(this);
+        State.friendsList.addSubscribedComponent(this);
         initializeComponents();
         add(scrollPane, BorderLayout.CENTER);
         renderFriends();
@@ -82,7 +82,7 @@ public class ChatList extends JPanel implements StateManager {
         // }
         // Clear existing components
         devicesContainer.removeAll();
-        User[] friends = AppConfig.friendList.getAllFriends();
+        User[] friends = State.friendsList.getAllFriends();
         for (User friend: friends) {
             addProfile(friend.getName(), friend.getIp(), "12:43");
         }
