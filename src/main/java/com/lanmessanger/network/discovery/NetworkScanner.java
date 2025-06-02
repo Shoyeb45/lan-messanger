@@ -108,7 +108,7 @@ public class NetworkScanner {
         Set<String> subnets = new HashSet<String>();
         subnets.add("10.108.174.");
         subnets.add("10.108.169.");
-
+        subnets.add("10.108.170.");
         subnets.addAll(new SubnetScanner().getAllPossibleSubnets());
         
 
