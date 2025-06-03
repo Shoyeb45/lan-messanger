@@ -3,6 +3,8 @@ package main.java.com.lanmessanger.models;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import javax.swing.SwingUtilities;
+
 import main.java.com.lanmessanger.ui.state.StateManager;
 
 public class MessageHistory {
@@ -30,9 +32,17 @@ public class MessageHistory {
     }
 
     private void updateState() {
-        for (StateManager subscribedComponent : subscribedComponents) {
-            subscribedComponent.onStateChange();
-        }
+        // Ensure state updates happen on the Event Dispatch Thread
+        SwingUtilities.invokeLater(() -> {
+            for (StateManager subscribedComponent : subscribedComponents) {
+                try {
+                    subscribedComponent.onStateChange();
+                } catch (Exception e) {
+                    System.err.println("Error updating component state: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     /**

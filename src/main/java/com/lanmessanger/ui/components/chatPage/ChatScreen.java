@@ -131,9 +131,15 @@ public class ChatScreen extends JPanel implements StateManager {
 
     @Override
     public void onStateChange() {
-        SwingUtilities.invokeLater(() -> {
+        // This method now runs on EDT thanks to MessageHistory.updateState()
+        if (ipAddress != null) {
             Message lastMessage = State.messageHistory.getLastMessage(ipAddress);
-            chatHistory.renderMessage(lastMessage);
-        });
-    } 
+            if (lastMessage != null && ipAddress.equals(lastMessage.getSenderIp())) {
+                chatHistory.renderMessage(lastMessage);
+                // Ensure UI updates are visible
+                revalidate();
+                repaint();
+            }
+        }
+    }
 }

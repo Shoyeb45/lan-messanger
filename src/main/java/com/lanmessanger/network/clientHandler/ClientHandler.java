@@ -103,7 +103,10 @@ public class ClientHandler extends Thread {
     }
 
     private void displayMessage(String content, String ip) {
+    if (content != null && !content.trim().isEmpty() && ip != null) {
         Message message = new Message(ip, content, false);
+        // This will now properly dispatch to EDT
         main.java.com.lanmessanger.ui.state.State.messageHistory.addMessage(message);
     }
+}
 }

@@ -47,7 +47,7 @@ public class ChatList extends JPanel implements StateManager {
     public ChatList() {
         State.friendsList.addSubscribedComponent(this);
         State.messageHistory.addSubscribedComponent(this);
-        
+
         initializeComponents();
         add(scrollPane, BorderLayout.CENTER);
         renderFriends();
@@ -83,12 +83,17 @@ public class ChatList extends JPanel implements StateManager {
         // Clear existing components
         devicesContainer.removeAll();
         User[] friends = State.friendsList.getAllFriends();
+
         for (User friend: friends) {
             Message message = State.messageHistory.getLastMessage(friend.getIp());
             String lastMessage = "", lastTime = "";
+            
             if (message != null) {
                 lastMessage = message.getContent();
                 lastTime = message.getFormattedTime();
+                if (message.isFromCurrentUser()) {
+                    lastMessage = "You: " + lastMessage;
+                }
             }
             addProfile(friend.getName(), lastMessage, lastTime, friend.getIp());
         }
