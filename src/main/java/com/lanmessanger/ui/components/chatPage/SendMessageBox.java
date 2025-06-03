@@ -7,7 +7,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 import javax.swing.border.EmptyBorder;
-
 import org.kordamp.ikonli.fontawesome.FontAwesome;
 import org.kordamp.ikonli.swing.FontIcon;
 import main.java.com.lanmessanger.models.Message;
@@ -16,13 +15,18 @@ import main.java.com.lanmessanger.ui.components.ModernButton;
 import main.java.com.lanmessanger.ui.components.RoundedBorder;
 import main.java.com.lanmessanger.ui.state.State;
 import main.java.com.lanmessanger.ui.utils.ColorPalette;
+import main.java.com.lanmessanger.models.MessageHistory;
+import main.java.com.lanmessanger.ui.state.StateManager;
 
 /**
- * Modern send message box with improved styling
+ * Send message box with Text Field Input and Button 
  */
 class SendMessageBox extends JPanel {
+    /** Message Field */
     private SendMessageTextField messageField;
+    /** Button to perform the sending message action */
     private ModernButton sendButton;
+    /** reference to parent Screen  */
     private ChatScreen parentScreen;
 
     public SendMessageBox(ChatScreen parentScreen) {
@@ -42,9 +46,8 @@ class SendMessageBox extends JPanel {
         messageField.setBackground(ColorPalette.BACKGROUND);
         messageField.setForeground(ColorPalette.TEXT);
         messageField.setBorder(BorderFactory.createCompoundBorder(
-            new RoundedBorder(20, ColorPalette.BACKGROUND),
-            new EmptyBorder(12, 16, 12, 16)
-        ));
+                new RoundedBorder(20, ColorPalette.BACKGROUND),
+                new EmptyBorder(12, 16, 12, 16)));
         messageField.setPlaceholderColor(ColorPalette.SECONDARY_TEXT);
 
         // Send button with modern styling
@@ -62,6 +65,7 @@ class SendMessageBox extends JPanel {
         add(sendButton, BorderLayout.EAST);
     }
 
+    /** Method to add the events of clicking the button and pressing the enter key */
     private void setupEventHandlers() {
         // Send button action
         sendButton.addActionListener(e -> sendMessage());
@@ -70,23 +74,35 @@ class SendMessageBox extends JPanel {
         messageField.addActionListener(e -> sendMessage());
     }
 
+    /** 
+     * Method which will add the message to UI and update the state of the messge history. </br>
+     * And it will actually send the message using {@code Main.server}
+     * @see MessageHistory
+     * @see StateManager
+     * @see States
+     * */
     private void sendMessage() {
         String messageText = messageField.getText();
+        System.out.println("[DEBUG] Before send - messageText: '" + messageText + "'");
+        System.out.println("[DEBUG] Before send - field enabled: " + messageField.isEnabled());
+        System.out.println("[DEBUG] Before send - showing placeholder: " + messageField.isShowingPlaceholder());
+        System.out.println("[DEBUG] Before send - has focus: " + messageField.hasFocus());
+
         if (!messageText.isBlank()) {
             String ip = parentScreen.getIpAddress();
-            System.out.println(messageText);
-            
+            System.out.println("[INFO] Message : " + messageText);
+
             // Clear the field immediately for better UX
             messageField.setText("");
-            
+
             // Create message and add to history immediately
             Message message = new Message(ip, messageText, true);
             State.messageHistory.addMessage(message);
-            
+
             // Disable send button to prevent multiple sends
             sendButton.setEnabled(false);
             messageField.setEnabled(false);
-            
+
             // Use SwingWorker for background network operation
             new SwingWorker<Void, Void>() {
                 @Override
@@ -95,7 +111,7 @@ class SendMessageBox extends JPanel {
                     Main.server.sendMessage(messageText, ip);
                     return null;
                 }
-                
+
                 @Override
                 protected void done() {
                     // This runs on EDT when background task completes
@@ -115,4 +131,3 @@ class SendMessageBox extends JPanel {
         }
     }
 }
-
