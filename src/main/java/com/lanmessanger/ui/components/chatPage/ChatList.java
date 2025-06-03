@@ -16,7 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import main.java.com.lanmessanger.ui.state.State;
 import java.awt.event.MouseEvent;
-
+import main.java.com.lanmessanger.models.Message;
 import main.java.com.lanmessanger.app.AppConfig;
 import main.java.com.lanmessanger.models.Friend;
 import main.java.com.lanmessanger.models.User;
@@ -82,7 +82,8 @@ public class ChatList extends JPanel implements StateManager {
         devicesContainer.removeAll();
         User[] friends = State.friendsList.getAllFriends();
         for (User friend: friends) {
-            addProfile(friend.getName(), "Last Message", "12:43", friend.getIp());
+            Message message = State.messageHistory.getLastMessage(friend.getIp());
+            addProfile(friend.getName(), message.getContent(), message.getFormattedTime(), friend.getIp());
         }
 
         // Refresh the UI
