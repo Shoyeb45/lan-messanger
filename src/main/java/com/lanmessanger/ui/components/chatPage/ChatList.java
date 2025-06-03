@@ -90,7 +90,7 @@ public class ChatList extends JPanel implements StateManager {
                 lastMessage = message.getContent();
                 lastTime = message.getFormattedTime();
             }
-            addProfile(friend.getName(), message.getContent(), message.getFormattedTime(), friend.getIp());
+            addProfile(friend.getName(), lastMessage, lastTime, friend.getIp());
         }
 
         // Refresh the UI
