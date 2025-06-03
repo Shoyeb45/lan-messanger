@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import main.java.com.lanmessanger.models.Message;
 
 /**
  * ClientHandler manages communication with a connected client
@@ -51,13 +52,14 @@ public class ClientHandler extends Thread {
             String inputLine;
             while (running && (inputLine = in.readLine()) != null) {
                 // Process the received message
-                System.out.println("[Server] Received from " + clientAddress + ": " + inputLine);
+                System.out.println("[Client Handler] Received from " + clientAddress + ": " + inputLine);
                 
                 // Echo the message back (you could process it differently)
                 // sendMessage("Server received: " + inputLine);
                 
                 // Here you would typically process commands or chat messages
                 // For example, checking if it's a friend request, chat message, etc.
+                displayMessage(inputLine, clientAddress);
             }
             
         } catch (IOException e) {
@@ -98,5 +100,10 @@ public class ClientHandler extends Thread {
 
     public String getClientAddress() {
         return clientAddress;
+    }
+
+    private void displayMessage(String content, String ip) {
+        Message message = new Message(ip, content, false);
+        main.java.com.lanmessanger.ui.state.State.messageHistory.addMessage(message);
     }
 }

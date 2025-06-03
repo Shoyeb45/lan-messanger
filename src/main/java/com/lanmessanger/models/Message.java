@@ -38,6 +38,9 @@ public class Message {
         this.senderIp = senderIp;
         this.content = content;
         this.isFromCurrentUser = isFromCurrentUser;
+        if (this.isFromCurrentUser) {
+            isMessageSeen = true;
+        }
         timestamp = LocalDateTime.now();
     }    
     
