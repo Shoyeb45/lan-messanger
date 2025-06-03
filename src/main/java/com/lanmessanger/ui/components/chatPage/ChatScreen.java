@@ -113,18 +113,32 @@ public class ChatScreen extends JPanel implements StateManager {
         chatHeader.setMobileMode(isMobile);
     }
 
-    // Method to set parent reference
+    /**
+     * Method to set parent reference  
+     * @param parent parent chat page
+     * */
     public void setParentChatPage(ChatPage parent) {
         this.parentChatPage = parent;
     }
 
+    /**
+     * Go to chat list page from parent Chat Page
+     */
     private void goToChatListPage() {
         parentChatPage.showChatList();  
     }
 
+    /**
+     * @return IP Address of the selected user
+     */
     public String getIpAddress() {
         return ipAddress;
     }
+
+    /**
+     * Method to set the ip addres
+     * @param ipAddress IP Address
+     */
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
     }

@@ -5,10 +5,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+
+import javax.swing.SwingUtilities;
+
 import main.java.com.lanmessanger.models.Message;
 
 /**
  * ClientHandler manages communication with a connected client
+ * @author Shoyeb Ansari
  */
 public class ClientHandler extends Thread {
     /** Socket connection to the client */
@@ -45,20 +49,11 @@ public class ClientHandler extends Thread {
             out = new PrintWriter(clientSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             
-            // Send welcome message
-            // sendMessage("Connected to server successfully.");
-            
             // Process messages from client
             String inputLine;
             while (running && (inputLine = in.readLine()) != null) {
                 // Process the received message
-                System.out.println("[Client Handler] Received from " + clientAddress + ": " + inputLine);
-                
-                // Echo the message back (you could process it differently)
-                // sendMessage("Server received: " + inputLine);
-                
-                // Here you would typically process commands or chat messages
-                // For example, checking if it's a friend request, chat message, etc.
+                System.out.println("[Client Handler] Received from " + clientAddress);
                 displayMessage(inputLine, clientAddress);
             }
             
@@ -102,11 +97,24 @@ public class ClientHandler extends Thread {
         return clientAddress;
     }
 
+    /**
+     * Displays message in UI thread-safely
+     * This method ensures UI updates happen on the Event Dispatch Thread
+     */
     private void displayMessage(String content, String ip) {
-    if (content != null && !content.trim().isEmpty() && ip != null) {
-        Message message = new Message(ip, content, false);
-        // This will now properly dispatch to EDT
-        main.java.com.lanmessanger.ui.state.State.messageHistory.addMessage(message);
+        if (content != null && !content.trim().isEmpty() && ip != null) {
+            // Create message on current thread (network thread)
+            final Message message = new Message(ip, content, false);
+            
+            // Schedule UI update on EDT to prevent freezing
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    // This now runs safely on the EDT
+                    main.java.com.lanmessanger.ui.state.State.messageHistory.addMessage(message);
+                }
+            });
+        }
     }
-}
+
 }

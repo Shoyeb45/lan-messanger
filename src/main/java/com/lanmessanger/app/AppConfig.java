@@ -1,6 +1,5 @@
 package main.java.com.lanmessanger.app;
 
-import main.java.com.lanmessanger.models.Friend;
 
 public class AppConfig {
     /** 

@@ -1,7 +1,6 @@
 package main.java.com.lanmessanger.models;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -38,6 +37,7 @@ public class Message {
         this.senderIp = senderIp;
         this.content = content;
         this.isFromCurrentUser = isFromCurrentUser;
+
         if (this.isFromCurrentUser) {
             isMessageSeen = true;
         }
@@ -100,9 +100,18 @@ public class Message {
         isMessageSeen = true; 
     }
 
+    /**
+     * Get if the message was from the current user
+     * @return boolean value indicating if the message was send by the current user or it's from someone different person
+     */
     public boolean isFromCurrentUser() {
         return isFromCurrentUser;
     }
+    
+    /**
+     * 
+     * @return Formatted time of the {@code Message}
+     */
     public String getFormattedTime() {
         return timestamp.format(DateTimeFormatter.ofPattern("HH:mm"));
     }

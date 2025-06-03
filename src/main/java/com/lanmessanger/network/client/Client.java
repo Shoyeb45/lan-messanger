@@ -57,13 +57,7 @@ public class Client {
         }
     }
 
-    /**
-     * Starts a thread to listen for incoming messages from the server
-     */
-    private void startListening() {
-        listener = new ClientListener();
-        listener.start();
-    }
+    
     
     /**
      * Inner class to continuously listen for messages from server
@@ -153,6 +147,10 @@ public class Client {
         return clientSocket;
     }
     
+    /**
+     * Set the IP Address of the socket
+     * @param remoteIp
+     */
     public void setRemoteIp(String remoteIp) {
         if (!BottomPanel.isValidIPAddress(remoteIp)) {
             System.out.println("[Error]" + remoteIp + " is not a valid IP address");
