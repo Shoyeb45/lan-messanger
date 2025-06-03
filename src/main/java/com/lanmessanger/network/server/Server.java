@@ -142,4 +142,14 @@ public class Server extends Thread {
         User user = new User(name, ip);
         main.java.com.lanmessanger.ui.state.State.friendsList.addFriend(user);
     }
+
+    public boolean checkUserIsOnline(String ipAddress) {
+        ClientHandler handler = clientHandlers.get(ipAddress);
+        System.out.println(handler);
+
+        if (handler == null) {
+            return false;
+        }
+        return handler.isConnected();
+    }
 }

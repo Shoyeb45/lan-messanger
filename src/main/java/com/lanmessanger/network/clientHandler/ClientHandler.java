@@ -48,7 +48,7 @@ public class ClientHandler extends Thread {
             // Initialize input and output streams
             out = new PrintWriter(clientSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            
+
             // Process messages from client
             String inputLine;
             while (running && (inputLine = in.readLine()) != null) {
@@ -115,6 +115,10 @@ public class ClientHandler extends Thread {
                 }
             });
         }
+    }
+
+    public boolean isConnected() {
+        return clientSocket.isConnected();
     }
 
 }

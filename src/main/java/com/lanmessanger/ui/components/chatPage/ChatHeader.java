@@ -18,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 import org.kordamp.ikonli.fontawesome.FontAwesome;
 import org.kordamp.ikonli.swing.FontIcon;
 
+import main.java.com.lanmessanger.app.Main;
 import main.java.com.lanmessanger.ui.components.ChatProfile;
 import main.java.com.lanmessanger.ui.components.ModernButton;
 import main.java.com.lanmessanger.ui.pages.ChatPage;
@@ -38,24 +39,25 @@ public class ChatHeader extends JPanel {
     /** Label for status of the user, online or offline */
     private JLabel statusLabel;
 
+
     private boolean isMobileMode = false;
 
     /**
      * Initialise ChatHeader class for selected user
      * @param userName : Name of the user
      */
-    public ChatHeader(String userName) {
+    public ChatHeader(String userName, String ipAddress) {
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-        initializeComponents(userName);
+        initializeComponents(userName, ipAddress);
     }
 
     /**
      * method ot initialise components
      * @param userName Name of the user
      */
-    private void initializeComponents(String userName) {
+    private void initializeComponents(String userName, String ipAdress) {
         // User info panel
-        userInformation = createDeviceInfoPanel(userName, false);
+        userInformation = createDeviceInfoPanel(userName, Main.server.checkUserIsOnline(ipAdress));
         chatProfile = new ChatProfile(10, userInformation, ColorPalette.PANEL_BACKGROUND);
         userInformation.setBackground(Color.white);
 
@@ -87,6 +89,7 @@ public class ChatHeader extends JPanel {
     public void setStatus(boolean isOnline) {
         if (isOnline) {
             statusLabel.setText("Online");
+            statusLabel.setForeground(Color.GREEN);
             return;
         }
         statusLabel.setText("Offline");

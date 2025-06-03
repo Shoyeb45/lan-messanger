@@ -1,14 +1,17 @@
 package main.java.com.lanmessanger.models;
 
+import main.java.com.lanmessanger.ui.components.addFriendPage.BottomPanel;
+import main.java.com.lanmessanger.ui.components.addFriendPage.CenterPanel;
+
 /**
  * Class for intialising User object which will represent the user of LAN Messanger application.
  * @author Shoyeb Ansari
  */
 public class User {
 
-    private int id;
     private String name;
     private String ip;
+    private boolean isOnline = false;
 
     /**
      * Empty constructor
@@ -34,34 +37,14 @@ public class User {
     }
 
     /**
-     * method to get the ip of the user
-     * @return ip of the user
+     * method to get the IP adress of the user
+     * @return IP adress of the user
      */
     public String getIp() {
         return ip;
     }
 
-    /**
-     * method to get the ID of the user
-     * @return ID of the user
-     */
-    public int getId() {
-        return id;
-    }
 
-
-    /**
-     * Sets an id for the user
-     * @param id id of the user
-     */
-    public void setId(int id) {
-        if (id < 0) {
-            System.err.println("[Error] Negative id is not valid");
-            return;
-        }
-
-        this.id = id;   
-    }
 
     /**
      * Sets name for the user
@@ -77,6 +60,10 @@ public class User {
      * @param ip IP of the user
      */
     public void setIp(String ip) {
+        if (!BottomPanel.isValidIPAddress(ip)) {
+            System.out.println("[Error] Not a valid IP Address");
+            return;
+        }
         this.ip = ip;
     }
 
@@ -85,4 +72,9 @@ public class User {
         String output = "Name: " + this.name + "\n" + "IP Address: " + this.ip;
         return output;
     }
+
+    public boolean isOnline() {
+        return isOnline;
+    }
+    
 }

@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 import main.java.com.lanmessanger.app.AppConfig;
+import main.java.com.lanmessanger.app.Main;
 import main.java.com.lanmessanger.ui.components.chatPage.ChatList;
 import main.java.com.lanmessanger.ui.components.chatPage.ChatScreen;
 import main.java.com.lanmessanger.ui.state.State;
@@ -251,11 +252,10 @@ public class ChatPage extends JPanel {
     
     /** Method to be called when a chat is selected from ChatList */
     public void onChatSelected(String username, String ipAddress) {
-        System.out.println("Kya me yaha aaya...");
         chatScreen.setSelectedUser(username);
         chatScreen.setIpAddress(ipAddress);
         chatScreen.setMessages(State.messageHistory.getMessagesWithUser(ipAddress));
-
+        chatScreen.setUserStatus(Main.server.checkUserIsOnline(ipAddress));
         if (isMobileMode) {
             showChatScreen();
         }

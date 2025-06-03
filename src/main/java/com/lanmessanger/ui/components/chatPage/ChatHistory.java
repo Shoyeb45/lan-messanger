@@ -13,8 +13,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
 import main.java.com.lanmessanger.models.Message;
 import main.java.com.lanmessanger.ui.components.ModernScrollBarUI;
-import main.java.com.lanmessanger.ui.state.State;
-import main.java.com.lanmessanger.ui.state.StateManager;
 import main.java.com.lanmessanger.ui.utils.ColorPalette;
 
 /**
@@ -108,7 +106,6 @@ public class ChatHistory extends JPanel {
         // Add glue at the end
         messagesPanel.add(Box.createVerticalGlue());
         
-        System.out.println("render message function called");
         messagesPanel.revalidate();
         messagesPanel.repaint();
 

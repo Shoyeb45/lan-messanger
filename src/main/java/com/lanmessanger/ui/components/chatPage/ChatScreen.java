@@ -37,7 +37,7 @@ public class ChatScreen extends JPanel implements StateManager {
     private void initializeComponents() {
         setBackground(ColorPalette.BACKGROUND);
         
-        chatHeader = new ChatHeader(selectedUser);
+        chatHeader = new ChatHeader(selectedUser, ipAddress);
         chatHeader.getBackButton().addActionListener(e -> goToChatListPage()); 
 
         chatHistory = new ChatHistory();
@@ -155,5 +155,9 @@ public class ChatScreen extends JPanel implements StateManager {
                 repaint();
             }
         }
+    }
+
+    public void setUserStatus(boolean isOnline) {
+        chatHeader.setStatus(isOnline);
     }
 }
