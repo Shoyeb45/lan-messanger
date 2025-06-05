@@ -115,7 +115,7 @@ public class ChatPage extends JPanel {
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         splitPane.setLeftComponent(chatList);
         splitPane.setRightComponent(chatScreen);
-        splitPane.setResizeWeight(0.3); // 30% for chat list
+        splitPane.setResizeWeight(0.4); // 40% for chat list
         splitPane.setDividerSize(2);
         splitPane.setContinuousLayout(true);
         splitPane.setOneTouchExpandable(false);

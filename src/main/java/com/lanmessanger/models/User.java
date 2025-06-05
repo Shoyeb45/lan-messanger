@@ -76,5 +76,27 @@ public class User {
     public boolean isOnline() {
         return isOnline;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        // if the reference is same, it means they are the same object
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        // Type Cast to user
+        User other = (User) obj;
+        
+        return this.ip != null && this.ip.equals(other.ip);
+    }
+
+    @Override
+    public int hashCode() {
+        return ip == null ? 0 : ip.hashCode();
+    }
     
 }

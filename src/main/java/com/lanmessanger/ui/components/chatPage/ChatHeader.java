@@ -89,7 +89,7 @@ public class ChatHeader extends JPanel {
     public void setStatus(boolean isOnline) {
         if (isOnline) {
             statusLabel.setText("Online");
-            statusLabel.setForeground(Color.GREEN);
+            statusLabel.setForeground(ColorPalette.PRIMARY);
             return;
         }
         statusLabel.setText("Offline");

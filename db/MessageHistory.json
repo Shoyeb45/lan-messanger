@@ -1,0 +1,32 @@
+{
+  "127.0.0.1": [
+    {
+      "senderIp": "127.0.0.1",
+      "content": "Hey How are you",
+      "timestamp": "2025-06-05T10:00:11.495698",
+      "isMessageSeen": true,
+      "isFromCurrentUser": true
+    },
+    {
+      "senderIp": "127.0.0.1",
+      "content": "Hey How are you",
+      "timestamp": "2025-06-05T10:00:11.5273974",
+      "isMessageSeen": false,
+      "isFromCurrentUser": false
+    },
+    {
+      "senderIp": "127.0.0.1",
+      "content": "Hey I am fine",
+      "timestamp": "2025-06-05T10:00:13.9197267",
+      "isMessageSeen": true,
+      "isFromCurrentUser": true
+    },
+    {
+      "senderIp": "127.0.0.1",
+      "content": "Hey I am fine",
+      "timestamp": "2025-06-05T10:00:13.9197267",
+      "isMessageSeen": false,
+      "isFromCurrentUser": false
+    }
+  ]
+}

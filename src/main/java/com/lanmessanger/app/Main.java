@@ -1,5 +1,6 @@
 package main.java.com.lanmessanger.app;
 
+import main.java.com.lanmessanger.database.DatabaseOperations;
 import main.java.com.lanmessanger.network.discovery.DiscoverResponser;
 import main.java.com.lanmessanger.network.server.Server;
 /** Imports */

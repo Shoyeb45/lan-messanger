@@ -30,7 +30,6 @@ public class ChatScreen extends JPanel implements StateManager {
         this.messages = new ArrayList<>();
         initializeComponents();
         setupLayout();
-        addSampleMessages(); // For demonstration
         renderAllMessages();
     }
 
@@ -58,20 +57,6 @@ public class ChatScreen extends JPanel implements StateManager {
         // Render all messages at once to ensure consistent spacing
         chatHistory.renderAllMessages(messages);
     }
-
-    private void addSampleMessages() {
-        // Add some sample messages for demonstration
-        addMessage("Hello there!", true);
-        addMessage("Hi! How are you doing?", false);
-        addMessage("I'm doing great, thanks for asking!", true);
-        addMessage("That's wonderful to hear! What have you been up to lately?", false);
-        addMessage("Just working on some projects. How about you?", true);
-        addMessage("Just working on some projects. How about you?", true);
-        addMessage("Just working on some projects. How about you?", true);
-        addMessage("Just working on some projects. How about you?", true);
-        addMessage(" How about you?", false);
-    }
-    
 
 
     public void addMessage(String text, boolean isFromCurrentUser) {

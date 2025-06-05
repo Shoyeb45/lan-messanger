@@ -92,4 +92,12 @@ public class MessageHistory {
     public Map<String, List<Message>> getAllConversations() {
         return userMessages;
     }
+
+
+    public void setUserMessages(Map<String, List<Message>> userMessages) {
+        if (userMessages == null) {
+            return;
+        }
+        this.userMessages = userMessages;
+    }
 }
