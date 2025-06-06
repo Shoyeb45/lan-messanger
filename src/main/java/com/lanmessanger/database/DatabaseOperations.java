@@ -5,8 +5,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Scanner;
 import java.lang.reflect.Type;
@@ -14,8 +12,6 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import main.java.com.lanmessanger.models.Message;
-import main.java.com.lanmessanger.models.Friend;
-import main.java.com.lanmessanger.models.MessageHistory;
 import main.java.com.lanmessanger.models.User;
 
 /**

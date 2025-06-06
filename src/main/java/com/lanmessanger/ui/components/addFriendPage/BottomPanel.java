@@ -13,7 +13,6 @@ import javax.swing.border.EmptyBorder;
 import org.kordamp.ikonli.fontawesome.FontAwesome;
 import org.kordamp.ikonli.swing.FontIcon;
 
-import main.java.com.lanmessanger.app.AppConfig;
 import main.java.com.lanmessanger.app.Main;
 import main.java.com.lanmessanger.models.User;
 import main.java.com.lanmessanger.network.client.Client;
@@ -33,7 +32,7 @@ public class BottomPanel extends RoundedPanel {
     private InputField nameField;
     /** Input field for the taking input of the IP address */
     private InputField ipField;
-    /** Client instance to  */
+    /** Client instance to connect */
     private Client clientSocket = new Client();
 
     public BottomPanel() {

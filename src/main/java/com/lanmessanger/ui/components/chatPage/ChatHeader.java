@@ -1,6 +1,5 @@
 package main.java.com.lanmessanger.ui.components.chatPage;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -21,7 +20,6 @@ import org.kordamp.ikonli.swing.FontIcon;
 import main.java.com.lanmessanger.app.Main;
 import main.java.com.lanmessanger.ui.components.ChatProfile;
 import main.java.com.lanmessanger.ui.components.ModernButton;
-import main.java.com.lanmessanger.ui.pages.ChatPage;
 import main.java.com.lanmessanger.ui.utils.ColorPalette;
 
 /**

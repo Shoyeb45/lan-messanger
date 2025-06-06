@@ -174,7 +174,6 @@ public class SubnetScanner {
      * listed in a router's or host's routing table. A routing table tells the system where to 
      * send network packets, depending on their destination IP address.</p>
      */
-    @SuppressWarnings("deprecation")
     private List<String> getRoutingTableSubnets() {
         List<String> subnets = new ArrayList<>();
         String os = System.getProperty("os.name").toLowerCase(); // get os Name
@@ -243,7 +242,6 @@ public class SubnetScanner {
      * <li>It’s used only for IPv4 and only within the local network segment (broadcast domain).</li>
      * </ul>
      */
-    @SuppressWarnings("deprecation")
     private List<String> getArpTableSubnets() {
         List<String> subnets = new ArrayList<>();
         String os = System.getProperty("os.name").toLowerCase(); // get OS Name

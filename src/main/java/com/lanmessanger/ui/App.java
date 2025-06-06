@@ -6,15 +6,13 @@ import java.awt.Toolkit;
 import java.awt.event.*;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-
 import main.java.com.lanmessanger.app.AppConfig;
 import main.java.com.lanmessanger.database.DatabaseOperations;
 import main.java.com.lanmessanger.ui.pages.MainPage;
 import main.java.com.lanmessanger.ui.state.State;
 
 /** Main UI Application frame */
-public class App extends JFrame {
+public class App extends JFrame implements Runnable {
 
     /**
      * main page of the application
@@ -108,11 +106,19 @@ public class App extends JFrame {
         }
     }
 
+
+    @Override
     /** Method which will intialise the UI of the application */
-    public void init() throws InterruptedException {
-        mainPage = new MainPage();
+    public void run() {
+        try {
+            mainPage = new MainPage();
+        } catch (InterruptedException e) {
+            System.out.println("[ERROR] Failed to start the UI\nMessage: " + e.getMessage());
+        }
         mainPage.setBounds(0, 0, 100, 100);
         getContentPane().add(mainPage);
         setVisible(true);
     }
+
+   
 }

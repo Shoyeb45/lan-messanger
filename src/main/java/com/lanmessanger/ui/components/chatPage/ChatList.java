@@ -18,10 +18,10 @@ import main.java.com.lanmessanger.ui.state.State;
 import java.awt.event.MouseEvent;
 import java.util.HashSet;
 
+import main.java.com.lanmessanger.app.Main;
 import main.java.com.lanmessanger.models.Message;
-import main.java.com.lanmessanger.app.AppConfig;
-import main.java.com.lanmessanger.models.Friend;
 import main.java.com.lanmessanger.models.User;
+import main.java.com.lanmessanger.network.client.Client;
 import main.java.com.lanmessanger.ui.components.ChatProfile;
 import main.java.com.lanmessanger.ui.components.ModernScrollBarUI;
 import main.java.com.lanmessanger.ui.pages.ChatPage;
@@ -37,6 +37,7 @@ public class ChatList extends JPanel implements StateManager {
     /** Reference to parent */
     private ChatPage parentChatPage; 
 
+    private Client clientSocket = new Client();
     // private Friend friends;
 
     @Override
@@ -140,6 +141,27 @@ public class ChatList extends JPanel implements StateManager {
         devicesContainer.add(chatProfile);
         devicesContainer.revalidate();
         devicesContainer.repaint();
+
+        // try to connect to the client
+        // clientSocket.setRemoteIp(ip);
+        // if (clientSocket.connect()) {
+        //     Main.server.addClient(clientSocket.getClientSocket());
+        //     // clientSocket.disconnect();
+        // }
+        Thread networkThread = new Thread(() -> {
+            try {
+                clientSocket.setRemoteIp(ip);
+                if (clientSocket.connect()) {
+                    Main.server.addClient(clientSocket.getClientSocket());
+                }
+            } catch (Exception e) {
+                System.out.println("[ERROR] Failed to connect to friend while adding it to the ChatList");
+            }
+        });
+
+        networkThread.setName("NetworkConnect-" + ip);
+        networkThread.setDaemon(true); // Don't prevent app shutdown
+        networkThread.start();
     }
 
     private JPanel createDeviceInfoPanel(String userName, String lastMessage, String messageTime) {

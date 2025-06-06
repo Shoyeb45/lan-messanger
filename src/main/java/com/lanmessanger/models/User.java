@@ -1,7 +1,6 @@
 package main.java.com.lanmessanger.models;
 
 import main.java.com.lanmessanger.ui.components.addFriendPage.BottomPanel;
-import main.java.com.lanmessanger.ui.components.addFriendPage.CenterPanel;
 
 /**
  * Class for intialising User object which will represent the user of LAN Messanger application.

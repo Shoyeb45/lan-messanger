@@ -2,14 +2,12 @@ package main.java.com.lanmessanger.ui.pages;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.nio.channels.NetworkChannel;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
-import javax.swing.Timer;
 
 import main.java.com.lanmessanger.network.discovery.NetworkScanner;
 import main.java.com.lanmessanger.ui.components.addFriendPage.HeadingPanel;

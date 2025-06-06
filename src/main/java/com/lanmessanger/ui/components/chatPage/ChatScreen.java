@@ -1,8 +1,6 @@
 package main.java.com.lanmessanger.ui.components.chatPage;
 
 import java.awt.*;
-import java.rmi.server.SocketSecurityException;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;

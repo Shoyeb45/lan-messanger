@@ -55,7 +55,10 @@ public class Server extends Thread {
 
                     
                     // Add newely connected user to our state variable
-                    addUser(clientSocket.getInetAddress().getHostAddress());
+                    // But check if the user is our friend or not
+                    if (!main.java.com.lanmessanger.ui.state.State.friendsList.hasFriendWithIp(clientSocket.getInetAddress().getHostAddress())) {
+                        addUser(clientSocket.getInetAddress().getHostAddress());
+                    }
 
                     // Add them to cliend handler list 
                     ClientHandler handler = new ClientHandler(clientSocket);
@@ -145,7 +148,6 @@ public class Server extends Thread {
 
     public boolean checkUserIsOnline(String ipAddress) {
         ClientHandler handler = clientHandlers.get(ipAddress);
-        System.out.println(handler);
 
         if (handler == null) {
             return false;
