@@ -24,32 +24,42 @@ class MessageBubble extends JPanel {
     private Message message;
 
     public MessageBubble(Message message) {
-        this.message = message;
-        initializeComponents();
+        try {
+            this.message = message;
+            initializeComponents();
+        } catch (Exception e) {
+            System.out.println("[ERROR] Failed to initialize MessageBubble\nError Message: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     /**
      * Method to initialise components
      */
     private void initializeComponents() {
-        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-        setBackground(ColorPalette.BACKGROUND);
-        
-        // Set maximum height to prevent excessive vertical space
-        setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
-        
-        // Create message content panel
-        JPanel messageContent = createMessageContent();
-        
-        // Add alignment based on sender
-        if (message.isFromCurrentUser()) {
-            // Right align for current user
-            add(Box.createHorizontalGlue());
-            add(messageContent);
-        } else {
-            // Left align for other user
-            add(messageContent);
-            add(Box.createHorizontalGlue());
+        try {
+            setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+            setBackground(ColorPalette.BACKGROUND);
+            
+            // Set maximum height to prevent excessive vertical space
+            setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
+            
+            // Create message content panel
+            JPanel messageContent = createMessageContent();
+            
+            // Add alignment based on sender
+            if (message.isFromCurrentUser()) {
+                // Right align for current user
+                add(Box.createHorizontalGlue());
+                add(messageContent);
+            } else {
+                // Left align for other user
+                add(messageContent);
+                add(Box.createHorizontalGlue());
+            }
+        } catch (Exception e) {
+            System.out.println("[ERROR] Failed to initialize components\nError Message: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -58,57 +68,63 @@ class MessageBubble extends JPanel {
      * @return Message panel
      */
     private JPanel createMessageContent() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        
-        // Set bubble colors based on sender
-        Color bubbleColor = message.isFromCurrentUser() ? 
-            ColorPalette.PRIMARY : ColorPalette.PANEL_BACKGROUND;
-        Color textColor = message.isFromCurrentUser() ? 
-            ColorPalette.PANEL_BACKGROUND : ColorPalette.TEXT;
-        
-        panel.setBackground(bubbleColor);
-        panel.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(Color.black),
-            new EmptyBorder(12, 16, 12, 16)
-        ));
-        
-        // Simple HTML approach for reliable text display
-        String content = message.getContent()
-            .replace("&", "&amp;")
-            .replace("<", "&lt;")
-            .replace(">", "&gt;")
-            .replace("\n", "<br>");
-        
-        String htmlContent = String.format(
-            "<html><body style='width: 270px; font-family: Segoe UI; font-size: 12px; margin: 0; padding: 0;'>%s</body></html>", 
-            content
-        );
-        
-        JLabel textArea = new JLabel(htmlContent);
-        textArea.setForeground(textColor);
-        textArea.setOpaque(false);
-        textArea.setVerticalAlignment(SwingConstants.TOP);
-        
-        // Time label
-        JLabel timeLabel = new JLabel(message.getFormattedTime());
-        timeLabel.setFont(new Font("Segoe UI", Font.PLAIN, 10));
-        timeLabel.setForeground(message.isFromCurrentUser() ? 
-            ColorPalette.PANEL_BACKGROUND.darker() : ColorPalette.SECONDARY_TEXT);
-        timeLabel.setBorder(new EmptyBorder(4, 0, 0, 0));
-        
-        // Set alignment
-        textArea.setAlignmentX(Component.LEFT_ALIGNMENT);
-        timeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        
-        // Constrain the panel width
-        int maxWidth = 320; // 300 + some padding
-        panel.setMaximumSize(new Dimension(maxWidth, Integer.MAX_VALUE));
-        
-        panel.add(textArea);
-        panel.add(timeLabel);
-        
-        return panel;
+        try {
+            JPanel panel = new JPanel();
+            panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+            
+            // Set bubble colors based on sender
+            Color bubbleColor = message.isFromCurrentUser() ? 
+                ColorPalette.PRIMARY : ColorPalette.PANEL_BACKGROUND;
+            Color textColor = message.isFromCurrentUser() ? 
+                ColorPalette.PANEL_BACKGROUND : ColorPalette.TEXT;
+            
+            panel.setBackground(bubbleColor);
+            panel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(Color.black),
+                new EmptyBorder(12, 16, 12, 16)
+            ));
+            
+            // Simple HTML approach for reliable text display
+            String content = message.getContent()
+                .replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("\n", "<br>");
+            
+            String htmlContent = String.format(
+                "<html><body style='width: 270px; font-family: Segoe UI; font-size: 12px; margin: 0; padding: 0;'>%s</body></html>", 
+                content
+            );
+            
+            JLabel textArea = new JLabel(htmlContent);
+            textArea.setForeground(textColor);
+            textArea.setOpaque(false);
+            textArea.setVerticalAlignment(SwingConstants.TOP);
+            
+            // Time label
+            JLabel timeLabel = new JLabel(message.getFormattedTime());
+            timeLabel.setFont(new Font("Segoe UI", Font.PLAIN, 10));
+            timeLabel.setForeground(message.isFromCurrentUser() ? 
+                ColorPalette.PANEL_BACKGROUND.darker() : ColorPalette.SECONDARY_TEXT);
+            timeLabel.setBorder(new EmptyBorder(4, 0, 0, 0));
+            
+            // Set alignment
+            textArea.setAlignmentX(Component.LEFT_ALIGNMENT);
+            timeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+            
+            // Constrain the panel width
+            int maxWidth = 320; // 300 + some padding
+            panel.setMaximumSize(new Dimension(maxWidth, Integer.MAX_VALUE));
+            
+            panel.add(textArea);
+            panel.add(timeLabel);
+            
+            return panel;
+        } catch (Exception e) {
+            System.out.println("[ERROR] Failed to create message content\nError Message: " + e.getMessage());
+            e.printStackTrace();
+            return new JPanel();
+        }
     }
     
 }

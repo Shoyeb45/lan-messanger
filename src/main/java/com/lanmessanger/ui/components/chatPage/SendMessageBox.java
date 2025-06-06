@@ -30,48 +30,82 @@ class SendMessageBox extends JPanel {
     private ChatScreen parentScreen;
 
     public SendMessageBox(ChatScreen parentScreen) {
-        this.parentScreen = parentScreen;
-        initializeComponents();
-        setupLayout();
-        setupEventHandlers();
+        try {
+            this.parentScreen = parentScreen;
+            initializeComponents();
+            setupLayout();
+            setupEventHandlers();
+        } catch (Exception e) {
+            System.out.println("[ERROR] Failed to initialize SendMessageBox\nError Message: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private void initializeComponents() {
-        setBackground(ColorPalette.PANEL_BACKGROUND);
-        setBorder(new EmptyBorder(10, 15, 10, 15));
-
-        // Message input field with modern styling
-        messageField = new SendMessageTextField("Type your message here...");
-        messageField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        messageField.setBackground(ColorPalette.BACKGROUND);
-        messageField.setForeground(ColorPalette.TEXT);
-        messageField.setBorder(BorderFactory.createCompoundBorder(
-                new RoundedBorder(20, ColorPalette.BACKGROUND),
-                new EmptyBorder(12, 16, 12, 16)));
-        messageField.setPlaceholderColor(ColorPalette.SECONDARY_TEXT);
-
-        // Send button with modern styling
-        sendButton = new ModernButton("", ColorPalette.PRIMARY, ColorPalette.SECONDARY);
-        FontIcon icon = FontIcon.of(FontAwesome.SEND, 16);
-        icon.setIconColor(ColorPalette.PANEL_BACKGROUND);
-        sendButton.setIcon(icon);
-        sendButton.setPreferredSize(new Dimension(50, 44));
-        sendButton.setBorder(new RoundedBorder(22, ColorPalette.PRIMARY));
+        try {
+            setBackground(ColorPalette.PANEL_BACKGROUND);
+            setBorder(new EmptyBorder(10, 15, 10, 15));
+    
+            // Message input field with modern styling
+            messageField = new SendMessageTextField("Type your message here...");
+            messageField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+            messageField.setBackground(ColorPalette.BACKGROUND);
+            messageField.setForeground(ColorPalette.TEXT);
+            messageField.setBorder(BorderFactory.createCompoundBorder(
+                    new RoundedBorder(20, ColorPalette.BACKGROUND),
+                    new EmptyBorder(12, 16, 12, 16)));
+            messageField.setPlaceholderColor(ColorPalette.SECONDARY_TEXT);
+    
+            // Send button with modern styling
+            sendButton = new ModernButton("", ColorPalette.PRIMARY, ColorPalette.SECONDARY);
+            FontIcon icon = FontIcon.of(FontAwesome.SEND, 16);
+            icon.setIconColor(ColorPalette.PANEL_BACKGROUND);
+            sendButton.setIcon(icon);
+            sendButton.setPreferredSize(new Dimension(50, 44));
+            sendButton.setBorder(new RoundedBorder(22, ColorPalette.PRIMARY));
+        } catch (Exception e) {
+            System.out.println("[ERROR] Failed to initialize components\nError Message: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private void setupLayout() {
-        setLayout(new BorderLayout(12, 0));
-        add(messageField, BorderLayout.CENTER);
-        add(sendButton, BorderLayout.EAST);
+        try {
+            setLayout(new BorderLayout(12, 0));
+            add(messageField, BorderLayout.CENTER);
+            add(sendButton, BorderLayout.EAST);
+        } catch (Exception e) {
+            System.out.println("[ERROR] Failed to set up layout\nError Message: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     /** Method to add the events of clicking the button and pressing the enter key */
     private void setupEventHandlers() {
-        // Send button action
-        sendButton.addActionListener(e -> sendMessage());
+        try {
+            // Send button action
+            sendButton.addActionListener(e -> {
+                try {
+                    sendMessage();
+                } catch (Exception ex) {
+                    System.out.println("[ERROR] Failed to handle send button action\nError Message: " + ex.getMessage());
+                    ex.printStackTrace();
+                }
+            });
 
-        // Enter key action
-        messageField.addActionListener(e -> sendMessage());
+            // Enter key action
+            messageField.addActionListener(e -> {
+                try {
+                    sendMessage();
+                } catch (Exception ex) {
+                    System.out.println("[ERROR] Failed to handle enter key action\nError Message: " + ex.getMessage());
+                    ex.printStackTrace();
+                }
+            });
+        } catch (Exception e) {
+            System.out.println("[ERROR] Failed to set up event handlers\nError Message: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     /** 
@@ -82,52 +116,58 @@ class SendMessageBox extends JPanel {
      * @see States
      * */
     private void sendMessage() {
-        String messageText = messageField.getText();
-        System.out.println("[DEBUG] Before send - messageText: '" + messageText + "'");
-        System.out.println("[DEBUG] Before send - field enabled: " + messageField.isEnabled());
-        System.out.println("[DEBUG] Before send - showing placeholder: " + messageField.isShowingPlaceholder());
-        System.out.println("[DEBUG] Before send - has focus: " + messageField.hasFocus());
+        try {
+            String messageText = messageField.getText();
 
-        if (!messageText.isBlank()) {
-            String ip = parentScreen.getIpAddress();
-            System.out.println("[INFO] Message : " + messageText);
+            if (!messageText.isBlank()) {
+                String ip = parentScreen.getIpAddress();
+                System.out.println("[INFO] Message : " + messageText);
 
-            // Clear the field immediately for better UX
-            messageField.setText("");
+                // Clear the field immediately for better UX
+                messageField.setText("");
 
-            // Create message and add to history immediately
-            Message message = new Message(ip, messageText, true);
-            State.messageHistory.addMessage(message);
+                // Create message and add to history immediately
+                Message message = new Message(ip, messageText, true);
+                State.messageHistory.addMessage(message);
 
-            // Disable send button to prevent multiple sends
-            sendButton.setEnabled(false);
-            messageField.setEnabled(false);
+                // Disable send button to prevent multiple sends
+                sendButton.setEnabled(false);
+                messageField.setEnabled(false);
 
-            // Use SwingWorker for background network operation
-            new SwingWorker<Void, Void>() {
-                @Override
-                protected Void doInBackground() throws Exception {
-                    // This runs in background thread
-                    Main.server.sendMessage(messageText, ip);
-                    return null;
-                }
-
-                @Override
-                protected void done() {
-                    // This runs on EDT when background task completes
-                    try {
-                        get(); // Check if any exception occurred
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        // Handle error - maybe show error message to user
-                    } finally {
-                        // Re-enable UI components
-                        sendButton.setEnabled(true);
-                        messageField.setEnabled(true);
-                        messageField.requestFocus();
+                // Use SwingWorker for background network operation
+                new SwingWorker<Void, Void>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        try {
+                            // This runs in background thread
+                            Main.server.sendMessage(messageText, ip);
+                        } catch (Exception ex) {
+                            System.out.println("[ERROR] Failed to send message in background\nError Message: " + ex.getMessage());
+                            ex.printStackTrace();
+                        }
+                        return null;
                     }
-                }
-            }.execute();
+
+                    @Override
+                    protected void done() {
+                        try {
+                            // This runs on EDT when background task completes
+                            get(); // Check if any exception occurred
+                        } catch (Exception e) {
+                            System.out.println("[ERROR] Failed to complete message sending\nError Message: " + e.getMessage());
+                            e.printStackTrace();
+                        } finally {
+                            // Re-enable UI components
+                            sendButton.setEnabled(true);
+                            messageField.setEnabled(true);
+                            messageField.requestFocus();
+                        }
+                    }
+                }.execute();
+            }
+        } catch (Exception e) {
+            System.out.println("[ERROR] Failed to send message\nError Message: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
