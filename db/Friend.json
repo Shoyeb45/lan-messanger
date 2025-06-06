@@ -1,1 +1,7 @@
-[{"name":"Shoyeb","ip":"10.108.169.201","isOnline":false}]
+[
+    { 
+        "name": "PC1", 
+        "ip": "10.108.169.201", 
+        "isOnline": false 
+    }
+]

@@ -19,9 +19,8 @@ import main.java.com.lanmessanger.models.User;
  * @author Shoyeb Ansari
  */
 public class DatabaseOperations {
-    // public final String path = getAppDataDirectory("LAN-MESSANGER");
     /** Path were the data of the user will be stored */
-    private static final String path = "db";
+    private static final String path = getAppDataDirectory("LAN-MESSANGER");
     /** The file which saves MessageHistory object into this file */
     private static File messageHistoryFile = new File(path + File.separator + "MessageHistory.json");
     /** The file which saves Friend object into this file */

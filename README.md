@@ -13,60 +13,50 @@ A **peer-to-peer Java-based chat application** for devices on the same LAN using
 </p>
 ---
 
-## ✅ Functional Requirements
+## Feature of the LAN Messanger
 
-### 1. **Network Scanning & Discovery**
+<p align="center">
+  <img src="./public/images/readme/demo1.png">
+  <p align="center">Start Page</p>
+</p>
+- LAN Messagner is build using java programming langauge. This application has following features:
 
-* Automatically scan all devices connected to the **same LAN subnet**.
-* Detect devices running the messenger app by connecting to a **specific port** (e.g., `5000`).
-* Show online users in a GUI list with IP and optional username.
+### 1. Single Page Application
+  - This application is built on a single page like modern web application. This improves the accessibility of different features of the application and greatly improve the UX.
+  - React like state management using java interface and classes.
 
-### 2. **Dual Role Architecture**
+<p align="center">
+  <img src="./public/images/readme/demo2.png">
+  <p align="center">Single Page Application can be navigated through Navigation Bar</p>
+</p>
 
-* Every instance runs both:
+### 2. Discovering Friends
+  - This application provides a way to discover users that are connected to same network and have opened the application.
+  - I am using UDP protocol to quickly send the small data packets to check and find the users.
 
-  * A **Server** (to accept chat requests).
-  * A **Client** (to initiate connections to other users).
+<div style="display: flex; gap: 4px;">
+  <img src="./public/images/readme/demo3.png" width=500>
+  <img src="./public/images/readme/demo4.png" width=200>
+</div>
 
-### 3. **Friend Request & Verification**
+### 3. Persistent Storage
+  - The data of the application (Friends of the user, and conversation with the friend) are stored permanently on local computer.
+  - I am storing the data in `json`, I am converting the java object into `json` using `GSON` library.
+  - The data are private and only present in the users' desktop
 
-* Users must **send a chat/friend request** to another user.
-* Recipient must **accept** the request for chatting to begin.
-* On acceptance, the app stores the IP and port locally (as a **"friend"**).
+<div style="display: flex; gap: 10px;">
+  <img src="./public/images/readme/data1.png" width=300>
+  <img src="./public/images/readme/data2.png" height=190 width=300>
+</div>
 
-### 4. **Real-Time Chat Messaging**
+### 4. Add Friend Functionality
+  - If the user have the IP Address of the friend then user can add the friend to his/her list.
 
-* After friendship is confirmed:
+### 5. Responsive
+  - The application is completely responsive. The layout of the application have been changes on change of dimension.
 
-  * Allow **two-way communication** using separate threads for sending and receiving messages.
-  * Support basic **message timestamps** and user labels.
-
-### 5. **User Online Status**
-
-* Show online/offline status of friends:
-
-  * When app is running, server socket is active ⇒ user is **online**.
-  * If socket is unreachable ⇒ **offline**.
-
-
-### 6. **Local Storage**
-
-* Maintain a **list of friends (IP + Port + Name)** locally.
-* Use this list to initiate quick chat without re-scanning.
-
-### 7. **Swing GUI**
-
-* GUI (using Swing) for:
-
-  * Scanning devices
-  * Displaying users
-  * Chat windows
-  * Friend requests
-  * Status indicators
-
-
----
-
+### 6. Real Time Chatting
+  - The user can chat with the user in real time if the user is connected
 
 
 | Folder      | Purpose                                        |
