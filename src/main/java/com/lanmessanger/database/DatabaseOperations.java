@@ -20,10 +20,13 @@ import main.java.com.lanmessanger.models.User;
  */
 public class DatabaseOperations {
     // public final String path = getAppDataDirectory("LAN-MESSANGER");
+    /** Path were the data of the user will be stored */
     private static final String path = "db";
-
+    /** The file which saves MessageHistory object into this file */
     private static File messageHistoryFile = new File(path + File.separator + "MessageHistory.json");
+    /** The file which saves Friend object into this file */
     private static File friendFile = new File(path + File.separator + "Friend.json");
+    /** Gson object which will convert the object to json and vice-versa */
     private static Gson gson = GsonProvider.getGson();
 
     
@@ -34,7 +37,7 @@ public class DatabaseOperations {
         Scanner reader = null;
         try {
             if (!messageHistoryFile.exists()) {
-                System.out.println("[INFO] MessageHistory.json not found");
+                System.out.println("[WARNING] MessageHistory.json not found");
                 return null;
             }
 
@@ -61,10 +64,10 @@ public class DatabaseOperations {
             System.out.println("[INFO] MessageHistory.json not found, will create new one");
             return null;
         } catch (JsonSyntaxException e) {
-            System.out.println("[ERROR] Invalid JSON in MessageHistory.json: " + e.getMessage());
+            System.out.println("[ERROR] Invalid JSON in MessageHistory.json\nError Message: " + e.getMessage());
             return null;
         } catch (Exception e) {
-            System.out.println("[ERROR] Error reading MessageHistory.json: " + e.getMessage());
+            System.out.println("[ERROR] Error reading MessageHistory.json\nError Message: " + e.getMessage());
             e.printStackTrace();
             return null;
         } finally {
@@ -149,10 +152,6 @@ public class DatabaseOperations {
             writer.flush(); // Ensure data is written to disk
             
             System.out.println("[INFO] Friend data written to file successfully");
-            System.out.println("[DEBUG] File path: " + friendFile.getAbsolutePath());
-            System.out.println("[DEBUG] File exists after write: " + friendFile.exists());
-            System.out.println("[DEBUG] File size: " + friendFile.length() + " bytes");
-            
         } catch (IOException e) {
             System.out.println("[ERROR] Error writing to Friend.json: " + e.getMessage());
             e.printStackTrace();
@@ -194,10 +193,6 @@ public class DatabaseOperations {
             writer.flush(); // Ensure data is written to disk
             
             System.out.println("[INFO] MessageHistory data written to file successfully");
-            System.out.println("[DEBUG] File path: " + messageHistoryFile.getAbsolutePath());
-            System.out.println("[DEBUG] File exists after write: " + messageHistoryFile.exists());
-            System.out.println("[DEBUG] File size: " + messageHistoryFile.length() + " bytes");
-            
         } catch (IOException e) {
             System.out.println("[ERROR] Error writing to MessageHistory.json: " + e.getMessage());
             e.printStackTrace();
@@ -242,26 +237,36 @@ public class DatabaseOperations {
         }
     }
 
+    /**
+     * Method to find the correct path where we can save the data
+     * @param appName Name of the app
+     * @return Path where data needs to be saved
+     */
     public static String getAppDataDirectory(String appName) {
-        String os = System.getProperty("os.name").toLowerCase();
-        String userHome = System.getProperty("user.home");
-        String path = "";
-
-        if (os.contains("win")) {
-            String appData = System.getenv("APPDATA"); // typically C:\Users\User\AppData\Roaming
-            path = appData + "\\" + appName;
-        } else if (os.contains("mac")) {
-            path = userHome + "/Library/Application Support/" + appName;
-        } else {
-            // Linux/Unix
-            path = userHome + "/.config/" + appName;
+        try {
+            String os = System.getProperty("os.name").toLowerCase();
+            String userHome = System.getProperty("user.home");
+            String path = "";
+    
+            if (os.contains("win")) {
+                String appData = System.getenv("APPDATA"); // typically C:\Users\User\AppData\Roaming
+                path = appData + File.separator + appName;
+            } else if (os.contains("mac")) {
+                path = userHome + File.separator + "Library" + File.separator + "Application Support" + File.separator + appName;
+            } else {
+                // Linux/Unix
+                path = userHome + File.separator + ".config" + File.separator + appName;
+            }
+    
+            File dir = new File(path);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            return path;
+        } catch (Exception e) {
+            System.out.println("[ERROR] Failed to get the system specific directory for saving the data\nError Message: " + e.getMessage());
+            e.printStackTrace();
+            return "db";
         }
-
-        File dir = new File(path);
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
-
-        return path;
     }
 }
