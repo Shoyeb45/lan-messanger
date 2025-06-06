@@ -3,7 +3,8 @@ package main.java.com.lanmessanger.ui;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.event.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import main.java.com.lanmessanger.app.AppConfig;
@@ -11,7 +12,10 @@ import main.java.com.lanmessanger.database.DatabaseOperations;
 import main.java.com.lanmessanger.ui.pages.MainPage;
 import main.java.com.lanmessanger.ui.state.State;
 
-/** Main UI Application frame */
+/** 
+ * Main UI Application frame
+ * @author Shoyeb Ansari
+ * */
 public class App extends JFrame implements Runnable {
 
     /**
@@ -71,23 +75,18 @@ public class App extends JFrame implements Runnable {
             if (State.friendsList == null) {
                 System.out.println("[WARNING] State.friendsList is null, cannot save friends data");
             } else {
-                System.out.println("[INFO] Saving friends list...");
                 DatabaseOperations.writeToFriend(State.friendsList.getAllFriends());
-                System.out.println("[INFO] Friends list saved successfully");
             }
 
             if (State.messageHistory == null) {
                 System.out.println("[WARNING] State.messageHistory is null, cannot save message history");
             } else {
-                System.out.println("[INFO] Saving message history...");
                 DatabaseOperations.writeToMessageHistory(State.messageHistory.getAllConversations());
                 System.out.println("[INFO] Message history saved successfully");
             }
 
-            System.out.println("[INFO] All write operations completed successfully");
         } catch (Exception e) {
-            System.out.println("[ERROR] Write operation on json file unsuccessful");
-            System.out.println("[ERROR] Error Message: " + e.getMessage());
+            System.out.println("[ERROR] Write operation on json file unsuccessful\nError Messaage: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -112,13 +111,12 @@ public class App extends JFrame implements Runnable {
     public void run() {
         try {
             mainPage = new MainPage();
+            mainPage.setBounds(0, 0, 100, 100);
+            getContentPane().add(mainPage);
+            setVisible(true);
         } catch (InterruptedException e) {
-            System.out.println("[ERROR] Failed to start the UI\nMessage: " + e.getMessage());
+            System.out.println("[ERROR] Failed to start the UI from App\nMessage: " + e.getMessage());
+            e.printStackTrace();
         }
-        mainPage.setBounds(0, 0, 100, 100);
-        getContentPane().add(mainPage);
-        setVisible(true);
     }
-
-   
 }

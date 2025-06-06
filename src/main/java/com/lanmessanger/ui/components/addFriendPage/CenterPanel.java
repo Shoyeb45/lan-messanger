@@ -21,71 +21,84 @@ public class CenterPanel extends JPanel {
     private LeftPanel leftPanel;
 
     public CenterPanel() {
-        // Set background color
-        setBackground(ColorPalette.BACKGROUND);
-        setBorder(new EmptyBorder(20, 20, 20, 20));
-        
-        // Create panels
-        rightPanel = new RightPanel();
-        leftPanel = new LeftPanel();
-        
-        // Use layout that can be changed dynamically
-        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-        
-        // Add spacing between panels
-        add(Box.createHorizontalStrut(20));
-        add(leftPanel);
-        add(Box.createHorizontalStrut(40));
-        add(rightPanel);
-        add(Box.createHorizontalStrut(20));
-        
-        // Add component listener to check for resize events
-        addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                updateLayout();
-            }
-        });
+        try {
+            // Set background color
+            setBackground(ColorPalette.BACKGROUND);
+            setBorder(new EmptyBorder(20, 20, 20, 20));
+
+            // Create panels
+            rightPanel = new RightPanel();
+            leftPanel = new LeftPanel();
+
+            // Use layout that can be changed dynamically
+            setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+
+            // Add spacing between panels
+            add(Box.createHorizontalStrut(20));
+            add(leftPanel);
+            add(Box.createHorizontalStrut(40));
+            add(rightPanel);
+            add(Box.createHorizontalStrut(20));
+
+            // Add component listener to check for resize events
+            addComponentListener(new ComponentAdapter() {
+                @Override
+                public void componentResized(ComponentEvent e) {
+                    try {
+                        updateLayout();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     /**
      * Method to update the width and height of the containers upon resizing
      */
     private void updateLayout() {
-        int width = getWidth();
-        removeAll();
-        
-        // Check if we need to switch layouts based on width
-        if (width < AppConfig.MEDIUM_WIDTH) {
-            // Switch to vertical layout
-            setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-            add(Box.createVerticalStrut(20));
-            add(leftPanel);
-            add(Box.createVerticalStrut(40));
-            add(rightPanel);
-            add(Box.createVerticalStrut(20));
-        } else {
-            // Switch to horizontal layout
-            setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-            add(Box.createHorizontalStrut(20));
-            add(leftPanel);
-            add(Box.createHorizontalStrut(40));
-            add(rightPanel);
-            add(Box.createHorizontalStrut(20));
-        }
+        try {
+            int width = getWidth();
+            removeAll();
 
-        // Force panels to recompute sizes
-        rightPanel.setMaximumSize(new Dimension(
-            width < AppConfig.MEDIUM_WIDTH ? width - 40 : (width / 2) - 60,
-            Integer.MAX_VALUE
-        ));
-        
-        rightPanel.updateInternalWrapping(
-            width < AppConfig.MEDIUM_WIDTH ? width - 40 : (width / 2) - 60, width
-        );
-        
-        revalidate();
-        repaint();
+            // Check if we need to switch layouts based on width
+            if (width < AppConfig.MEDIUM_WIDTH) {
+                // Switch to vertical layout
+                setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+                add(Box.createVerticalStrut(20));
+                add(leftPanel);
+                add(Box.createVerticalStrut(40));
+                add(rightPanel);
+                add(Box.createVerticalStrut(20));
+            } else {
+                // Switch to horizontal layout
+                setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+                add(Box.createHorizontalStrut(20));
+                add(leftPanel);
+                add(Box.createHorizontalStrut(40));
+                add(rightPanel);
+                add(Box.createHorizontalStrut(20));
+            }
+
+            // Force panels to recompute sizes
+            rightPanel.setMaximumSize(new Dimension(
+                width < AppConfig.MEDIUM_WIDTH ? width - 40 : (width / 2) - 60,
+                Integer.MAX_VALUE
+            ));
+
+            rightPanel.updateInternalWrapping(
+                width < AppConfig.MEDIUM_WIDTH ? width - 40 : (width / 2) - 60, width
+            );
+
+            revalidate();
+            repaint();
+        } catch (Exception e) {
+            System.out.println("[ERROR] Failed to update the layout\nError Message: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
 
@@ -131,9 +144,14 @@ class LeftPanel extends RoundedPanel {
 
     /** Method to load the image of the logo */
     private void loadImage() {
-        ImageIcon image = new ImageIcon("public/images/app/logo.png");
-        image = new ImageIcon(image.getImage().getScaledInstance(280, 280, Image.SCALE_SMOOTH));
-        logoLabel.setIcon(image);
+        try {
+            ImageIcon image = new ImageIcon("public/images/app/logo.png");
+            image = new ImageIcon(image.getImage().getScaledInstance(280, 280, Image.SCALE_SMOOTH));
+            logoLabel.setIcon(image);
+        } catch (Exception e) {
+            System.out.println("[ERROR] Failed to laod image\nError Message: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
 

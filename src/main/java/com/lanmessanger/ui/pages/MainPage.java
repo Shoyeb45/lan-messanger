@@ -3,7 +3,6 @@ package main.java.com.lanmessanger.ui.pages;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
 import javax.swing.JPanel;
 
 import main.java.com.lanmessanger.ui.router.RouterManager;
@@ -38,30 +37,25 @@ public class MainPage extends JPanel {
         // set default route
         routerManager.navigateTo("chats");
 
-
-        this.setBackground(Color.green);
-        
-        // this.setBounds(0, 0, getWidth(), 100);
-        // this.setBorder(BorderFactory.createLineBorder(Color.black));
-
-
         // Add components to main page
         add(navigationPage, BorderLayout.WEST);
         add(contentPanel, BorderLayout.CENTER);
     }
    
-   
-    
-
     /** 
      * Method to add the routes
      * @see RouterManager
      */
     private void addRoutes() throws InterruptedException {
         // Add all routes here
-        routerManager.addRoute("start", new StartPage());
-        routerManager.addRoute("chats", new ChatPage());
-        routerManager.addRoute("addFriend", new AddFriendPage());
-        routerManager.addRoute("scanner", new ScannerPage());
+        try {
+            routerManager.addRoute("start", new StartPage());
+            routerManager.addRoute("chats", new ChatPage());
+            routerManager.addRoute("addFriend", new AddFriendPage());
+            routerManager.addRoute("scanner", new ScannerPage());
+        } catch (Exception e) {
+            System.out.println("[ERROR] Failed to add the route in main page\nError Message: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

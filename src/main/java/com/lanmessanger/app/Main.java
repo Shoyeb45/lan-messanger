@@ -13,13 +13,23 @@ public class Main {
     public static DiscoverResponser discoverResponser = new DiscoverResponser();
 
     public static void main(String[] args) throws InterruptedException {
-        Thread uiThread = new Thread(new App());    // A parent element of all the components and pages of the application
-        uiThread.start();        
-        // start the server and UDP discover responder class
-        discoverResponser.start();
-        server.start();
+        try {
+            Thread uiThread = new Thread(new App());   
 
-        
+            // name the threads for better error handling
+            uiThread.setName("Thread-UI");
+            discoverResponser.setName("Thread-UDP-Responser");
+            discoverResponser.setName("Thread-Server");
 
+            // Start the UI in separate thread
+            uiThread.start();        
+            
+            // start the server and UDP discover responder class in separate threads
+            discoverResponser.start();
+            server.start();
+        } catch (Exception e) {
+            System.out.println("[ERROR] Failed to start Main class\nError Message: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

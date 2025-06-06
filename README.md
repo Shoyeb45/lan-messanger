@@ -1,7 +1,16 @@
-# **LAN Messenger – Peer-to-Peer Chat Application**
+# **LAN Messenger: Peer-to-Peer Chat Application**
+
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)  ![Express.js](https://img.shields.io/badge/Java%20Swing-%23007396.svg?style=for-the-badge&logoColor=white
+)  ![](https://img.shields.io/badge/Socket%20Programming-%2334A853.svg?style=for-the-badge&logoColor=white
+)  ![](https://img.shields.io/badge/Multithreading-%23FF6F00.svg?style=for-the-badge&logoColor=white
+)  ![](https://img.shields.io/badge/Messaging-%239C27B0.svg?style=for-the-badge&logoColor=white
+)  ![](https://img.shields.io/badge/Networking-%2300BCD4.svg?style=for-the-badge&logoColor=white)  ![](https://img.shields.io/badge/Peer%20to%20Peer-%23F44336.svg?style=for-the-badge&logoColor=white)  ![](https://img.shields.io/badge/GUI-%232196F3.svg?style=for-the-badge&logoColor=white
+)
 
 A **peer-to-peer Java-based chat application** for devices on the same LAN using **Socket programming** and **Swing GUI**.
-
+<p align="center">
+  <img src="./public/images/readme/LANMLogo.png">
+</p>
 ---
 
 ## ✅ Functional Requirements
@@ -55,79 +64,10 @@ A **peer-to-peer Java-based chat application** for devices on the same LAN using
   * Friend requests
   * Status indicators
 
----
-
-## 🛠️ Optional / Advanced Features
-
-* UDP Broadcast for faster discovery (`"I_AM_HERE"` packets).
-* Chat history saved per friend.
-* Status message (e.g., “Busy”, “Away”).
-* File transfer support.
-* Group chat (multi-client).
-* Custom usernames and avatars.
-
----
-
-## 🗺️ Development Roadmap
-
-| Phase                        | Tasks                                                                           |
-| ---------------------------- | ------------------------------------------------------------------------------- |
-| **Phase 1: Setup**           | Create main application structure, start server & client threads on launch.     |
-| **Phase 2: Scanning**        | Implement IP scanning over LAN and detect active devices (based on port check). |
-| **Phase 3: Verification**    | Send/accept friend requests with a simple protocol. Store approved IPs.         |
-| **Phase 4: Chat System**     | Enable real-time chat with multithreading for send/receive.                     |
-| **Phase 5: GUI with Swing**  | Create UI for scanning, friend list, chat window, and request dialog.           |
-| **Phase 6: Status Handling** | Track online/offline states by probing saved friends or via heartbeats.         |
-| **Phase 7: Polish & Extras** | Add timestamps, labels, error handling, persistence, and optional features.     |
 
 ---
 
 
-## Folder Structure 
-
-
-```less
-.
-├── README.md                          # Project overview and instructions
-├── bin/                               # Compiled .class files (output directory)
-│   └── main/
-│       └── java/
-│           └── com/
-│               └── lanmessanger/
-│                   ├── app/
-│                   │   └── MessangerApp.class           # Compiled main class
-│                   ├── models/                          # Compiled data classes
-│                   ├── network/                         # Compiled networking logic
-│                   │   ├── client/                      # Client-side socket code
-│                   │   ├── discovery/                   # Scanning LAN for peers
-│                   │   │   └── NetworkScanner.class
-│                   │   └── server/                      # Server-side logic
-│                   └── ui/                              # Compiled UI code
-├── lib/                               # External libraries (if any)
-├── public/
-│   └── images/                        # App icons, avatars, and other UI images
-└── src/                               # Source code
-    └── main/
-        └── java/
-            └── com/
-                └── lanmessanger/
-                    ├── app/
-                    │   └── MessangerApp.java            # App entry point
-                    ├── models/
-                    │   ├── Friend.java                  # Stores friend info (IP, port, name)
-                    │   ├── Message.java                 # Represents chat messages
-                    │   └── User.java                    # Represents current user
-                    ├── network/
-                    │   ├── client/
-                    │   │   └── Client.java              # Client socket to send/receive messages
-                    │   ├── discovery/
-                    │   │   └── NetworkScanner.java      # Scans LAN for available peers
-                    │   └── server/
-                    │       ├── ClientHandler.java       # Handles each incoming connection
-                    │       └── Server.java              # Server socket setup and listener
-                    └── ui/
-                        └── MainWindow.java              # Main Swing-based user interface
-```
 
 | Folder      | Purpose                                        |
 | ----------- | ---------------------------------------------- |
@@ -140,14 +80,15 @@ A **peer-to-peer Java-based chat application** for devices on the same LAN using
 <p  align="center"><i>Breakdown of roles</i></p>
 
 
-## Command to execute 
+## Architecture
 
-1. Command to compile
-```bash
-javac -d bin src/main/java/com/lanmessanger/network/client/Client.java src/main/java/com/lanmessanger/network/server/Server.java
-```
+<p>
+  <img src="./public/images/readme/P2PLANMessanger.png">
+  <p align="center">P2P connection of different instance of LAN Messanger </p>
+</p>
 
-2. Command to run
-```bash
-java -cp bin main.java.com.lanmessanger.network.server.Server 9000
-```
+<p>
+  <img src="./public/images/readme/EachInstance.png">
+  <p align="center">A single instance working both as a client and server </p>
+</p>
+

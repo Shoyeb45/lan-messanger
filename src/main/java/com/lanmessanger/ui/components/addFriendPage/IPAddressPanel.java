@@ -36,37 +36,49 @@ class IPAddressPanel extends RoundedPanel {
     
     public IPAddressPanel() {
         super(10, ColorPalette.BACKGROUND);
-        setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        setLayout(new FlowLayout(FlowLayout.CENTER, 15, 5));
-        
-        // Get the IP address from the system
-        ipAddress = getWifiIPAddress();
-        
-        // Create the title label
-        titleLabel = new JLabel("Your IP Address:");
-        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        titleLabel.setForeground(ColorPalette.SECONDARY_TEXT);
-        
-        // Create the IP address label
-        ipAddressLabel = new JLabel(ipAddress);
-        ipAddressLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        ipAddressLabel.setForeground(ColorPalette.PRIMARY);
-        
-        // Create a copy button with icon
-        copyButton = new Button(FontIcon.of(FontAwesome.COPY, 15));
-        copyButton.setToolTipText("Copy IP Address");
-        
-        // Add action listener to the copy button
-        copyButton.addActionListener(e -> copyIPAddressToClipboard());
-        
-        // Add components to the panel
-        add(titleLabel);
-        add(ipAddressLabel);
-        add(copyButton);
+        try {
+            setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+            setLayout(new FlowLayout(FlowLayout.CENTER, 15, 5));
+            
+            // Get the IP address from the system
+            ipAddress = getWifiIPAddress();
+            
+            // Create the title label
+            titleLabel = new JLabel("Your IP Address:");
+            titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            titleLabel.setForeground(ColorPalette.SECONDARY_TEXT);
+            
+            // Create the IP address label
+            ipAddressLabel = new JLabel(ipAddress);
+            ipAddressLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
+            ipAddressLabel.setForeground(ColorPalette.PRIMARY);
+            
+            // Create a copy button with icon
+            copyButton = new Button(FontIcon.of(FontAwesome.COPY, 15));
+            copyButton.setToolTipText("Copy IP Address");
+            
+            // Add action listener to the copy button
+            copyButton.addActionListener(e -> {
+                try {
+                    copyIPAddressToClipboard();
+                } catch (Exception ex) {
+                    System.out.println("[ERROR] Failed to copy IP address to clipboard\nError Message: " + ex.getMessage());
+                    ex.printStackTrace();
+                }
+            });
+            
+            // Add components to the panel
+            add(titleLabel);
+            add(ipAddressLabel);
+            add(copyButton);
+        } catch (Exception e) {
+            System.out.println("[ERROR] Failed to initialize IPAddressPanel\nError Message: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
     
     /**
-     * Gets the system's IP address
+     * Gets the system's wifi IP address
      * @return String representation of the IP address
      */
     private String getWifiIPAddress() {
@@ -171,7 +183,9 @@ class IPAddressPanel extends RoundedPanel {
             return localHost.getHostAddress();
             
         } catch (Exception e) {
-            return "Unable to determine Wi-Fi IP: " + e.getMessage();
+            System.out.println("[ERROR] Failed to retrieve Wi-Fi IP address\nError Message: " + e.getMessage());
+            e.printStackTrace();
+            return "Error retrieving IP address";
         }
     }
 
@@ -180,22 +194,37 @@ class IPAddressPanel extends RoundedPanel {
      * Copies the IP address to clipboard
      */
     private void copyIPAddressToClipboard() {
-        StringSelection stringSelection = new StringSelection(ipAddress);
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(stringSelection, null);
-        
-        // Provide visual feedback
-        SwingUtilities.invokeLater(() -> {
-            // Change text color for visual feedback
-            ipAddressLabel.setForeground(ColorPalette.ACCENT);
-            
-            // Reset color after a delay
-            Timer timer = new Timer(1000, evt -> {
-                ipAddressLabel.setForeground(ColorPalette.PRIMARY);
+        try {
+            StringSelection stringSelection = new StringSelection(ipAddress);
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            clipboard.setContents(stringSelection, null);
+
+            // Provide visual feedback
+            SwingUtilities.invokeLater(() -> {
+                try {
+                    // Change text color for visual feedback
+                    ipAddressLabel.setForeground(ColorPalette.ACCENT);
+
+                    // Reset color after a delay
+                    Timer timer = new Timer(1000, evt -> {
+                        try {
+                            ipAddressLabel.setForeground(ColorPalette.PRIMARY);
+                        } catch (Exception ex) {
+                            System.out.println("[ERROR] Failed to reset IP address label color\nError Message: " + ex.getMessage());
+                            ex.printStackTrace();
+                        }
+                    });
+                    timer.setRepeats(false);
+                    timer.start();
+                } catch (Exception ex) {
+                    System.out.println("[ERROR] Failed to provide visual feedback\nError Message: " + ex.getMessage());
+                    ex.printStackTrace();
+                }
             });
-            timer.setRepeats(false);
-            timer.start();
-        });
+        } catch (Exception e) {
+            System.out.println("[ERROR] Failed to copy IP address to clipboard\nError Message: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
     
     /**
@@ -203,8 +232,13 @@ class IPAddressPanel extends RoundedPanel {
      * @param newIpAddress The new IP address to display
      */
     public void updateIPAddress(String newIpAddress) {
-        this.ipAddress = newIpAddress;
-        this.ipAddressLabel.setText(newIpAddress);
+        try {
+            this.ipAddress = newIpAddress;
+            this.ipAddressLabel.setText(newIpAddress);
+        } catch (Exception e) {
+            System.out.println("[ERROR] Failed to update IP address\nError Message: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
     
     /**
@@ -212,6 +246,12 @@ class IPAddressPanel extends RoundedPanel {
      * @return The current IP address
      */
     public String getIpAddress() {
-        return this.ipAddress;
+        try {
+            return this.ipAddress;
+        } catch (Exception e) {
+            System.out.println("[ERROR] Failed to retrieve IP address\nError Message: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
     }
 }
