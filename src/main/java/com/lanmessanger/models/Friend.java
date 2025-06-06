@@ -8,7 +8,6 @@ import main.java.com.lanmessanger.ui.state.StateManager;
 
 /**
  * Friend class represents a collection of users that are friends with the current user
- * 
  * @author Shoyeb Ansari
  */
 public class Friend {
@@ -25,8 +24,13 @@ public class Friend {
     }
 
     public void addSubscribedComponent(StateManager stateManager) {
+        if (stateManager == null) {
+            System.out.println("[ERROR] State manager is null, please add valid state manager for subscription");
+            return;
+        }
         subscribedComponents.add(stateManager);
     }
+
     public void removeSubscribedComponent(StateManager stateManager) {
         subscribedComponents.remove(stateManager);
     }
@@ -70,8 +74,8 @@ public class Friend {
     }
 
     /**
-     * Gets an array of all friends
-     * @return array of User objects representing all friends
+     * Gets an HashSet of all friends
+     * @return HashSet of the User objects representing all friends
      */
     public HashSet<User> getAllFriends() {
         return friends;
@@ -83,6 +87,7 @@ public class Friend {
      */
     public void setFriends(HashSet<User> friends) {
         if (friends == null) {
+            System.out.println("[ERROR] The provided HashSet of friends is null, please provide valide");
             return;
         }
         this.friends = friends;

@@ -1,10 +1,13 @@
 package main.java.com.lanmessanger.models;
 
 import java.time.LocalDateTime;
-import java.util.*;
-
+import java.util.Map;
+import java.util.Set;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 import javax.swing.SwingUtilities;
-
 import main.java.com.lanmessanger.ui.state.StateManager;
 
 public class MessageHistory {
@@ -15,6 +18,7 @@ public class MessageHistory {
     /** Map to store last message per user (optional, for efficiency) */
     private Map<String, Message> lastMessageMap;
 
+    /** List of subscribe component for this state */
     private List<StateManager> subscribedComponents; 
 
     
@@ -25,6 +29,10 @@ public class MessageHistory {
     }
 
     public void addSubscribedComponent(StateManager stateManager) {
+        if (stateManager == null) {
+            System.out.println("[ERROR IN MessageHistory] State manager is null, please add valid state manager for subscription");
+            return;
+        }
         subscribedComponents.add(stateManager);
     }
     public void removeSubscribedComponent(StateManager stateManager) {
@@ -49,11 +57,16 @@ public class MessageHistory {
      * Add a new message to the correct user's chat history.
      */
     public void addMessage(Message message) {
-        String userId = message.getSenderIp();
-        userMessages.putIfAbsent(userId, new ArrayList<>());
-        userMessages.get(userId).add(message);
-        lastMessageMap.put(userId, message);  // update last message
-        updateState();
+        try {
+            String userId = message.getSenderIp();
+            userMessages.putIfAbsent(userId, new ArrayList<>());
+            userMessages.get(userId).add(message);
+            lastMessageMap.put(userId, message);  // update last message
+            updateState();
+        } catch (Exception e) {
+            System.out.println("[ERROR] Faled to add message\nError Message: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -66,21 +79,34 @@ public class MessageHistory {
     
     /**
      * Get last message with a user.
+     * @param userIp IP address of the user 
      */
-    public Message getLastMessage(String userId) {
-        return lastMessageMap.get(userId);
+    public Message getLastMessage(String userIp) {
+        try {
+            return lastMessageMap.get(userIp);
+        } catch (Exception e) {
+            System.out.println("[ERROR] Failed to get the Last Message for IP Address - " + userIp + "\nError Message: " + e.getMessage());
+            return null;
+        }
     }
-
+    
     /**
      * Get timestamp of last message with a user.
+     * @param userIp IP address of the user 
      */
-    public LocalDateTime getLastMessageTime(String userId) {
-        Message last = lastMessageMap.get(userId);
-        return (last != null) ? last.getTimestamp() : null;
+    public LocalDateTime getLastMessageTime(String userIp) {
+        try {
+            Message last = lastMessageMap.get(userIp);
+            return (last != null) ? last.getTimestamp() : null;
+        } catch (Exception e) {
+            System.out.println("[ERROR] Failed to get the time of the Last Message for IP Address - " + userIp + "\nError Message: " + e.getMessage());
+            return null;
+        }
     }
 
     /**
      * Get all users you have messaged with.
+     * @return all users that user have chatted
      */
     public Set<String> getAllUserIds() {
         return userMessages.keySet();
@@ -94,6 +120,10 @@ public class MessageHistory {
     }
 
 
+    /**
+     * Method to set the User messsage
+     * @param userMessages new Map to be set
+     */
     public void setUserMessages(Map<String, List<Message>> userMessages) {
         if (userMessages == null) {
             return;

@@ -8,8 +8,11 @@ import main.java.com.lanmessanger.ui.components.addFriendPage.BottomPanel;
  */
 public class User {
 
+    /** Name of the user */
     private String name;
+    /** IP Address of the user */
     private String ip;
+    /** If user is online or not */
     private boolean isOnline = false;
 
     /**

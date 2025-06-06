@@ -30,7 +30,7 @@ public class Message {
     
     /**
      * Constructor to initialise Message class
-     * @param senderId sender's id
+     * @param senderId sender's IP Addres
      * @param content  Message content that was sent
      */
     public Message(String senderIp, String content, boolean isFromCurrentUser) {
@@ -53,8 +53,8 @@ public class Message {
     }
       
     /**
-     * Gets the ID of the message sender
-     * @return the sender's ID as an integer
+     * Gets the IP Address of the message sender
+     * @return the sender's IP address
      */
     public String getSenderIp() {
         return senderIp;
@@ -109,7 +109,6 @@ public class Message {
     }
     
     /**
-     * 
      * @return Formatted time of the {@code Message}
      */
     public String getFormattedTime() {
