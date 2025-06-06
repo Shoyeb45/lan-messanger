@@ -62,43 +62,48 @@ public class NavBar extends JPanel {
      * Methdod for initialising buttons with icons, size and tooltip text
      */
     private void initialiseButtons() {
-        // set icons
-        FontIcon icon = FontIcon.of(FontAwesome.LIST, 24, ColorPalette.PRIMARY);  
-
-        menuButton = new Button(icon);  
-        icon = FontIcon.of(FontAwesome.COMMENTS, 24, ColorPalette.PRIMARY);  
-        chatButton = new Button(icon);
-        icon = FontIcon.of(FontAwesome.USER_PLUS, 24, ColorPalette.PRIMARY);
-        addFriendButton = new Button(icon);
-      
-        icon = FontIcon.of(FontAwesome.WIFI, 24, ColorPalette.PRIMARY);
-        scanButton = new Button(icon);
-        
-        // add on click functionality
-        menuButton.addActionListener(e -> toggleNav());   // add logic of expanding the navbar
-        chatButton.addActionListener(e -> openChatsPage());
-        scanButton.addActionListener(e -> openScannerPage());
-        addFriendButton.addActionListener(e -> openAddFriendPage());
-
-        // set tooltip text
-        menuButton.setToolTipText("Open Navigation");
-        addFriendButton.setToolTipText("Add new friend");
-        chatButton.setToolTipText("Chats");        
-        scanButton.setToolTipText("Scan nearby friends");
-
-        // give padding to the buttons
-        menuButton.setBorder(BorderFactory.createEmptyBorder(10, 5, 8, 12));
-        chatButton.setBorder(BorderFactory.createEmptyBorder(10, 5, 8, 15));
-        addFriendButton.setBorder(BorderFactory.createEmptyBorder(10, 5, 8, 11));
-        scanButton.setBorder(BorderFactory.createEmptyBorder(10, 5, 8, 11));
-
-
-        Button[] buttons = {menuButton, chatButton, addFriendButton};
-
-        for (Button button: buttons) {
-            button.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
-            button.setHorizontalAlignment(JButton.LEFT);
-            button.setIconTextGap(8);
+        try {
+            // set icons
+            FontIcon icon = FontIcon.of(FontAwesome.LIST, 24, ColorPalette.PRIMARY);  
+    
+            menuButton = new Button(icon);  
+            icon = FontIcon.of(FontAwesome.COMMENTS, 24, ColorPalette.PRIMARY);  
+            chatButton = new Button(icon);
+            icon = FontIcon.of(FontAwesome.USER_PLUS, 24, ColorPalette.PRIMARY);
+            addFriendButton = new Button(icon);
+          
+            icon = FontIcon.of(FontAwesome.WIFI, 24, ColorPalette.PRIMARY);
+            scanButton = new Button(icon);
+            
+            // add on click functionality
+            menuButton.addActionListener(e -> toggleNav());   // add logic of expanding the navbar
+            chatButton.addActionListener(e -> openChatsPage());
+            scanButton.addActionListener(e -> openScannerPage());
+            addFriendButton.addActionListener(e -> openAddFriendPage());
+    
+            // set tooltip text
+            menuButton.setToolTipText("Open Navigation");
+            addFriendButton.setToolTipText("Add new friend");
+            chatButton.setToolTipText("Chats");        
+            scanButton.setToolTipText("Scan nearby friends");
+    
+            // give padding to the buttons
+            menuButton.setBorder(BorderFactory.createEmptyBorder(10, 5, 8, 12));
+            chatButton.setBorder(BorderFactory.createEmptyBorder(10, 5, 8, 15));
+            addFriendButton.setBorder(BorderFactory.createEmptyBorder(10, 5, 8, 11));
+            scanButton.setBorder(BorderFactory.createEmptyBorder(10, 5, 8, 11));
+    
+    
+            Button[] buttons = {menuButton, chatButton, addFriendButton};
+    
+            for (Button button: buttons) {
+                button.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+                button.setHorizontalAlignment(JButton.LEFT);
+                button.setIconTextGap(8);
+            }
+        } catch (Exception e) {
+            System.out.println("[ERROR] Failed to initialise buttons in navigation bar\nError Message: " + e.getMessage());
+            e.printStackTrace();
         }
     } 
 

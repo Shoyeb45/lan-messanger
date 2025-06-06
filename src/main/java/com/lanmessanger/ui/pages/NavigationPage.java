@@ -20,6 +20,7 @@ public class NavigationPage extends JLayeredPane {
     public NavigationPage() {
         // initialise new NavBar
         navBar = new NavBar();
+        
         // Setting layout manager for JLayeredPane 
         this.setLayout(new BorderLayout());
         this.setBackground(Color.white);
