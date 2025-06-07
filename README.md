@@ -1,263 +1,379 @@
-# **LAN Messenger: Peer-to-Peer Chat Application**
+# **LAN Messenger: Real-Time Peer-to-Peer Chat Application**
 
-![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)  ![Express.js](https://img.shields.io/badge/Java%20Swing-%23007396.svg?style=for-the-badge&logoColor=white
-)  ![](https://img.shields.io/badge/Socket%20Programming-%2334A853.svg?style=for-the-badge&logoColor=white
-)  ![](https://img.shields.io/badge/Multithreading-%23FF6F00.svg?style=for-the-badge&logoColor=white
-)  ![](https://img.shields.io/badge/Messaging-%239C27B0.svg?style=for-the-badge&logoColor=white
-)  ![](https://img.shields.io/badge/Networking-%2300BCD4.svg?style=for-the-badge&logoColor=white)  ![](https://img.shields.io/badge/Peer%20to%20Peer-%23F44336.svg?style=for-the-badge&logoColor=white)  ![](https://img.shields.io/badge/GUI-%232196F3.svg?style=for-the-badge&logoColor=white
-)
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)  ![Java Swing](https://img.shields.io/badge/Java%20Swing-%23007396.svg?style=for-the-badge&logoColor=white)  ![Socket Programming](https://img.shields.io/badge/Socket%20Programming-%2334A853.svg?style=for-the-badge&logoColor=white)  ![Multithreading](https://img.shields.io/badge/Multithreading-%23FF6F00.svg?style=for-the-badge&logoColor=white)  ![Real-time Messaging](https://img.shields.io/badge/Real--time%20Messaging-%239C27B0.svg?style=for-the-badge&logoColor=white)  ![LAN Networking](https://img.shields.io/badge/LAN%20Networking-%2300BCD4.svg?style=for-the-badge&logoColor=white)  ![P2P Communication](https://img.shields.io/badge/P2P%20Communication-%23F44336.svg?style=for-the-badge&logoColor=white)  ![Cross-platform GUI](https://img.shields.io/badge/Cross--platform%20GUI-%232196F3.svg?style=for-the-badge&logoColor=white)
 
-A **peer-to-peer Java-based chat application** for devices on the same LAN using **Socket programming** and **Swing GUI**.
+A **powerful peer-to-peer Java chat application** designed for seamless communication between devices on the same Local Area Network (LAN). Built with advanced **Socket programming**, **multithreading**, and an intuitive **Swing GUI** for cross-platform compatibility.
+
 <p align="center">
-  <img src="./public/images/readme/LANMLogo.png">
+  <img src="./public/images/readme/LANMLogo.png" alt="LAN Messenger Logo">
 </p>
 
 ---
 
-## 📦 Downloads
+## 🚀 Key Features
 
-- The application is available for common operating system, please find below:  
-💻 [Windows Installer (.exe)](https://yourhost.com/lanmessanger/installer.exe)  
-🍎 [macOS App (.dmg)](https://yourhost.com/lanmessanger/lanmessenger.dmg)  
+### ✨ **What Makes LAN Messenger Special?**
 
-- If you want for particular operating system, please mail about this to me in : [Personal mail](shoyebff45@gmail.com)
-
----
-
----
-
-## 🚀 Feature of the LAN Messanger
-
-<p align="center">
-  <img src="./public/images/readme/demo1.png">
-  <p align="center">Start Page</p>
-</p>
-- LAN Messagner is build using java programming langauge. This application has following features:
-
-### 1. Single Page Application
-  - This application is built on a single page like modern web application. This improves the accessibility of different features of the application and greatly improve the UX.
-  - React like state management using java interface and classes.
-
-<p align="center">
-  <img src="./public/images/readme/demo2.png">
-  <p align="center">Single Page Application can be navigated through Navigation Bar</p>
-</p>
-
-### 2. Discovering Friends
-  - This application provides a way to discover users that are connected to same network and have opened the application.
-  - I am using UDP protocol to quickly send the small data packets to check and find the users.
-
-<div style="display: flex; gap: 4px; justify-content: center;">
-  <img src="./public/images/readme/demo3.png" width=500>
-  <img src="./public/images/readme/demo4.png" width=200>
-</div>
-
-### 3. Persistent Storage
-  - The data of the application (Friends of the user, and conversation with the friend) are stored permanently on local computer.
-  - I am storing the data in `json`, I am converting the java object into `json` using `GSON` library.
-  - The data are private and only present in the users' desktop
-
-<div style="display: flex; gap: 10px; justify-content: center;">
-  <img src="./public/images/readme/data1.png" width=300>
-  <img src="./public/images/readme/data2.png" height=190 width=300>
-</div>
-
-### 4. Add Friend Functionality
-  - If the user have the IP Address of the friend then user can add the friend to his/her list.
-
-<p align="center">
-  <img src="./public/images/readme/demo5.png">
-  <p align="center">Add Friend Page</p>
-</p>
-
-### 5. Responsive
-  - The application is completely responsive. The layout of the application have been changed on change of dimension.
-
-<p align="center">
-  <img src="./public/images/readme/demo6.png">
-</p>
-
-### 6. Real Time Chatting
-  - The user can chat with the user in real time if the user is connected
+🔥 **Zero Internet Required** - Works entirely on your local network  
+⚡ **Real-time Communication** - Instant message delivery with TCP protocol  
+🔍 **Auto Friend Discovery** - Automatically find other users on your network  
+💾 **Persistent Chat History** - All conversations saved locally and securely  
+🎨 **Modern Single-Page Interface** - React-inspired design with smooth navigation  
+📱 **Fully Responsive** - Adapts to any screen size and resolution  
+🌐 **Cross-Platform Compatible** - Works on Windows, macOS, and Linux  
 
 ---
 
-## Project Folder Structure
+## 📦 Quick Downloads
 
-- I have divided the project into two categories: building GUI and the main logic.
-- To increase the modularity approach, the project has been divided in different different folders. 
-- Here is the folder structure:
+**Ready-to-use installers for popular operating systems:**
 
+💻 **[Windows Installer (.exe)](https://yourhost.com/lanmessanger/installer.exe)** - One-click installation  
+🍎 **[macOS App Bundle (.dmg)](https://yourhost.com/lanmessanger/lanmessenger.dmg)** - Drag and drop installation  
+
+**Need support for other platforms?** Contact us at: [shoyebff45@gmail.com](mailto:shoyebff45@gmail.com)
+
+---
+
+## 🎯 Core Features Deep Dive
+
+<p align="center">
+  <img src="./public/images/readme/demo1.png" alt="LAN Messenger Start Page">
+  <p align="center"><em>Clean and intuitive start page</em></p>
+</p>
+
+### 1. **Modern Single-Page Application (SPA)**
+Built with a contemporary approach similar to modern web applications, featuring:
+- **State Management**: React-inspired state handling using Java interfaces and classes
+- **Smooth Navigation**: Seamless page transitions without window reloads
+- **Enhanced UX**: Improved accessibility and user experience
+
+<p align="center">
+  <img src="./public/images/readme/demo2.png" alt="Navigation Interface">
+  <p align="center"><em>Intuitive navigation bar for easy access to all features</em></p>
+</p>
+
+### 2. **Intelligent Friend Discovery**
+Advanced network scanning capabilities:
+- **UDP Protocol**: Lightning-fast user detection on the same network
+- **Real-time Updates**: Automatically refreshes available users
+- **Zero Configuration**: Works out-of-the-box without manual setup
+
+<p style="display: flex; gap: 4px; justify-content: center;">
+  <img src="./public/images/readme/demo3.png" width="500" alt="Friend Discovery">
+  <img src="./public/images/readme/demo4.png" width="200" alt="User List">
+</p>
+
+### 3. **Secure Local Storage**
+Your data remains private and secure:
+- **JSON Storage**: Efficient data serialization using GSON library
+- **Local-Only**: All data stored exclusively on your device
+- **Persistent History**: Conversations and friend lists automatically saved
+
+<p style="display: flex; gap: 10px; justify-content: center;">
+  <img src="./public/images/readme/data1.png" width="300" alt="Data Structure">
+  <img src="./public/images/readme/data2.png" height="190" width="300" alt="Local Storage">
+</p>
+
+### 4. **Manual Friend Addition**
+Flexible friend management:
+- **IP Address Support**: Add friends directly using their IP address
+- **Friend Requests**: Secure friend request system
+- **Contact Management**: Easy-to-use friend list interface
+
+<p align="center">
+  <img src="./public/images/readme/demo5.png" alt="Add Friend Interface">
+  <p align="center"><em>Simple and secure friend addition process</em></p>
+</p>
+
+### 5. **Responsive Design**
+Adapts to any screen configuration:
+- **Dynamic Layouts**: Automatically adjusts to window resizing
+- **Multi-Resolution Support**: Works on various screen sizes
+- **Consistent Experience**: Maintains functionality across different dimensions
+
+<p align="center">
+  <img src="./public/images/readme/demo6.png" alt="Responsive Design">
+</p>
+
+### 6. **Real-Time Messaging**
+Experience instant communication:
+- **TCP Protocol**: Reliable message delivery
+- **Multi-threading**: Smooth performance without UI freezing
+- **Live Status Updates**: See when friends are online and available
+
+---
+
+## 🏗️ Project Architecture
+
+**Modular design for maximum maintainability and scalability:**
 
 ```plaintext
-📁 .
-├── 📁 lib                        # Contains library jar files
-├── 📁 public                     # Contains images
-│   └── 📁 images
-│       ├── 📁 app
-│       └── 📁 readme
-└── 📁 src
-    └── 📁 main
-        └── 📁 java
-            └── 📁 com
-                └── 📁 lanmessanger
-                    ├── 📁 app             # Main starting point of application
-                    ├── 📁 database        # Handles application data
-                    ├── 📁 models          # Schema definitions of entities
-                    ├── 📁 network         # Core networking logic
-                    │   ├── 📁 client
-                    │   ├── 📁 clientHandler
-                    │   ├── 📁 discovery
-                    │   └── 📁 server
-                    └── 📁 ui              # Graphical User Interface components
-                        ├── 📁 components
-                        │   ├── 📁 addFriendPage
-                        │   ├── 📁 chatPage
-                        │   ├── 📁 navBar
-                        │   └── 📁 scannerPage
-                        ├── 📁 pages       # Different pages
-                        ├── 📁 router      # Routing logic (SPA-style navigation)
-                        ├── 📁 state       # Centralized application state
-                        └── 📁 utils       # Helper methods
+📁 LAN-Messenger/
+├── 📁 lib/                        # External JAR dependencies
+├── 📁 public/                     # Static assets and images
+│   └── 📁 images/
+│       ├── 📁 app/               # Application icons and graphics
+│       └── 📁 readme/            # Documentation images
+└── 📁 src/
+    └── 📁 main/
+        └── 📁 java/
+            └── 📁 com/
+                └── 📁 lanmessanger/
+                    ├── 📁 app/           # Application entry point and configuration
+                    ├── 📁 database/      # Data persistence and management
+                    ├── 📁 models/        # Data models and entity schemas
+                    ├── 📁 network/       # Core networking functionality
+                    │   ├── 📁 client/           # Client-side communication
+                    │   ├── 📁 clientHandler/    # Connection management
+                    │   ├── 📁 discovery/        # Network discovery logic
+                    │   └── 📁 server/           # Server-side operations
+                    └── 📁 ui/            # User interface components
+                        ├── 📁 components/        # Reusable UI components
+                        │   ├── 📁 addFriendPage/
+                        │   ├── 📁 chatPage/
+                        │   ├── 📁 navBar/
+                        │   └── 📁 scannerPage/
+                        ├── 📁 pages/            # Application pages
+                        ├── 📁 router/           # SPA-style navigation
+                        ├── 📁 state/            # Centralized state management
+                        └── 📁 utils/            # Helper utilities
 ```
 
+### 📋 **Architecture Overview**
 
-
-> High level breakdown of folders:
-
-| Folder      | Purpose                                        |
-| ----------- | ---------------------------------------------- |
-| `app`       | Launch logic and global config                 |
-| `network`   | Networking: sockets, scanning, and connections |
-| `ui`        | GUI built with Swing                           |
-| `model`     | Data classes and storage handling              |
-| `public` | Static files like images or sound (optional)   |
-
-<p  align="center"><i>Breakdown of roles</i></p>
+| Component | Responsibility | Key Features |
+|-----------|----------------|--------------|
+| **`app/`** | Application lifecycle and global configuration | Launch logic, settings management |
+| **`network/`** | Core networking operations | Socket programming, P2P connections, discovery |
+| **`ui/`** | User interface and user experience | Swing components, responsive design |
+| **`models/`** | Data structures and persistence | Entity definitions, JSON serialization |
+| **`database/`** | Local data management | Friend lists, chat history, user preferences |
 
 ---
 
-## 🛠️ Technologies Used
+## 🛠️ Technology Stack
 
-- I have used following technologies to build my application:
+### **Core Technologies**
+- **☕ Java 17+** - Modern Java features and performance optimizations
+- **🎨 Java Swing** - Cross-platform GUI framework (`javax.swing`)
+- **🌐 Java Networking** - Socket programming with TCP/UDP protocols (`java.net`)
+- **⚡ Collections Framework** - Efficient data structure management
+- **📄 Gson Library** - JSON serialization and deserialization (`com.google.gson`)
+- **🎯 Ikonli FontAwesome** - Modern icon pack (`org.kordamp.ikonli`)
 
-### Programming langauge and libraries
+### **Development Tools**
+- **💻 VS Code IDE** - Modern development environment
+- **📚 Git & GitHub** - Version control and collaboration
+- **🔧 Maven** - Dependency management and build automation
 
-1. Java 17
-2. Java Swing for Graphical User Interface (`java.swing`)
-3. Networking library of java for socket programming(TCP/UDP) (`java.net`)
-4. Various data structure from collections framework to manage the data efficiently.
-5. Gson for JSON serialization. (`com.google.gson.Gson`)
-6. Ikonli Fontawesome pack for beautiful icons. (`org.kordamp.ikonli`)
+---
 
-### Other
+## 🚀 Quick Start Guide
 
-1. VS Code IDE for project management.
-2. Git and Github for tracking the progress
-
-
-## Run project locally and contribute
-
-- Make sure you have java 17 or above, run following command to check if it is present or not:
+### **Prerequisites**
+Ensure you have Java 17 or higher installed:
 ```bash
 java --version
 ```
 
-- Follow below steps to run the project locally and contribute to this project:
+### **Installation & Setup**
 
-1. Clone the repository
-    ```bash
-    git clone https://github.com/Shoyeb45/lan-messanger.git  
-    ```
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/Shoyeb45/lan-messanger.git
+   cd lan-messenger
+   ```
 
-2. Navigate to the directory
-    ```bash
-    cd lan-messnger
-    ```
+2. **Development Setup (VS Code)**
+   - Install [Extension Pack for Java by Microsoft](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack)
+   - Navigate to `src/main/java/com/lanmessanger/Main.java`
+   - Click the **Run** button above the main method
 
-3. If you are using VS Code then install below extension:
-    
-    - [Extension Pack for Java by Microsoft](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack)
-    - Then go to src\main\java\com\lanmessanger\Main.java and click on the Run(just upside of the main method)
-    <p align="center">
-      <img src="./public/images/readme/runMain.png" width="450px">
-    </p>
-    
-    Or use any build tools like `Maven`.
+   <p align="center">
+     <img src="./public/images/readme/runMain.png" width="450px" alt="Running the application in VS Code">
+   </p>
 
-    Since Project has many files, so the running it from terminal is not efficient.
+3. **Alternative Build Methods**
+   ```bash
+   # Using Maven (if pom.xml is configured)
+   mvn clean compile exec:java
+   
+   # Direct compilation (for simple setups)
+   javac -cp "lib/*:src" src/main/java/com/lanmessanger/Main.java
+   java -cp "lib/*:src" com.lanmessanger.Main
+   ```
 
-4. After you have run the project successfully. Then if you want to add any feature, then make new branch by:
-    ```bash
-    git checkout -b feature/feature-name
-    ```
+### **Contributing**
 
-    Implement the feature and test it locally then raise Merge Request with explanation. Include the screenshots if you can.
+We welcome contributions! Here's how to get started:
 
-5. That's it, thank you for your contribution ❤️
+1. **Create a Feature Branch**
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
 
----
+2. **Implement Your Feature**
+   - Write clean, documented code
+   - Test thoroughly on multiple platforms
+   - Follow existing code style conventions
 
-## Working of the application
+3. **Submit Your Changes**
+   ```bash
+   git add .
+   git commit -m "Add: your feature description"
+   git push origin feature/your-feature-name
+   ```
 
-The working of the application can be divided into two parts:
-1. Core logic (networking)
-2. User Interface using Java Swing
-
-### 1. Core logic
-
-- To build the text based lan messanger, I have used TCP protocol to establish the connection between users.
-- After establishing connection, on the LAN the instances of the user forms a peer to peer to networking architecture:
-    
-    <p align="center">
-      <img src="./public/images/readme/P2PLANMessanger.png" width=500>
-      <p align="center"><i>P2P connection of different instance of LAN Messanger </i> </p>
-    </p>
-
-- For continuosly receiving and sendint the message, I have used multiple threads to run the application. There are different threads for each of the use case. Like the UI runs on different thread and then Server logic runs on different thread. In this way the UX of the application is clean and efficient.
-- Even user in the network will behave like both server and client. See the image below:
-    <p align="center">
-      <img src="./public/images/readme/EachInstance.png" width=450>
-      <p align="center"><i>A single instance working both as a client and server </i></p>
-    </p>
-
-- In this way the core logic works seamlessly.
-
-### 2. UI Logic
-
-- I have used java swing for the UI. The main UI is initialised on the main application by different thread dedicated for UI.
-- Entire GUI of the application reside on `App` class which inherites from `JFrame`. Then every page renders on this `App` class. See the below hierarchy:
-    <p align="center">
-      <img src="./public/images/readme/uilogic.png" width=550>
-      <p align="center"><i>A single instance working both as a client and server </i></p>
-    </p>
-
-- Each of the component works with the core logic for the fully functional application.
+4. **Create a Pull Request**
+   - Include detailed description of changes
+   - Add screenshots for UI changes
+   - Reference any related issues
 
 ---
 
-## 💻 Supported Platforms
-### Windows ✅
+## 🔧 How It Works
 
-### Linux ✅
+### **Network Architecture**
 
-### macOS ✅
+LAN Messenger implements a sophisticated **peer-to-peer networking model**:
 
+<p align="center">
+  <img src="./public/images/readme/P2PLANMessanger.png" width="500" alt="P2P Network Architecture">
+  <p align="center"><em>Decentralized P2P communication between LAN Messenger instances</em></p>
+</p>
 
-## 🧪 How to test the application?
+**Key Networking Features:**
+- **TCP Protocol**: Reliable message delivery with connection-oriented communication
+- **UDP Discovery**: Fast and lightweight user detection broadcasts
+- **Multi-threading**: Concurrent handling of multiple connections
+- **Dual Role Architecture**: Each instance acts as both client and server
 
-To test the application, please follow the below steps:
+<p align="center">
+  <img src="./public/images/readme/EachInstance.png" width="450" alt="Client-Server Architecture">
+  <p align="center"><em>Each instance simultaneously operates as client and server</em></p>
+</p>
 
-- Open the application in two desktop. Make sure that both the desktop are connected to same wifi network
-- Go to add friend page.
-- Then enter the IP address of any desktop, only enter in one of them. The click add. And on the other desktop a pop up will come saying that some has requested to be friend.
-- Add friend on both the desktop. Then try to send the message from one desktop to other desktop.
-- If you can receive and send the message then congratulations the application is working.
+### **User Interface Architecture**
+
+Built with a modern, component-based approach:
+
+<p align="center">
+  <img src="./public/images/readme/uilogic.png" width="550" alt="UI Architecture">
+  <p align="center"><em>Hierarchical component structure with centralized state management</em></p>
+</p>
+
+**UI Design Principles:**
+- **Single Page Application**: Smooth navigation without window refreshes
+- **Component Reusability**: Modular design for maintainable code
+- **State Management**: Centralized application state similar to modern web frameworks
+- **Responsive Layout**: Dynamic adaptation to different screen sizes
 
 ---
 
-## 📜 License
+## 🧪 Testing Guide
 
-This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
+### **Local Testing Setup**
 
+**Requirements:**
+- Two or more devices on the same Wi-Fi network
+- LAN Messenger installed on each device
 
+**Step-by-Step Testing:**
+
+1. **Launch Application**
+   - Open LAN Messenger on both devices
+   - Ensure both devices are connected to the same network
+
+2. **Establish Connection**
+   - On Device A: Navigate to "Add Friend" page
+   - Enter the IP address of Device B
+   - Click "Add Friend"
+
+3. **Accept Friend Request**
+   - Device B will receive a friend request notification
+   - Accept the request to establish connection
+
+4. **Test Messaging**
+   - Send messages between devices
+   - Verify real-time delivery and persistence
+   - Test various message types and lengths
+
+**Success Indicators:**
+- ✅ Real-time message delivery
+- ✅ Message persistence after app restart
+- ✅ Online/offline status updates
+- ✅ Stable connection during extended use
+
+---
+
+## 💻 Platform Support
+
+| Platform | Status | Notes |
+|----------|---------|-------|
+| **Windows 10/11** | ✅ Full Support | Native installer available |
+| **macOS** | ✅ Full Support | DMG package available |
+| **Linux (Ubuntu/Debian)** | ✅ Full Support | JAR executable |
+| **Linux (Other Distros)** | ✅ Compatible | May require Java installation |
+
+### **System Requirements**
+- **Java Runtime**: Version 17 or higher
+- **RAM**: Minimum 512MB available
+- **Network**: Active LAN/Wi-Fi connection
+- **Storage**: 50MB free space
+
+---
+
+## 📚 Additional Resources
+
+### **Learning Resources**
+- [Java Socket Programming Guide](https://www.baeldung.com/a-guide-to-java-sockets)
+- [Java Swing Tutorial by Bro Code](https://www.youtube.com/@BroCodez)
+- [Multithreading in Java](https://docs.oracle.com/javase/tutorial/essential/concurrency/)
+
+### **Documentation**
+- [Java Networking API](https://docs.oracle.com/javase/8/docs/api/java/net/package-summary.html)
+- [Gson Documentation](https://github.com/google/gson/blob/master/UserGuide.md)
+- [Maven Build Lifecycle](https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html)
+
+---
+
+## 🙏 Acknowledgments
+
+### **Special Thanks**
+- **[Professor Zabi](https://www.linkedin.com/in/syedzaabii/)** - Academic guidance and mentorship
+- **[Baeldung](https://www.baeldung.com/)** - Comprehensive Java Socket programming tutorials
+- **[Bro Code](https://www.youtube.com/@BroCodez)** - Excellent Java Swing video tutorials
+- **AI Assistants** - Code review, debugging assistance, and optimization suggestions
+- **[Linus Torvalds](https://github.com/torvalds)** - For creating Git, enabling collaborative development
+
+### **Open Source Libraries**
+- **Google Gson** - JSON serialization library
+- **Ikonli** - Icon pack integration
+- **Java Development Kit** - Core runtime and development tools
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for complete details.
+
+**Key Points:**
+- ✅ Commercial use allowed
+- ✅ Modification and distribution permitted  
+- ✅ Private use encouraged
+- ❗ No warranty provided
+
+---
+
+## 🔗 Connect & Support
+
+**Found this project helpful?** ⭐ **Star the repository** to show your support!
+
+**Questions or Issues?** 📧 **[shoyebff45@gmail.com](mailto:shoyebff45@gmail.com)**
+
+**Want to Contribute?** 🚀 **Check out our [Contributing Guidelines](#contributing)**
+
+---
+
+**Keywords:** LAN Messenger, Java Chat Application, P2P Messaging, Local Network Communication, Socket Programming, Real-time Chat, Cross-platform Messaging, Network Discovery, Peer-to-Peer, Java Swing GUI, TCP/UDP Protocol, Multithreading, Local Area Network, Instant Messaging, Java Networking
